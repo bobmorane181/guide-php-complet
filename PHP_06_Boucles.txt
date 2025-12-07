@@ -1,0 +1,870 @@
+================================================================================
+                       PHP MODULE 6 : LES BOUCLES (LOOPS)
+================================================================================
+
+TABLE DES MATIÈRES
+==================
+1. Introduction aux Boucles
+2. La Boucle while
+3. La Boucle do...while
+4. La Boucle for
+5. Syntaxe Alternative pour HTML
+6. La Boucle foreach
+7. L'Instruction break
+8. L'Instruction continue
+9. Comparaison break vs continue
+10. Récapitulatif des Boucles
+11. Bonnes Pratiques
+
+
+================================================================================
+A. INTRODUCTION AUX BOUCLES
+================================================================================
+
+DÉFINITION:
+Les boucles permettent d'exécuter du code de façon RÉPÉTÉE tant qu'une
+condition est vraie ou pour chaque élément d'une collection.
+
+PRINCIPE:
+Au lieu d'écrire le même code plusieurs fois, on utilise une boucle qui
+répète automatiquement l'exécution.
+
+EXEMPLE SANS BOUCLE (répétitif):
+
+    echo "Ligne 1\n";
+    echo "Ligne 2\n";
+    echo "Ligne 3\n";
+    echo "Ligne 4\n";
+    echo "Ligne 5\n";
+
+EXEMPLE AVEC BOUCLE (élégant):
+
+    for ($i = 1; $i <= 5; $i++) {
+        echo "Ligne $i\n";
+    }
+
+
+================================================================================
+B. LA BOUCLE WHILE
+================================================================================
+
+DÉFINITION:
+La boucle while exécute un bloc de code TANT QUE la condition est TRUE.
+
+SYNTAXE:
+
+    while (condition) {
+        // Code à répéter
+    }
+
+⚠️ ATTENTION: Si la condition est toujours TRUE, vous créez une boucle
+               infinie qui ne s'arrêtera jamais!
+
+EXEMPLE BASIQUE:
+
+    $compteur = 1;
+
+    while ($compteur <= 5) {
+        echo "Compteur: $compteur\n";
+        $compteur++;  // ⚠️ IMPORTANT: Incrémenter pour éviter boucle infinie
+    }
+
+    // Affiche:
+    // Compteur: 1
+    // Compteur: 2
+    // Compteur: 3
+    // Compteur: 4
+    // Compteur: 5
+
+EXEMPLE PRATIQUE - Validation d'entrée:
+
+    $mot_de_passe = "";
+
+    while ($mot_de_passe !== "secret") {
+        $mot_de_passe = readline("Entrez le mot de passe : ");
+
+        if ($mot_de_passe !== "secret") {
+            echo "Incorrect! Réessayez.\n";
+        }
+    }
+
+    echo "Accès autorisé!\n";
+
+EXEMPLE PRATIQUE - Somme progressive:
+
+    $somme = 0;
+    $nombre = 1;
+
+    while ($nombre <= 10) {
+        $somme += $nombre;
+        $nombre++;
+    }
+
+    echo "La somme de 1 à 10 est: $somme";  // Affiche: 55
+
+⚠️ PIÈGE COURANT - Boucle infinie:
+
+    $i = 1;
+    while ($i <= 10) {
+        echo $i;
+        // ERREUR: Oubli de $i++ → boucle infinie!
+    }
+
+
+================================================================================
+C. LA BOUCLE DO...WHILE
+================================================================================
+
+DÉFINITION:
+La boucle do...while exécute le code AU MOINS UNE FOIS, puis continue
+TANT QUE la condition est TRUE.
+
+DIFFÉRENCE AVEC WHILE:
+- while: Vérifie la condition AVANT d'exécuter
+- do...while: Exécute PUIS vérifie la condition
+
+SYNTAXE:
+
+    do {
+        // Code à exécuter (minimum 1 fois)
+    } while (condition);
+
+⚠️ NOTE: Le point-virgule après while() est OBLIGATOIRE!
+
+EXEMPLE BASIQUE:
+
+    $compteur = 1;
+
+    do {
+        echo "Compteur: $compteur\n";
+        $compteur++;
+    } while ($compteur <= 5);
+
+    // Résultat identique au while, mais exécute au moins 1 fois
+
+EXEMPLE - Différence cruciale:
+
+    // WHILE - Peut ne JAMAIS s'exécuter
+    $x = 10;
+    while ($x < 5) {
+        echo "Ceci ne s'affiche jamais";
+    }
+
+    // DO...WHILE - S'exécute AU MOINS 1 fois
+    $x = 10;
+    do {
+        echo "Ceci s'affiche une fois\n";  // ✅ S'affiche
+    } while ($x < 5);
+
+EXEMPLE PRATIQUE - Menu interactif:
+
+    $choix = "";
+
+    do {
+        echo "\n=== MENU ===\n";
+        echo "1. Nouveau jeu\n";
+        echo "2. Charger\n";
+        echo "3. Quitter\n";
+        $choix = readline("Votre choix : ");
+
+        if ($choix !== "3") {
+            echo "Option sélectionnée: $choix\n";
+        }
+
+    } while ($choix !== "3");
+
+    echo "Au revoir!\n";
+
+EXEMPLE PRATIQUE - Validation de données:
+
+    do {
+        $age = (int)readline("Entrez votre âge (1-120) : ");
+
+        if ($age < 1 || $age > 120) {
+            echo "Âge invalide! Réessayez.\n";
+        }
+
+    } while ($age < 1 || $age > 120);
+
+    echo "Âge enregistré: $age\n";
+
+
+================================================================================
+D. LA BOUCLE FOR
+================================================================================
+
+DÉFINITION:
+La boucle for est utilisée quand on connaît le NOMBRE D'ITÉRATIONS à l'avance.
+Elle contient 3 expressions dans sa déclaration.
+
+SYNTAXE:
+
+    for (initialisation; condition; incrémentation) {
+        // Code à répéter
+    }
+
+LES 3 EXPRESSIONS:
+
+1. INITIALISATION: Exécutée UNE SEULE FOIS avant la première itération
+2. CONDITION: Évaluée AVANT chaque itération (si FALSE, boucle s'arrête)
+3. INCRÉMENTATION: Exécutée APRÈS chaque itération
+
+EXEMPLE BASIQUE:
+
+    for ($i = 0; $i < 5; $i++) {
+        echo "Itération: $i\n";
+    }
+
+    // Affiche:
+    // Itération: 0
+    // Itération: 1
+    // Itération: 2
+    // Itération: 3
+    // Itération: 4
+
+DÉROULEMENT DÉTAILLÉ:
+
+    for ($i = 0; $i < 5; $i++)
+         ↓        ↓       ↓
+         1.       2.      3.
+
+    1. $i = 0           → Exécuté 1 fois au début
+    2. $i < 5 ?         → Vérifié avant chaque itération
+    3. $i++             → Exécuté après chaque itération
+
+ÉQUIVALENT EN WHILE:
+
+    // Boucle for:
+    for ($i = 0; $i < 5; $i++) {
+        echo $i;
+    }
+
+    // Est identique à:
+    $i = 0;              // Initialisation
+    while ($i < 5) {     // Condition
+        echo $i;
+        $i++;            // Incrémentation
+    }
+
+EXEMPLE PRATIQUE - Table de multiplication:
+
+    $nombre = 7;
+
+    for ($i = 1; $i <= 10; $i++) {
+        $resultat = $nombre * $i;
+        echo "$nombre × $i = $resultat\n";
+    }
+
+    // Affiche:
+    // 7 × 1 = 7
+    // 7 × 2 = 14
+    // ...
+    // 7 × 10 = 70
+
+EXEMPLE PRATIQUE - Parcourir un array avec index:
+
+    $fruits = ["pomme", "banane", "orange", "kiwi"];
+
+    for ($i = 0; $i < count($fruits); $i++) {
+        echo "Index $i: {$fruits[$i]}\n";
+    }
+
+    // Affiche:
+    // Index 0: pomme
+    // Index 1: banane
+    // Index 2: orange
+    // Index 3: kiwi
+
+EXEMPLE PRATIQUE - Compte à rebours:
+
+    for ($i = 10; $i >= 1; $i--) {
+        echo "$i...\n";
+    }
+    echo "Décollage!\n";
+
+    // Affiche:
+    // 10...
+    // 9...
+    // ...
+    // 1...
+    // Décollage!
+
+EXEMPLE PRATIQUE - Incrémentation par pas de 2:
+
+    for ($i = 0; $i <= 20; $i += 2) {
+        echo "$i ";
+    }
+    // Affiche: 0 2 4 6 8 10 12 14 16 18 20
+
+BOUCLES FOR IMBRIQUÉES (NESTED):
+
+    // Créer une grille 3×3
+    for ($ligne = 1; $ligne <= 3; $ligne++) {
+        for ($colonne = 1; $colonne <= 3; $colonne++) {
+            echo "[$ligne,$colonne] ";
+        }
+        echo "\n";
+    }
+
+    // Affiche:
+    // [1,1] [1,2] [1,3]
+    // [2,1] [2,2] [2,3]
+    // [3,1] [3,2] [3,3]
+
+
+================================================================================
+E. SYNTAXE ALTERNATIVE POUR HTML
+================================================================================
+
+CONTEXTE:
+Lorsqu'on travaille avec du code PHP mélangé à du HTML, PHP offre une syntaxe
+alternative qui améliore la LISIBILITÉ du code. Cette syntaxe est particulièrement
+utile dans les templates et les fichiers de vue.
+
+PRINCIPE:
+Au lieu d'utiliser des accolades ({ }), on utilise:
+- Deux-points (:) pour OUVRIR le bloc
+- Mot-clé de fermeture + point-virgule (;) pour FERMER le bloc
+
+CORRESPONDANCE:
+
+Structure      Syntaxe normale        Syntaxe alternative
+---------      ---------------        -------------------
+for            for (...) { }          for (...): endfor;
+if             if (...) { }           if (...): endif;
+while          while (...) { }        while (...): endwhile;
+foreach        foreach (...) { }      foreach (...): endforeach;
+
+EXEMPLE AVEC FOR - Syntaxe normale avec accolades:
+
+    <?php for ($i = 1; $i <= 5; $i++) { ?>
+        <p>Paragraphe numéro <?php echo $i; ?></p>
+    <?php } ?>
+
+EXEMPLE AVEC FOR - Syntaxe alternative (plus lisible en HTML):
+
+    <?php for ($i = 1; $i <= 5; $i++): ?>
+        <p>Paragraphe numéro <?php echo $i; ?></p>
+    <?php endfor; ?>
+
+⚠️ NOTE: Le point-virgule après endfor est OBLIGATOIRE!
+
+EXEMPLE PRATIQUE - Liste HTML dynamique:
+
+    <ul>
+    <?php for ($i = 1; $i <= 3; $i++): ?>
+        <li>Élément <?php echo $i; ?></li>
+    <?php endfor; ?>
+    </ul>
+
+    // Génère:
+    // <ul>
+    //     <li>Élément 1</li>
+    //     <li>Élément 2</li>
+    //     <li>Élément 3</li>
+    // </ul>
+
+POINT IMPORTANT - Utilisation des variables PHP:
+
+⚠️ RAPPEL CRUCIAL: Lorsqu'on utilise la syntaxe alternative, le code entre les
+balises d'ouverture (<?php :) et de fermeture (<?php endfor; ?>) est considéré
+comme du HTML. Il faut donc RE-ENTRER en mode PHP pour accéder aux variables.
+
+DEUX MÉTHODES POUR AFFICHER DES VARIABLES:
+
+1. Méthode standard - Balises PHP complètes:
+   <?php echo $variable; ?>
+
+2. Méthode raccourcie - Balise echo courte:
+   <?= $variable ?>
+
+EXEMPLE - Comparaison des méthodes:
+
+    <?php for ($i = 1; $i <= 3; $i++): ?>
+        <li>Numéro: <?php echo $i; ?></li>      <!-- Méthode standard -->
+        <li>Numéro: <?= $i ?></li>               <!-- Méthode raccourcie -->
+    <?php endfor; ?>
+
+💡 CONSEIL: La balise <?= ?> est un raccourci pratique qui combine <?php echo ?>
+   Elle rend le code plus concis et plus lisible dans les templates HTML.
+
+AVANTAGES:
+✓ Code HTML plus clair et mieux structuré
+✓ Fermeture de bloc explicite (endfor vs })
+✓ Facilite le débogage dans les templates
+✓ Meilleure lisibilité dans les éditeurs
+
+QUAND UTILISER:
+- Dans les fichiers de template/vue contenant beaucoup de HTML
+- Quand le code PHP génère de la structure HTML
+- Pour améliorer la lisibilité du code mixte PHP/HTML
+
+QUAND NE PAS UTILISER:
+- Dans les fichiers PHP purs (sans HTML)
+- Dans la logique métier (business logic)
+- Dans les classes et fonctions PHP standards
+
+
+================================================================================
+F. LA BOUCLE FOREACH
+================================================================================
+
+DÉFINITION:
+foreach est spécialement conçue pour PARCOURIR LES ARRAYS. Elle itère sur
+chaque élément automatiquement, sans avoir besoin d'index.
+
+SYNTAXE - Array indexé (valeurs seulement):
+
+    foreach ($array as $valeur) {
+        // Code utilisant $valeur
+    }
+
+SYNTAXE - Array associatif (clé et valeur):
+
+    foreach ($array as $cle => $valeur) {
+        // Code utilisant $cle et $valeur
+    }
+
+EXEMPLE BASIQUE - Array indexé:
+
+    $fruits = ["pomme", "banane", "orange"];
+
+    foreach ($fruits as $fruit) {
+        echo "J'aime les ${fruit}s\n";
+    }
+
+    // Affiche:
+    // J'aime les pommes
+    // J'aime les bananes
+    // J'aime les oranges
+
+EXEMPLE - Array associatif:
+
+    $personne = [
+        "nom" => "Dupont",
+        "prenom" => "Marie",
+        "age" => 25,
+        "ville" => "Paris"
+    ];
+
+    foreach ($personne as $cle => $valeur) {
+        echo "$cle: $valeur\n";
+    }
+
+    // Affiche:
+    // nom: Dupont
+    // prenom: Marie
+    // age: 25
+    // ville: Paris
+
+EXEMPLE PRATIQUE - Calculer une somme:
+
+    $notes = [15, 18, 12, 16, 14];
+    $total = 0;
+
+    foreach ($notes as $note) {
+        $total += $note;
+    }
+
+    $moyenne = $total / count($notes);
+    echo "Moyenne: $moyenne";  // Affiche: Moyenne: 15
+
+EXEMPLE PRATIQUE - Générer une liste HTML:
+
+    $pages = ["Accueil", "Produits", "Services", "Contact"];
+
+    echo "<ul>\n";
+    foreach ($pages as $page) {
+        echo "  <li>$page</li>\n";
+    }
+    echo "</ul>\n";
+
+    // Résultat:
+    // <ul>
+    //   <li>Accueil</li>
+    //   <li>Produits</li>
+    //   <li>Services</li>
+    //   <li>Contact</li>
+    // </ul>
+
+EXEMPLE PRATIQUE - Filtrer des données:
+
+    $ages = [12, 25, 17, 30, 16, 45];
+
+    echo "Personnes majeures:\n";
+    foreach ($ages as $age) {
+        if ($age >= 18) {
+            echo "- $age ans\n";
+        }
+    }
+
+    // Affiche:
+    // Personnes majeures:
+    // - 25 ans
+    // - 30 ans
+    // - 45 ans
+
+EXEMPLE - Array multidimensionnel:
+
+    $etudiants = [
+        ["nom" => "Alice", "note" => 15],
+        ["nom" => "Bob", "note" => 18],
+        ["nom" => "Charlie", "note" => 12]
+    ];
+
+    foreach ($etudiants as $etudiant) {
+        echo "{$etudiant['nom']}: {$etudiant['note']}/20\n";
+    }
+
+    // Affiche:
+    // Alice: 15/20
+    // Bob: 18/20
+    // Charlie: 12/20
+
+FOREACH vs FOR:
+
+    $fruits = ["pomme", "banane", "orange"];
+
+    // Avec FOR (plus complexe):
+    for ($i = 0; $i < count($fruits); $i++) {
+        echo $fruits[$i] . "\n";
+    }
+
+    // Avec FOREACH (plus simple):
+    foreach ($fruits as $fruit) {
+        echo $fruit . "\n";
+    }
+
+💡 BONNE PRATIQUE: Utilisez foreach pour parcourir des arrays, c'est plus
+                   lisible et moins sujet aux erreurs!
+
+
+================================================================================
+G. L'INSTRUCTION BREAK
+================================================================================
+
+DÉFINITION:
+break permet de SORTIR IMMÉDIATEMENT d'une boucle, même si la condition
+est encore vraie.
+
+SYNTAXE:
+
+    while/for/foreach (...) {
+        if (condition_de_sortie) {
+            break;  // Sort de la boucle
+        }
+    }
+
+EXEMPLE BASIQUE:
+
+    for ($i = 1; $i <= 10; $i++) {
+        if ($i === 5) {
+            break;  // Sort de la boucle quand $i = 5
+        }
+        echo "$i ";
+    }
+    // Affiche: 1 2 3 4
+
+EXEMPLE PRATIQUE - Recherche dans un array:
+
+    $fruits = ["pomme", "banane", "orange", "kiwi"];
+    $recherche = "orange";
+    $trouve = false;
+
+    foreach ($fruits as $index => $fruit) {
+        if ($fruit === $recherche) {
+            echo "Trouvé '$recherche' à l'index $index!\n";
+            $trouve = true;
+            break;  // Arrête la recherche dès qu'on trouve
+        }
+    }
+
+    if (!$trouve) {
+        echo "'$recherche' non trouvé.\n";
+    }
+
+EXEMPLE PRATIQUE - Limite de tentatives:
+
+    $tentatives = 0;
+    $max_tentatives = 3;
+    $mot_de_passe_correct = "secret";
+
+    while (true) {  // Boucle infinie volontaire
+        $tentatives++;
+        $mdp = readline("Mot de passe : ");
+
+        if ($mdp === $mot_de_passe_correct) {
+            echo "Accès autorisé!\n";
+            break;  // Sort de la boucle si correct
+        }
+
+        echo "Incorrect! ";
+
+        if ($tentatives >= $max_tentatives) {
+            echo "Nombre de tentatives dépassé.\n";
+            break;  // Sort de la boucle après 3 échecs
+        }
+
+        echo "Réessayez.\n";
+    }
+
+EXEMPLE - break dans switch ET boucle:
+
+    $nombres = [1, 2, 3, 4, 5];
+
+    foreach ($nombres as $nb) {
+        switch ($nb) {
+            case 3:
+                echo "Trois trouvé!\n";
+                break 2;  // Sort du switch ET de la boucle foreach!
+            default:
+                echo "$nb ";
+        }
+    }
+
+    // Affiche: 1 2 Trois trouvé!
+
+⚠️ NOTE: break 2 sort de 2 niveaux de structures (rare, à utiliser avec
+         précaution)
+
+
+================================================================================
+H. L'INSTRUCTION CONTINUE
+================================================================================
+
+DÉFINITION:
+continue saute le reste de l'ITÉRATION ACTUELLE et passe immédiatement à
+la PROCHAINE ITÉRATION de la boucle.
+
+DIFFÉRENCE AVEC BREAK:
+- break: Sort COMPLÈTEMENT de la boucle
+- continue: Passe à l'itération suivante
+
+SYNTAXE:
+
+    while/for/foreach (...) {
+        if (condition_de_saut) {
+            continue;  // Passe à l'itération suivante
+        }
+        // Ce code est ignoré si continue est exécuté
+    }
+
+EXEMPLE BASIQUE:
+
+    for ($i = 1; $i <= 5; $i++) {
+        if ($i === 3) {
+            continue;  // Saute l'affichage de 3
+        }
+        echo "$i ";
+    }
+    // Affiche: 1 2 4 5
+
+EXEMPLE PRATIQUE - Filtrer les nombres pairs:
+
+    for ($i = 1; $i <= 10; $i++) {
+        if ($i % 2 === 0) {  // Si pair
+            continue;  // Saute les pairs
+        }
+        echo "$i ";  // Affiche seulement les impairs
+    }
+    // Affiche: 1 3 5 7 9
+
+EXEMPLE PRATIQUE - Validation de données:
+
+    $emails = [
+        "alice@example.com",
+        "invalide",
+        "bob@example.com",
+        "",
+        "charlie@example.com"
+    ];
+
+    echo "Emails valides:\n";
+    foreach ($emails as $email) {
+        // Ignore les emails vides ou sans @
+        if (empty($email) || strpos($email, "@") === false) {
+            continue;
+        }
+        echo "- $email\n";
+    }
+
+    // Affiche:
+    // Emails valides:
+    // - alice@example.com
+    // - bob@example.com
+    // - charlie@example.com
+
+EXEMPLE PRATIQUE - Ignorer des valeurs spéciales:
+
+    $produits = [
+        ["nom" => "Pomme", "prix" => 2.5],
+        ["nom" => "Banane", "prix" => 0],  // Prix 0 = gratuit
+        ["nom" => "Orange", "prix" => 3.0],
+        ["nom" => "Kiwi", "prix" => 0]
+    ];
+
+    echo "Produits payants:\n";
+    foreach ($produits as $produit) {
+        if ($produit["prix"] === 0) {
+            continue;  // Ignore les produits gratuits
+        }
+        echo "- {$produit['nom']}: {$produit['prix']}€\n";
+    }
+
+    // Affiche:
+    // Produits payants:
+    // - Pomme: 2.5€
+    // - Orange: 3.0€
+
+EXEMPLE - Boucles imbriquées avec continue:
+
+    for ($i = 1; $i <= 3; $i++) {
+        for ($j = 1; $j <= 3; $j++) {
+            if ($j === 2) {
+                continue;  // Saute seulement $j = 2
+            }
+            echo "[$i,$j] ";
+        }
+        echo "\n";
+    }
+
+    // Affiche:
+    // [1,1] [1,3]
+    // [2,1] [2,3]
+    // [3,1] [3,3]
+
+
+================================================================================
+I. COMPARAISON BREAK vs CONTINUE
+================================================================================
+
+┌──────────────┬────────────────────────┬──────────────────────────┐
+│ Instruction  │ Action                 │ Effet                    │
+├──────────────┼────────────────────────┼──────────────────────────┤
+│ break        │ Sort de la boucle      │ Termine complètement     │
+│              │ complètement           │ la boucle                │
+├──────────────┼────────────────────────┼──────────────────────────┤
+│ continue     │ Passe à l'itération    │ Ignore le reste du code  │
+│              │ suivante               │ pour cette itération     │
+└──────────────┴────────────────────────┴──────────────────────────┘
+
+EXEMPLE COMPARATIF:
+
+    // Avec BREAK:
+    for ($i = 1; $i <= 5; $i++) {
+        if ($i === 3) {
+            break;  // Sort complètement
+        }
+        echo "$i ";
+    }
+    // Affiche: 1 2
+
+    // Avec CONTINUE:
+    for ($i = 1; $i <= 5; $i++) {
+        if ($i === 3) {
+            continue;  // Saute juste 3
+        }
+        echo "$i ";
+    }
+    // Affiche: 1 2 4 5
+
+
+================================================================================
+J. RÉCAPITULATIF DES BOUCLES
+================================================================================
+
+┌──────────────┬─────────────────────────┬──────────────────────────┐
+│ Boucle       │ Utilisation             │ Exécution minimale       │
+├──────────────┼─────────────────────────┼──────────────────────────┤
+│ while        │ Nombre d'itérations     │ 0 fois (si condition     │
+│              │ inconnu, condition au   │ fausse dès le début)     │
+│              │ début                   │                          │
+├──────────────┼─────────────────────────┼──────────────────────────┤
+│ do...while   │ Nombre d'itérations     │ 1 fois (minimum garanti) │
+│              │ inconnu, exécution      │                          │
+│              │ garantie au moins 1 fois│                          │
+├──────────────┼─────────────────────────┼──────────────────────────┤
+│ for          │ Nombre d'itérations     │ 0 fois (si condition     │
+│              │ connu à l'avance        │ fausse dès le début)     │
+├──────────────┼─────────────────────────┼──────────────────────────┤
+│ foreach      │ Parcourir des arrays    │ 0 fois (si array vide)   │
+│              │ (indexés ou associatifs)│                          │
+└──────────────┴─────────────────────────┴──────────────────────────┘
+
+
+POINTS CLÉS:
+
+┌─────────────────┬──────────────────────────────────────────────────┐
+│ Concept         │ Description                                      │
+├─────────────────┼──────────────────────────────────────────────────┤
+│ while           │ Exécute TANT QUE condition = TRUE                │
+├─────────────────┼──────────────────────────────────────────────────┤
+│ do...while      │ Exécute AU MOINS 1 fois, puis tant que TRUE      │
+├─────────────────┼──────────────────────────────────────────────────┤
+│ for             │ Boucle avec 3 expressions (init, cond, incr)     │
+├─────────────────┼──────────────────────────────────────────────────┤
+│ foreach         │ Parcourt chaque élément d'un array               │
+├─────────────────┼──────────────────────────────────────────────────┤
+│ break           │ Sort immédiatement de la boucle                  │
+├─────────────────┼──────────────────────────────────────────────────┤
+│ continue        │ Passe à l'itération suivante                     │
+└─────────────────┴──────────────────────────────────────────────────┘
+
+
+EXEMPLES DE CHOIX DE BOUCLE:
+
+1. Validation d'entrée utilisateur → do...while
+   (car on doit demander au moins 1 fois)
+
+2. Parcourir un array → foreach
+   (le plus simple et lisible)
+
+3. Compter de 1 à 100 → for
+   (nombre d'itérations connu)
+
+4. Attendre une condition inconnue → while
+   (ex: attendre qu'un fichier soit disponible)
+
+5. Menu de jeu répétitif → do...while
+   (afficher le menu au moins 1 fois)
+
+
+================================================================================
+K. BONNES PRATIQUES
+================================================================================
+
+✅ FAIRE:
+- Toujours incrémenter dans une boucle while pour éviter les boucles infinies
+- Utiliser foreach pour parcourir des arrays (plus simple)
+- Utiliser for quand le nombre d'itérations est connu
+- Utiliser des noms de variables descriptifs ($i, $j, $k pour compteurs)
+- Indenter correctement le code dans les boucles
+
+❌ ÉVITER:
+- Modifier la variable de contrôle dans une boucle for (confus)
+- Oublier d'incrémenter dans une boucle while (boucle infinie)
+- Utiliser break/continue de façon excessive (rend le code difficile)
+- Créer des boucles infinies sans mécanisme de sortie
+- Imbriquer trop de boucles (maximum 2-3 niveaux)
+
+
+EXEMPLE DE CODE PROPRE:
+
+    // ✅ BON - Clair et bien organisé
+    $produits = ["Pomme", "Banane", "Orange"];
+    $compteur = 1;
+
+    foreach ($produits as $produit) {
+        echo "$compteur. $produit\n";
+        $compteur++;
+    }
+
+    // ❌ MAUVAIS - Modifie l'array pendant l'itération
+    foreach ($produits as $index => $produit) {
+        $produits[$index] = strtoupper($produit);  // Risqué!
+    }
+
+
+================================================================================
+Fichier 6/8 - Guide PHP Complet
+================================================================================

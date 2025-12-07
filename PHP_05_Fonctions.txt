@@ -1,0 +1,482 @@
+================================================================================
+              PHP MODULE 5 : LES FONCTIONS, PARAMÈTRES ET RETURN
+================================================================================
+
+TABLE DES MATIÈRES
+==================
+1. Anatomie d'une Fonction PHP
+2. Qu'est-ce qu'une Fonction ?
+3. Les Paramètres
+4. Comment Passer des Valeurs
+5. L'Ordre des Paramètres
+6. Scope (Portée des Variables)
+7. Le Mot-clé return
+8. Imbrication de Fonctions
+9. Passage par Référence (&)
+10. Haystack et Needle - Principe de Recherche
+11. Points Clés
+
+
+================================================================================
+A. ANATOMIE D'UNE FONCTION PHP
+================================================================================
+
+Avant de commencer, comprenons les différentes parties qui composent une
+fonction :
+
+    ┌─ Function Name ──┐  ┌─ Parameters ─┐
+    │                  │  │               │
+    function printFirstReturnSecond($first, $second)
+    {                                    │
+      echo $first;                       │
+      return $second; ← Return Statement │ ← Function Body
+    }                                    │
+
+            ┌─ Arguments ─┐
+            │             │
+    $return_value = printFirstReturnSecond("apple", "fruit");
+    │                                                        │
+    └────────────────────── Function Call/Invocation ───────┘
+
+    echo printFirstReturnSecond("broccoli", "vegetables");
+         └────────── Function Call/Invocation ──────────┘
+
+
+COMPOSANTS D'UNE FONCTION :
+---------------------------
+
+1. Function Name (Nom de la fonction)
+   - Identifiant unique : printFirstReturnSecond
+
+2. Parameters (Paramètres)
+   - Variables dans la définition : $first, $second
+   - Reçoivent les valeurs lors de l'appel
+
+3. Function Body (Corps de la fonction)
+   - Code entre les accolades { }
+   - Contient les instructions à exécuter
+
+4. Return Statement (Instruction de retour)
+   - return $second;
+   - Renvoie une valeur et termine la fonction
+
+5. Arguments
+   - Valeurs concrètes passées lors de l'appel
+   - Exemples : "apple", "fruit", "broccoli", "vegetables"
+
+6. Function Call/Invocation (Appel de fonction)
+   - Utilisation de la fonction avec des arguments
+   - Peut stocker le résultat ou l'utiliser directement
+
+
+PARAMETERS vs ARGUMENTS - Quelle différence ?
+----------------------------------------------
+
+┌─────────────┬──────────────────┬────────────────────────────────────┐
+│ Terme       │ Où ?             │ Exemple                            │
+├─────────────┼──────────────────┼────────────────────────────────────┤
+│ Parameters  │ Dans DÉFINITION  │ function test($param1, $param2)    │
+│ Arguments   │ Dans l'APPEL     │ test("valeur1", "valeur2")         │
+└─────────────┴──────────────────┴────────────────────────────────────┘
+
+À RETENIR :
+- Parameters = Variables qui attendent des valeurs (définition)
+- Arguments = Valeurs réelles envoyées à la fonction (appel)
+
+
+================================================================================
+B. QU'EST-CE QU'UNE FONCTION ?
+================================================================================
+
+Bloc de code réutilisable qui effectue une tâche spécifique.
+
+SYNTAXE :
+    function nom_fonction($param1, $param2) {
+        return $resultat;
+    }
+
+
+================================================================================
+C. LES PARAMÈTRES
+================================================================================
+
+DÉFINITION : Variables entre parenthèses qui reçoivent des valeurs.
+
+SANS PARAMÈTRES :
+    function dire_bonjour() {
+        echo "Bonjour Jean!";  // Toujours pareil
+    }
+
+AVEC PARAMÈTRES :
+    function dire_bonjour($nom) {
+        echo "Bonjour $nom!";  // Adaptable
+    }
+    dire_bonjour("Marie");  // Bonjour Marie!
+
+
+================================================================================
+D. COMMENT PASSER DES VALEURS
+================================================================================
+
+1. VALEURS DIRECTES :
+    calculer_moyenne(15, 18, 12);
+
+2. VARIABLES EXISTANTES :
+    $math = 15;
+    calculer_moyenne($math, 18, 12);
+
+3. LES NOMS PEUVENT ÊTRE DIFFÉRENTS :
+    function calculer($note1, $note2) { }
+
+    $examen_math = 15;
+    calculer($examen_math, 18);  // ✅ OK !
+
+
+================================================================================
+E. L'ORDRE DES PARAMÈTRES EST CRITIQUE !
+================================================================================
+
+C'est la POSITION qui compte, PAS les noms !
+
+    function diviser($a, $b) {
+        return $a / $b;
+    }
+
+    diviser(10, 2);  // = 5
+    diviser(2, 10);  // = 0.2 (DIFFÉRENT !)
+
+
+================================================================================
+F. SCOPE (PORTÉE DES VARIABLES)
+================================================================================
+
+RÈGLE : Les variables externes ne sont PAS accessibles dans une fonction,
+SAUF si vous les passez en paramètres.
+
+    $nom = "Marie";
+
+    function test() {
+        echo $nom;  // ❌ ERREUR
+    }
+
+    function test($nom) {
+        echo $nom;  // ✅ OK
+    }
+
+
+================================================================================
+G. LE MOT-CLÉ RETURN
+================================================================================
+
+return = Renvoie une valeur et termine la fonction
+
+SANS RETURN (affiche seulement) :
+    function afficher() {
+        echo "Bonjour";
+    }
+
+AVEC RETURN (renvoie une valeur) :
+    function calculer($a, $b) {
+        return $a + $b;
+    }
+    $resultat = calculer(5, 3);  // $resultat = 8
+
+┌─────────────────┬──────────────┬─────────────────┐
+│                 │ Avec return  │ Sans return     │
+├─────────────────┼──────────────┼─────────────────┤
+│ Renvoie valeur  │ OUI          │ NON (null)      │
+│ Stockable       │ OUI          │ NON             │
+│ Réutilisable    │ OUI          │ NON             │
+└─────────────────┴──────────────┴─────────────────┘
+
+
+================================================================================
+H. IMBRICATION DE FONCTIONS
+================================================================================
+
+DÉFINITION : Appeler une fonction À L'INTÉRIEUR d'une autre fonction.
+
+    function calculer_carre($x) {
+        return $x * $x;
+    }
+
+    function calculer_somme_carres($a, $b) {
+        return calculer_carre($a) + calculer_carre($b);
+        //     ↑ Appel imbriqué     ↑ Appel imbriqué
+    }
+
+    echo calculer_somme_carres(3, 4);  // 9 + 16 = 25
+
+
+ORDRE D'EXÉCUTION : De l'INTÉRIEUR vers l'EXTÉRIEUR
+
+    multiplier(ajouter(2, 3), 4);
+    //         ↑ Exécuté 1er : 2 + 3 = 5
+    // ↑ Exécuté 2ème : 5 * 4 = 20
+
+
+APPELER UNE FONCTION SANS LA PASSER EN PARAMÈTRE :
+
+    function obtenir_tva() {
+        return 0.20;
+    }
+
+    function calculer_prix($prix) {
+        // On appelle obtenir_tva() directement
+        // SANS la passer en paramètre !
+        $tva = obtenir_tva();
+        return $prix * (1 + $tva);
+    }
+
+    echo calculer_prix(100);  // 120
+
+
+================================================================================
+I. PASSAGE PAR RÉFÉRENCE (&) DANS LES PARAMÈTRES
+================================================================================
+
+DÉFINITION :
+Le symbole & devant un paramètre indique un PASSAGE PAR RÉFÉRENCE au lieu
+d'un passage par valeur.
+
+
+DIFFÉRENCE FONDAMENTALE
+-----------------------
+
+1. SANS & (Par Valeur - Défaut) :
+
+    function modifier($x) {
+        $x = $x + 10;
+    }
+
+    $nombre = 5;
+    modifier($nombre);
+    echo $nombre;  // Affiche: 5 (INCHANGÉ)
+
+    EXPLICATION : La fonction reçoit une COPIE de la valeur.
+                  Les modifications restent dans la fonction.
+
+
+2. AVEC & (Par Référence) :
+
+    function modifier(&$x) {
+        $x = $x + 10;
+    }
+
+    $nombre = 5;
+    modifier($nombre);
+    echo $nombre;  // Affiche: 15 (MODIFIÉ)
+
+    EXPLICATION : La fonction accède DIRECTEMENT à la variable originale.
+                  Les modifications sont PERMANENTES.
+
+
+TABLEAU COMPARATIF
+------------------
+
+┌────────────────────┬─────────────────────┬──────────────────────────┐
+│ Caractéristique    │ Sans & (par valeur) │ Avec & (par référence)   │
+├────────────────────┼─────────────────────┼──────────────────────────┤
+│ Type de passage    │ Copie de la valeur  │ Référence directe        │
+│ Modification       │ Temporaire          │ Permanente               │
+│ Variable originale │ Inchangée           │ Modifiée                 │
+│ Mémoire            │ 2 zones distinctes  │ 1 seule zone partagée    │
+└────────────────────┴─────────────────────┴──────────────────────────┘
+
+
+EXEMPLE PRATIQUE : Échanger deux variables
+-------------------------------------------
+
+    function echanger(&$a, &$b) {
+        $temp = $a;  // Variable locale
+        $a = $b;
+        $b = $temp;
+    }
+
+    $x = 10;
+    $y = 20;
+
+    echo "Avant : x = $x, y = $y\n";  // x = 10, y = 20
+
+    echanger($x, $y);
+
+    echo "Après : x = $x, y = $y\n";  // x = 20, y = 10
+
+SANS &, cela ne fonctionnerait PAS car les modifications resteraient
+dans la fonction.
+
+
+QUAND UTILISER & ?
+------------------
+
+✅ UTILISEZ & quand :
+   - Vous voulez modifier la variable originale
+   - Vous devez retourner plusieurs valeurs
+   - Vous travaillez avec de grosses structures de données (économie mémoire)
+
+❌ N'UTILISEZ PAS & quand :
+   - Vous voulez juste lire une valeur
+   - Vous voulez protéger les données originales
+   - Le comportement par défaut (copie) suffit
+
+
+POINTS CLÉS
+-----------
+
+1. & = Passage par référence (accès direct à la variable originale)
+
+2. Sans & = Passage par valeur (copie de la valeur)
+
+3. Les modifications avec & sont PERMANENTES
+
+4. Utile pour modifier plusieurs variables en une seule fonction
+
+5. Le & se place DEVANT le nom du paramètre dans la définition de la fonction
+
+
+================================================================================
+J. HAYSTACK ET NEEDLE - PRINCIPE DE RECHERCHE
+================================================================================
+
+DÉFINITION :
+Termes anglais utilisés dans les fonctions PHP de recherche :
+
+- HAYSTACK = "Botte de foin" → OÙ on cherche (la source)
+- NEEDLE = "Aiguille" → CE QU'ON cherche (l'élément recherché)
+
+ANALOGIE : Chercher une aiguille dans une botte de foin !
+
+
+FONCTIONS PRINCIPALES
+---------------------
+
+1. strpos() - Trouver la position d'une sous-chaîne
+
+    strpos($haystack, $needle)
+
+    $texte = "Bonjour le monde";  // HAYSTACK (où on cherche)
+    $recherche = "monde";          // NEEDLE (ce qu'on cherche)
+
+    $position = strpos($texte, $recherche);
+    echo $position;  // Affiche: 11
+
+
+2. str_contains() - Vérifier si contient
+
+    str_contains($haystack, $needle)
+
+    $phrase = "J'aime programmer en PHP";
+    $mot = "PHP";
+
+    if (str_contains($phrase, $mot)) {
+        echo "Trouvé!";  // ✅
+    }
+
+
+3. str_replace() - Remplacer
+
+    str_replace($needle, $replacement, $haystack)
+
+    $texte = "J'aime les chats";
+    $nouveau = str_replace("chats", "chiens", $texte);
+    echo $nouveau;  // J'aime les chiens
+
+
+4. in_array() - Chercher dans un tableau
+
+    in_array($needle, $haystack)
+
+    $fruits = ["pomme", "banane", "orange"];
+    $chercher = "banane";
+
+    if (in_array($chercher, $fruits)) {
+        echo "Trouvé!";  // ✅
+    }
+
+
+TABLEAU RÉCAPITULATIF
+---------------------
+
+┌──────────────────┬──────────┬─────────┬────────────────────────┐
+│ Fonction         │ Haystack │ Needle  │ Retour                 │
+├──────────────────┼──────────┼─────────┼────────────────────────┤
+│ strpos()         │ Chaîne   │ Texte   │ Position ou false      │
+│ str_contains()   │ Chaîne   │ Texte   │ true ou false          │
+│ str_replace()    │ Chaîne   │ Texte   │ Nouvelle chaîne        │
+│ in_array()       │ Tableau  │ Valeur  │ true ou false          │
+└──────────────────┴──────────┴─────────┴────────────────────────┘
+
+
+⚠️ ATTENTION À L'ORDRE !
+-------------------------
+
+Fonctions de chaînes : HAYSTACK puis NEEDLE
+    strpos($haystack, $needle)
+    str_contains($haystack, $needle)
+
+Fonctions de tableaux : NEEDLE puis HAYSTACK
+    in_array($needle, $haystack)
+    array_search($needle, $haystack)
+
+
+PIÈGE COURANT : false vs 0
+---------------------------
+
+    $texte = "Bonjour";
+    $pos = strpos($texte, "B");  // Retourne 0 (position 0)
+
+    // ❌ MAUVAIS
+    if ($pos) {  // 0 est évalué comme false !
+        echo "Trouvé";
+    }
+
+    // ✅ BON
+    if ($pos !== false) {  // Utiliser !==
+        echo "Trouvé";
+    }
+
+
+POINTS CLÉS
+-----------
+
+1. HAYSTACK = Où on cherche (source complète)
+
+2. NEEDLE = Ce qu'on cherche (élément recherché)
+
+3. ORDRE : Varie selon les fonctions (string vs array)
+
+4. SENSIBILITÉ : strpos() sensible, stripos() insensible
+
+5. COMPARAISON STRICTE : Toujours utiliser !== avec strpos()
+
+
+================================================================================
+POINTS CLÉS SUR LES FONCTIONS
+================================================================================
+
+1. PARAMÈTRES = Variables qui reçoivent des valeurs
+
+2. LES NOMS peuvent être différents (c'est la POSITION qui compte)
+
+3. L'ORDRE des paramètres est CRITIQUE
+
+4. SCOPE = Variables externes doivent être passées en paramètres
+
+5. RETURN = Renvoie une valeur et termine la fonction
+
+6. Sans return = Renvoie null par défaut
+
+7. IMBRICATION = Une fonction peut appeler d'autres fonctions
+
+8. Exécution imbriquée = De l'intérieur vers l'extérieur
+
+9. On peut appeler n'importe quelle fonction sans la passer en paramètre
+
+10. PASSAGE PAR RÉFÉRENCE (&) = Modifie la variable originale de façon permanente
+
+11. HAYSTACK/NEEDLE = Source/Recherché - Attention à l'ordre selon les fonctions
+
+
+================================================================================
+Fichier 5/8 - Guide PHP Complet
+================================================================================

@@ -1,0 +1,207 @@
+================================================================================
+                     PHP MODULE 1 : BASES ET VARIABLES
+================================================================================
+
+TABLE DES MATIÈRES
+==================
+1. Terminologie
+2. Les Chaînes de Caractères (Strings)
+3. Variables et Interpolation
+4. Conventions de Nomenclature
+
+
+================================================================================
+1. TERMINOLOGIE
+================================================================================
+
+CMS = CONTENT MANAGEMENT SYSTEM (Système de Gestion de Contenu)
+
+CRUD = Create, Read, Update, Delete
+    - Create  : Créer
+    - Read    : Lire
+    - Update  : Mettre à jour
+    - Delete  : Supprimer
+
+================================================================================
+2. LES CHAÎNES DE CARACTÈRES (STRINGS)
+================================================================================
+
+DÉFINITION:
+-----------
+Les strings sont des mots ou des morceaux de texte que l'ordinateur traite
+comme un seul élément. Une string est une séquence de caractères. Elle peut
+avoir n'importe quelle longueur et contenir des lettres, des chiffres, des
+symboles ou des espaces, entourés de guillemets.
+
+================================================================================
+3. VARIABLES ET INTERPOLATION
+================================================================================
+
+PROBLÈME COURANT : Erreur d'interpolation
+------------------------------------------
+
+Exemple qui cause une ERREUR :
+
+    $toy = "frisbee";
+    echo "Alex likes playing with $toys";
+
+POURQUOI ?
+L'ordinateur cherche une variable $toys qui n'existe pas.
+La variable définie est $toy (singulier), mais on essaie d'utiliser $toys.
+
+
+SOLUTION : Utiliser les accolades {}
+------------------------------------
+
+PHP permet d'indiquer spécifiquement le nom de la variable en l'enveloppant
+dans des accolades pour éviter toute confusion :
+
+    $dog_name = "Tadpole";
+    $favorite_food = "treat";
+    $color = "brown";
+
+    echo "I have a ${color}ish dog named $dog_name and her favorite food is ${favorite_food}s.";
+
+RÉSULTAT :
+    I have a brownish dog named Tadpole and her favorite food is treats.
+
+AVANTAGES :
+    - Évite les ambiguïtés avec les variables
+    - Permet d'ajouter du texte directement après le nom de la variable
+    - Rend le code plus clair et moins sujet aux erreurs
+
+================================================================================
+7. CONVENTIONS DE NOMENCLATURE EN PHP
+================================================================================
+
+SNAKE_CASE vs camelCase
+-----------------------
+
+Il existe deux principales conventions pour nommer les variables et fonctions
+en PHP :
+
+
+A. SNAKE_CASE (snake_case)
+--------------------------
+
+Les mots sont séparés par des underscores (_) et tout en minuscules.
+
+EXEMPLES :
+    $first_name = "Jean";
+    $user_email_address = "jean@example.com";
+    $total_price = 99.99;
+
+    function calculate_total_price($items) {
+        // code ici
+    }
+
+
+B. CAMELCASE (camelCase)
+------------------------
+
+Le premier mot commence par une minuscule, puis chaque nouveau mot commence
+par une majuscule (sans espaces ni underscores).
+
+EXEMPLES :
+    $firstName = "Jean";
+    $userEmailAddress = "jean@example.com";
+    $totalPrice = 99.99;
+
+    function calculateTotalPrice($items) {
+        // code ici
+    }
+
+
+CONVENTIONS EN PHP
+------------------
+
+┌─────────────────────┬──────────────────┬────────────────────────────┐
+│ Type                │ Convention       │ Exemple                    │
+├─────────────────────┼──────────────────┼────────────────────────────┤
+│ Variables           │ snake_case ou    │ $user_name                 │
+│                     │ camelCase        │ $userName                  │
+├─────────────────────┼──────────────────┼────────────────────────────┤
+│ Fonctions           │ snake_case ou    │ get_user_data()            │
+│                     │ camelCase        │ getUserData()              │
+├─────────────────────┼──────────────────┼────────────────────────────┤
+│ Constantes          │ MAJUSCULES       │ MAX_SIZE                   │
+│                     │ avec underscores │ DATABASE_NAME              │
+├─────────────────────┼──────────────────┼────────────────────────────┤
+│ Classes             │ PascalCase       │ UserController             │
+│                     │ (majuscule début)│ ProductManager             │
+└─────────────────────┴──────────────────┴────────────────────────────┘
+
+
+DIFFÉRENCES ENTRE FONCTIONS ET VARIABLES DANS LA NOMENCLATURE
+--------------------------------------------------------------
+
+1. LES VARIABLES :
+   - Représentent des DONNÉES ou des VALEURS
+   - Noms généralement des NOMS (substantifs)
+
+   EXEMPLES :
+       $user_age          // snake_case - représente l'âge
+       $productPrice      // camelCase - représente le prix
+       $is_active         // représente un état (booléen)
+
+
+2. LES FONCTIONS :
+   - Représentent des ACTIONS
+   - Noms généralement des VERBES ou commencent par un verbe
+
+   EXEMPLES :
+       function get_user_name() { }      // VERBE get (obtenir)
+       function calculateTotal() { }     // VERBE calculate (calculer)
+       function save_data() { }          // VERBE save (sauvegarder)
+       function isValid() { }            // VERBE is (est)
+
+
+COMPARAISON VISUELLE
+--------------------
+
+VARIABLES (ce que c'est) :
+    $user_email        // snake_case : l'email de l'utilisateur
+    $totalAmount       // camelCase : le montant total
+    $MAX_ATTEMPTS      // Constante : nombre maximum de tentatives
+
+FONCTIONS (ce qu'on fait) :
+    function send_email() { }           // snake_case : envoyer un email
+    function calculateDiscount() { }    // camelCase : calculer une réduction
+    function validatePassword() { }     // camelCase : valider un mot de passe
+
+
+RECOMMANDATIONS
+---------------
+
+1. Choisissez UNE convention (snake_case OU camelCase) et restez cohérent
+   dans tout votre projet
+
+2. Les frameworks PHP ont leurs préférences :
+   - Laravel : préfère snake_case pour les variables et fonctions
+   - Symfony : préfère camelCase
+   - WordPress : utilise snake_case
+
+3. TOUJOURS utiliser des noms descriptifs et clairs
+
+4. Les constantes sont TOUJOURS en MAJUSCULES avec underscores
+
+
+================================================================================
+POINTS CLÉS À RETENIR
+================================================================================
+
+1. Toujours utiliser les accolades ${} quand vous ajoutez du texte
+   directement après une variable
+
+2. Les noms de variables sont sensibles à la casse en PHP
+
+3. Utilisez snake_case OU camelCase de manière cohérente dans votre projet
+
+4. Variables = NOMS (substantifs), Fonctions = VERBES (actions)
+
+5. CMS = Content Management System, CRUD = Create, Read, Update, Delete
+
+
+================================================================================
+Fichier 1/8 - Guide PHP Complet
+================================================================================

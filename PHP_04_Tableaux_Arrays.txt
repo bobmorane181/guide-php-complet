@@ -1,0 +1,785 @@
+================================================================================
+                    PHP MODULE 4 : TABLEAUX (ARRAYS)
+================================================================================
+
+TABLE DES MATIÈRES
+==================
+1. Qu'est-ce qu'un Array ?
+2. Les Index - Clés d'Accès
+3. Créer un Array
+4. Ajouter des Éléments
+5. Accéder et Modifier des Éléments
+6. Retirer des Éléments
+7. Fonctions Utiles pour les Arrays
+8. Parcourir un Array avec foreach
+9. Array Multidimensionnel
+10. Fusionner des Arrays
+11. Tableau Récapitulatif
+12. Exemple Pratique Complet
+13. Points Clés à Retenir
+
+
+================================================================================
+A. QU'EST-CE QU'UN ARRAY ?
+================================================================================
+
+Les ARRAYS (tableaux) sont des COLLECTIONS ORDONNÉES DE DONNÉES et
+représentent une structure de données fondamentale en informatique.
+
+En PHP, nous appelons cette structure des ORDERED ARRAYS (tableaux ordonnés).
+Les éléments sont arrangés dans un ORDRE NUMÉRIQUE CROISSANT commençant à
+l'INDEX ZÉRO.
+
+Un ARRAY est une structure de données qui permet de stocker PLUSIEURS VALEURS
+dans une seule variable.
+
+EXEMPLE SIMPLE :
+
+    // Au lieu de :
+    $fruit1 = "pomme";
+    $fruit2 = "banane";
+    $fruit3 = "orange";
+
+    // On utilise :
+    $fruits = ["pomme", "banane", "orange"];
+
+
+================================================================================
+B. LES INDEX - CLÉS D'ACCÈS
+================================================================================
+
+L'INDEX est l'EMPLACEMENT d'un élément dans un array. Il sert de "clé" pour
+accéder à une valeur dans le tableau.
+
+
+INDEX NUMÉRIQUE (commence à 0)
+-------------------------------
+
+    $fruits = ["pomme", "banane", "orange"];
+    //        index 0    index 1    index 2
+
+    echo $fruits[0];  // Affiche : pomme
+    echo $fruits[1];  // Affiche : banane
+    echo $fruits[2];  // Affiche : orange
+
+⚠️ IMPORTANT : L'index commence toujours à 0, pas à 1 !
+
+
+INDEX ASSOCIATIF (clé personnalisée)
+-------------------------------------
+
+    $personne = [
+        "nom" => "Dupont",
+        "age" => 25,
+        "ville" => "Paris"
+    ];
+
+    echo $personne["nom"];   // Affiche : Dupont
+    echo $personne["age"];   // Affiche : 25
+    echo $personne["ville"]; // Affiche : Paris
+
+
+================================================================================
+C. CRÉER UN ARRAY
+================================================================================
+
+Il existe deux syntaxes principales pour créer des arrays en PHP :
+
+SYNTAXE CLASSIQUE AVEC array() :
+
+    $fruits = array("pomme", "banane", "orange");
+    $nombres = array(10, 20, 30);
+    $infos = array("prenom" => "Jean", "age" => 30);
+
+SYNTAXE COURTE (recommandée) - Short array syntax :
+
+    $fruits = ["pomme", "banane", "orange"];
+    $nombres = [10, 20, 30];
+    $infos = ["prenom" => "Jean", "age" => 30];
+
+ARRAY VIDE :
+
+    $liste = [];  // Syntaxe courte
+    $liste = array();  // Syntaxe classique
+
+💡 BONNE PRATIQUE : La syntaxe courte [] est plus moderne et lisible.
+                    Utilisez-la de préférence.
+
+
+================================================================================
+D. AJOUTER DES ÉLÉMENTS
+================================================================================
+
+À LA FIN DU TABLEAU :
+
+    $fruits = ["pomme"];
+    $fruits[] = "banane";  // Ajoute à l'index 1
+    $fruits[] = "orange";  // Ajoute à l'index 2
+
+    print_r($fruits);
+    // Résultat : ["pomme", "banane", "orange"]
+
+À UN INDEX SPÉCIFIQUE :
+
+    $fruits = ["pomme"];
+    $fruits[5] = "orange";  // Ajoute à l'index 5
+
+    print_r($fruits);
+    // Résultat : [0 => "pomme", 5 => "orange"]
+    // Les index 1, 2, 3, 4 n'existent pas
+
+AVEC CLÉ ASSOCIATIVE :
+
+    $fruits = [];
+    $fruits["prefere"] = "kiwi";
+    $fruits["deteste"] = "olive";
+
+    echo $fruits["prefere"];  // Affiche : kiwi
+
+AVEC array_unshift() - Ajouter au DÉBUT :
+
+array_unshift() ajoute un ou plusieurs éléments au DÉBUT du tableau.
+
+    $fruits = ["banane", "orange"];
+    array_unshift($fruits, "pomme");
+
+    print_r($fruits);
+    // Résultat : ["pomme", "banane", "orange"]
+
+AJOUTER PLUSIEURS ÉLÉMENTS AU DÉBUT :
+
+    $nombres = [30, 40];
+    array_unshift($nombres, 10, 20);
+
+    print_r($nombres);
+    // Résultat : [10, 20, 30, 40]
+
+⚠️ IMPORTANT : array_unshift() RÉINDEXE tous les éléments existants !
+
+    $arr = [0 => "a", 1 => "b"];
+    array_unshift($arr, "debut");
+
+    print_r($arr);
+    // [0 => "debut", 1 => "a", 2 => "b"]
+    // Les index ont été réarrangés !
+
+
+================================================================================
+E. ACCÉDER ET MODIFIER DES ÉLÉMENTS
+================================================================================
+
+ACCÉDER :
+
+    $scores = [85, 90, 78];
+
+    echo $scores[0];  // 85
+    echo $scores[1];  // 90
+    echo $scores[2];  // 78
+
+MODIFIER :
+
+    $scores = [85, 90, 78];
+
+    $scores[1] = 95;  // Modifie l'index 1
+
+    echo $scores[1];  // Affiche : 95
+
+VÉRIFIER L'EXISTENCE :
+
+    $fruits = ["pomme", "banane"];
+
+    if (isset($fruits[0])) {
+        echo "L'index 0 existe : " . $fruits[0];
+    }
+
+    if (isset($fruits[10])) {
+        echo "Ceci ne s'affiche pas";
+    }
+
+
+================================================================================
+F. RETIRER DES ÉLÉMENTS
+================================================================================
+
+array_pop() - Retirer le DERNIER élément :
+
+array_pop() supprime et RETOURNE le dernier élément d'un array.
+
+    $fruits = ["pomme", "banane", "orange"];
+    $dernier = array_pop($fruits);
+
+    echo $dernier;  // Affiche : orange
+    print_r($fruits);  // ["pomme", "banane"]
+
+array_shift() - Retirer le PREMIER élément :
+
+array_shift() supprime et RETOURNE le premier élément d'un array.
+
+    $fruits = ["pomme", "banane", "orange"];
+    $premier = array_shift($fruits);
+
+    echo $premier;  // Affiche : pomme
+    print_r($fruits);  // ["banane", "orange"]
+
+⚠️ IMPORTANT : array_shift() RÉINDEXE tous les éléments restants !
+
+    $arr = [0 => "a", 1 => "b", 2 => "c"];
+    array_shift($arr);
+
+    print_r($arr);
+    // [0 => "b", 1 => "c"]
+    // Les index ont été réarrangés à partir de 0
+
+COMPARAISON DES 4 FONCTIONS :
+
+┌──────────────────┬──────────┬──────────┬────────────────────┬───────────┐
+│ Fonction         │ Action   │ Position │ Retourne la valeur │ Réindexe  │
+├──────────────────┼──────────┼──────────┼────────────────────┼───────────┤
+│ array_push()     │ Ajouter  │ Fin      │ Non                │ Non       │
+│ array_pop()      │ Retirer  │ Fin      │ Oui                │ Non       │
+│ array_unshift()  │ Ajouter  │ Début    │ Non                │ Oui       │
+│ array_shift()    │ Retirer  │ Début    │ Oui                │ Oui       │
+└──────────────────┴──────────┴──────────┴────────────────────┴───────────┘
+
+EXEMPLE PRATIQUE - Gestion d'une file d'attente (Queue) :
+
+    $file_attente = ["Client1", "Client2", "Client3"];
+
+    // Servir le premier client (FIFO - First In First Out)
+    $client_servi = array_shift($file_attente);
+    echo "Maintenant servi : $client_servi\n";  // Client1
+
+    // Nouveau client arrive
+    array_push($file_attente, "Client4");
+
+    print_r($file_attente);
+    // ["Client2", "Client3", "Client4"]
+
+EXEMPLE PRATIQUE - Gestion d'une pile (Stack) :
+
+    $pile = [];
+
+    // Empiler des éléments
+    array_push($pile, "A");
+    array_push($pile, "B");
+    array_push($pile, "C");
+
+    // Dépiler (LIFO - Last In First Out)
+    $element = array_pop($pile);
+    echo $element;  // C
+
+    print_r($pile);  // ["A", "B"]
+
+unset() - Supprimer un Élément Spécifique :
+
+unset() permet de SUPPRIMER une paire clé => valeur d'un array.
+
+AVEC ARRAY ASSOCIATIF :
+
+    $animaux = [
+        "panda" => "très mignon",
+        "chien" => "très loyal",
+        "chat" => "indépendant"
+    ];
+
+    unset($animaux["chien"]);  // Supprime la clé "chien"
+
+    print_r($animaux);
+    // ["panda" => "très mignon", "chat" => "indépendant"]
+
+AVEC ARRAY INDEXÉ :
+
+    $fruits = ["pomme", "banane", "orange"];
+    unset($fruits[1]);  // Supprime "banane" à l'index 1
+
+    print_r($fruits);
+    // [0 => "pomme", 2 => "orange"]
+    // ⚠️ L'index 1 n'existe plus, mais les autres ne sont PAS réindexés !
+
+⚠️ IMPORTANT : unset() ne réindexe PAS les arrays indexés !
+
+POUR RÉINDEXER APRÈS unset() :
+
+    $fruits = ["pomme", "banane", "orange"];
+    unset($fruits[1]);
+
+    $fruits = array_values($fruits);  // Réindexe l'array
+    print_r($fruits);
+    // [0 => "pomme", 1 => "orange"]
+
+SUPPRIMER PLUSIEURS ÉLÉMENTS :
+
+    $data = ["a" => 1, "b" => 2, "c" => 3, "d" => 4];
+    unset($data["a"], $data["c"]);  // Supprime "a" et "c"
+
+    print_r($data);
+    // ["b" => 2, "d" => 4]
+
+
+================================================================================
+G. FONCTIONS UTILES POUR LES ARRAYS
+================================================================================
+
+count() - Compter les éléments :
+
+    $nombres = [5, 10, 15];
+    echo count($nombres);  // Affiche : 3
+
+in_array() - Vérifier l'existence d'une valeur :
+
+    $fruits = ["pomme", "banane", "orange"];
+
+    if (in_array("banane", $fruits)) {
+        echo "Banane trouvée!";  // ✅ S'affiche
+    }
+
+    if (in_array("kiwi", $fruits)) {
+        echo "Ceci ne s'affiche pas";
+    }
+
+array_push() - Ajouter à la fin :
+
+    $nombres = [5, 10];
+    array_push($nombres, 15, 20);
+
+    print_r($nombres);  // [5, 10, 15, 20]
+
+print_r() - Afficher la structure complète d'un array :
+
+print_r() est essentiel pour DÉBOGUER et visualiser le contenu d'un array.
+
+    $fruits = ["pomme", "banane", "orange"];
+    print_r($fruits);
+
+    // Affiche :
+    // Array
+    // (
+    //     [0] => pomme
+    //     [1] => banane
+    //     [2] => orange
+    // )
+
+AVEC ARRAY ASSOCIATIF :
+
+    $personne = ["nom" => "Dupont", "age" => 25, "ville" => "Paris"];
+    print_r($personne);
+
+    // Affiche :
+    // Array
+    // (
+    //     [nom] => Dupont
+    //     [age] => 25
+    //     [ville] => Paris
+    // )
+
+CAPTURER LA SORTIE DANS UNE VARIABLE :
+
+    $data = ["a", "b", "c"];
+    $output = print_r($data, true);  // Le 2e paramètre = true
+
+    echo "Contenu : " . $output;
+    // Permet de stocker la sortie au lieu de l'afficher directement
+
+
+implode() - Convertir un array en string :
+
+implode() permet de JOINDRE tous les éléments d'un array en une seule chaîne,
+séparés par un délimiteur.
+
+SYNTAXE :
+
+    implode(séparateur, array)
+
+EXEMPLE BASIQUE :
+
+    $fruits = ["pomme", "banane", "orange"];
+    $resultat = implode(", ", $fruits);
+
+    echo $resultat;  // Affiche : pomme, banane, orange
+
+DIFFÉRENTS SÉPARATEURS :
+
+    $mots = ["Bonjour", "le", "monde"];
+
+    echo implode(" ", $mots);        // Bonjour le monde
+    echo implode("-", $mots);        // Bonjour-le-monde
+    echo implode(" | ", $mots);      // Bonjour | le | monde
+    echo implode("", $mots);         // Bonjourlemonde
+
+CAS D'USAGE PRATIQUE - Générer une liste HTML :
+
+    $items = ["Accueil", "Produits", "Contact"];
+    $menu = "<li>" . implode("</li><li>", $items) . "</li>";
+
+    echo "<ul>" . $menu . "</ul>";
+    // Résultat : <ul><li>Accueil</li><li>Produits</li><li>Contact</li></ul>
+
+CAS D'USAGE - Construire une requête SQL :
+
+    $colonnes = ["nom", "email", "age"];
+    $query = "SELECT " . implode(", ", $colonnes) . " FROM users";
+
+    echo $query;  // SELECT nom, email, age FROM users
+
+AVEC ARRAY ASSOCIATIF :
+
+    $data = ["nom" => "Dupont", "age" => 25, "ville" => "Paris"];
+    echo implode(" - ", $data);
+    // Affiche : Dupont - 25 - Paris
+    // Note : Seules les VALEURS sont utilisées, pas les clés
+
+⚠️ IMPORTANT :
+- implode() utilise uniquement les VALEURS de l'array (pas les clés)
+- Les valeurs sont converties automatiquement en string
+- Fonctionne avec arrays indexés et associatifs
+
+FONCTION INVERSE - explode() :
+
+    // explode() fait l'inverse : string → array
+    $texte = "pomme,banane,orange";
+    $fruits = explode(",", $texte);
+
+    print_r($fruits);
+    // Array ( [0] => pomme [1] => banane [2] => orange )
+
+
+================================================================================
+H. PARCOURIR UN ARRAY AVEC FOREACH
+================================================================================
+
+ARRAY INDEXÉ :
+
+    $fruits = ["pomme", "banane", "orange"];
+
+    foreach ($fruits as $fruit) {
+        echo $fruit . "\n";
+    }
+    // Affiche :
+    // pomme
+    // banane
+    // orange
+
+ARRAY ASSOCIATIF :
+
+    $personne = ["nom" => "Dupont", "age" => 25, "ville" => "Paris"];
+
+    foreach ($personne as $cle => $valeur) {
+        echo "$cle : $valeur\n";
+    }
+    // Affiche :
+    // nom : Dupont
+    // age : 25
+    // ville : Paris
+
+AVEC INDEX NUMÉRIQUE :
+
+    $fruits = ["pomme", "banane", "orange"];
+
+    foreach ($fruits as $index => $fruit) {
+        echo "Index $index : $fruit\n";
+    }
+    // Affiche :
+    // Index 0 : pomme
+    // Index 1 : banane
+    // Index 2 : orange
+
+
+================================================================================
+I. ARRAY MULTIDIMENSIONNEL
+================================================================================
+
+Un ARRAY MULTIDIMENSIONNEL est un array qui contient d'autres arrays.
+
+ACCÈS AVEC CROCHETS CHAÎNÉS [][] :
+
+Nous utilisons des CROCHETS CHAÎNÉS ([][]) pour accéder et modifier les
+éléments d'un array imbriqué (nested array).
+
+    $etudiants = [
+        ["nom" => "Alice", "note" => 15],
+        ["nom" => "Bob", "note" => 12],
+        ["nom" => "Charlie", "note" => 18]
+    ];
+
+    // Accès en lecture
+    echo $etudiants[0]["nom"];   // Alice
+    echo $etudiants[1]["note"];  // 12
+    echo $etudiants[2]["nom"];   // Charlie
+
+    // Modification avec crochets chaînés
+    $etudiants[0]["note"] = 16;  // Change la note d'Alice
+    $etudiants[2]["nom"] = "Charles";  // Change le nom
+
+    print_r($etudiants[0]);
+    // ["nom" => "Alice", "note" => 16]
+
+PARCOURS :
+
+    foreach ($etudiants as $etudiant) {
+        echo $etudiant["nom"] . " : " . $etudiant["note"] . "/20\n";
+    }
+    // Affiche :
+    // Alice : 16/20
+    // Bob : 12/20
+    // Charles : 18/20
+
+ARRAY 3D - Trois niveaux d'imbrication :
+
+    $ecole = [
+        "Classe A" => [
+            ["nom" => "Alice", "notes" => [15, 18, 14]],
+            ["nom" => "Bob", "notes" => [12, 13, 11]]
+        ],
+        "Classe B" => [
+            ["nom" => "Charlie", "notes" => [18, 17, 19]]
+        ]
+    ];
+
+    // Accès avec triple chaînage
+    echo $ecole["Classe A"][0]["notes"][1];  // 18 (2e note d'Alice)
+    echo $ecole["Classe B"][0]["nom"];       // Charlie
+
+    // Modification
+    $ecole["Classe A"][1]["notes"][0] = 15;  // Change 1ère note de Bob
+
+
+================================================================================
+J. FUSIONNER DES ARRAYS
+================================================================================
+
+OPÉRATEUR UNION (+) - Fusionner avec Priorité :
+
+L'OPÉRATEUR UNION (+) fusionne deux arrays en conservant les clés du PREMIER
+array en cas de conflit.
+
+SYNTAXE :
+
+    $resultat = $array1 + $array2;
+
+AVEC ARRAYS ASSOCIATIFS :
+
+    $array1 = ["a" => "pomme", "b" => "banane"];
+    $array2 = ["c" => "cerise", "d" => "datte"];
+
+    $resultat = $array1 + $array2;
+
+    print_r($resultat);
+    // ["a" => "pomme", "b" => "banane", "c" => "cerise", "d" => "datte"]
+
+⚠️ EN CAS DE CLÉS IDENTIQUES : Le premier array a la PRIORITÉ !
+
+    $array1 = ["a" => "pomme", "b" => "banane"];
+    $array2 = ["b" => "bleuet", "c" => "cerise"];
+
+    $resultat = $array1 + $array2;
+
+    print_r($resultat);
+    // ["a" => "pomme", "b" => "banane", "c" => "cerise"]
+    // ⚠️ "banane" est conservée, "bleuet" est ignorée !
+
+INVERSER L'ORDRE change le résultat :
+
+    $resultat = $array2 + $array1;
+
+    print_r($resultat);
+    // ["b" => "bleuet", "c" => "cerise", "a" => "pomme"]
+    // Maintenant "bleuet" est conservée !
+
+AVEC ARRAYS INDEXÉS :
+
+    $array1 = [0 => "a", 1 => "b"];
+    $array2 = [0 => "c", 2 => "d"];
+
+    $resultat = $array1 + $array2;
+
+    print_r($resultat);
+    // [0 => "a", 1 => "b", 2 => "d"]
+    // ⚠️ L'index 0 de $array2 ("c") est ignoré car 0 existe déjà !
+
+
+array_merge() - Fusionner avec Écrasement :
+
+array_merge() fusionne des arrays en ÉCRASANT les valeurs du premier array
+avec celles du second.
+
+SYNTAXE :
+
+    $resultat = array_merge($array1, $array2);
+
+AVEC ARRAYS ASSOCIATIFS :
+
+    $array1 = ["a" => "pomme", "b" => "banane"];
+    $array2 = ["b" => "bleuet", "c" => "cerise"];
+
+    $resultat = array_merge($array1, $array2);
+
+    print_r($resultat);
+    // ["a" => "pomme", "b" => "bleuet", "c" => "cerise"]
+    // ✅ "bleuet" écrase "banane" !
+
+AVEC ARRAYS INDEXÉS : Les index sont RÉASSIGNÉS !
+
+    $array1 = ["a", "b"];
+    $array2 = ["c", "d"];
+
+    $resultat = array_merge($array1, $array2);
+
+    print_r($resultat);
+    // [0 => "a", 1 => "b", 2 => "c", 3 => "d"]
+    // ✅ Tous les index sont réassignés de 0 à 3
+
+COMPARAISON : + vs array_merge() :
+
+┌───────────────────┬───────────────────────┬─────────────────────────┐
+│ Opération         │ + (Union)             │ array_merge()           │
+├───────────────────┼───────────────────────┼─────────────────────────┤
+│ Clés identiques   │ 1er array prioritaire │ 2e array écrase         │
+│ Réindexation      │ Non                   │ Oui (arrays indexés)    │
+│ Performance       │ Légèrement + rapide   │ Légèrement + lent       │
+│ Clés numériques   │ Conservées si uniques │ Toujours réindexées     │
+└───────────────────┴───────────────────────┴─────────────────────────┘
+
+CAS D'USAGE DE + - Valeurs par défaut :
+
+    // Définir des valeurs par défaut
+    $default_config = [
+        "theme" => "clair",
+        "langue" => "fr",
+        "notifications" => true
+    ];
+
+    $user_config = [
+        "theme" => "sombre"
+    ];
+
+    $config = $user_config + $default_config;
+
+    print_r($config);
+    // ["theme" => "sombre", "langue" => "fr", "notifications" => true]
+    // ✅ Les préférences utilisateur sont prioritaires !
+
+CAS D'USAGE DE array_merge() - Combiner listes :
+
+    $liste1 = ["tâche1", "tâche2"];
+    $liste2 = ["tâche3", "tâche4"];
+
+    $toutes_taches = array_merge($liste1, $liste2);
+
+    print_r($toutes_taches);
+    // [0 => "tâche1", 1 => "tâche2", 2 => "tâche3", 3 => "tâche4"]
+
+
+================================================================================
+K. TABLEAU RÉCAPITULATIF
+================================================================================
+
+TYPES D'ARRAYS :
+
+┌──────────────────────┬─────────────────────┬─────────────┬─────────────────────┐
+│ Type d'Array         │ Exemple             │ Accès       │ Usage               │
+├──────────────────────┼─────────────────────┼─────────────┼─────────────────────┤
+│ Indexé               │ [10, 20, 30]        │ $arr[0]     │ Listes ordonnées    │
+│ Associatif           │ ["nom" => "Jean"]   │ $arr["nom"] │ Données structurées │
+│ Multidimensionnel    │ [["a"], ["b"]]      │ $arr[0][0]  │ Tableaux de tableaux│
+└──────────────────────┴─────────────────────┴─────────────┴─────────────────────┘
+
+FONCTIONS ESSENTIELLES :
+
+┌──────────────────┬─────────────────────────────────┬─────────────────────────┐
+│ Fonction         │ Rôle                            │ Exemple                 │
+├──────────────────┼─────────────────────────────────┼─────────────────────────┤
+│ count()          │ Nombre d'éléments               │ count($arr) → 3         │
+│ in_array()       │ Vérifier existence d'une valeur │ in_array("pomme", $arr) │
+│ print_r()        │ Afficher structure (débogage)   │ print_r($arr)           │
+│ implode()        │ Array → String avec séparateur  │ implode(", ", $arr)     │
+│ explode()        │ String → Array (inverse)        │ explode(",", $str)      │
+│ array_push()     │ Ajouter élément(s) à la fin     │ array_push($arr, "new") │
+│ array_pop()      │ Retirer le dernier élément      │ array_pop($arr)         │
+│ array_unshift()  │ Ajouter élément(s) au début     │ array_unshift($arr, "x")│
+│ array_shift()    │ Retirer le premier élément      │ array_shift($arr)       │
+│ unset()          │ Supprimer élément par clé       │ unset($arr["key"])      │
+│ array_values()   │ Réindexer un array              │ array_values($arr)      │
+│ array_merge()    │ Fusionner (écrase clés)         │ array_merge($a1, $a2)   │
+│ + (opérateur)    │ Union (priorité au 1er)         │ $arr1 + $arr2           │
+└──────────────────┴─────────────────────────────────┴─────────────────────────┘
+
+
+================================================================================
+L. EXEMPLE PRATIQUE COMPLET
+================================================================================
+
+    <?php
+    // Création d'un catalogue de produits
+    $produits = [
+        ["nom" => "Ordinateur", "prix" => 800, "stock" => 5],
+        ["nom" => "Souris", "prix" => 25, "stock" => 20],
+        ["nom" => "Clavier", "prix" => 60, "stock" => 15]
+    ];
+
+    // Afficher tous les produits
+    echo "=== CATALOGUE ===\n";
+    foreach ($produits as $index => $produit) {
+        echo ($index + 1) . ". " . $produit["nom"] . " - " .
+             $produit["prix"] . "€ (Stock: " . $produit["stock"] . ")\n";
+    }
+
+    // Trouver les produits en stock
+    echo "\n=== PRODUITS DISPONIBLES ===\n";
+    foreach ($produits as $produit) {
+        if ($produit["stock"] > 0) {
+            echo $produit["nom"] . " disponible\n";
+        }
+    }
+
+    // Calculer le total du stock
+    $total_stock = 0;
+    foreach ($produits as $produit) {
+        $total_stock += $produit["stock"];
+    }
+    echo "\nStock total : $total_stock articles\n";
+    ?>
+
+SORTIE :
+
+    === CATALOGUE ===
+    1. Ordinateur - 800€ (Stock: 5)
+    2. Souris - 25€ (Stock: 20)
+    3. Clavier - 60€ (Stock: 15)
+
+    === PRODUITS DISPONIBLES ===
+    Ordinateur disponible
+    Souris disponible
+    Clavier disponible
+
+    Stock total : 40 articles
+
+
+================================================================================
+M. POINTS CLÉS À RETENIR
+================================================================================
+
+1. Arrays = Collections ordonnées de données (structure fondamentale)
+2. Ordered arrays = Les éléments sont arrangés en ordre numérique croissant
+3. Index = Emplacement d'un élément dans l'array (commence à 0)
+4. Syntaxe courte [] est recommandée vs syntaxe classique array()
+5. print_r() pour afficher, implode() pour convertir en string
+6. [] pour accéder aux éléments par index
+7. $arr[] = valeur pour ajouter à la fin
+8. Modification : $arr[index] = nouvelle_valeur
+9. array_pop() retire le dernier élément (retourne la valeur)
+10. array_push() ajoute à la fin
+11. array_shift() retire le premier élément (réindexe + retourne)
+12. array_unshift() ajoute au début (réindexe)
+13. Crochets chaînés [][] pour accéder aux arrays imbriqués
+14. foreach est la meilleure méthode pour parcourir un array
+15. count(), in_array(), isset() pour manipuler les arrays
+16. unset() supprime un élément sans réindexer
+17. array_values() réindexe un array après unset()
+18. Opérateur + fusionne arrays (1er prioritaire)
+19. array_merge() fusionne arrays (2e écrase le 1er)
+20. Arrays indexés et associatifs = même type de données en PHP
+
+
+================================================================================
+Fichier 4/8 - Guide PHP Complet
+================================================================================

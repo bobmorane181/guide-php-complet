@@ -1,0 +1,445 @@
+================================================================================
+                        PHP MODULE 2 : OPÉRATEURS
+================================================================================
+
+TABLE DES MATIÈRES
+==================
+1. Tableau des Opérateurs d'Assignation Combinés
+2. Opérateur de Concaténation (.=)
+3. Opérateur d'Assignation par Référence (=&)
+4. Opérateur de Puissance (**)
+5. Opérateurs d'Incrémentation et Décrémentation (++, --)
+6. Opérateurs de Comparaison (=, ==, ===, !=, !==)
+7. Opérateur || (OR Logique)
+
+
+================================================================================
+TABLEAU DES OPÉRATEURS D'ASSIGNATION COMBINÉS
+================================================================================
+
+┌─────────────┬──────────────────────┬────────────────────┐
+│ Opération   │ Syntaxe Longue       │ Syntaxe Courte     │
+├─────────────┼──────────────────────┼────────────────────┤
+│ Addition    │ $x = $x + $y         │ $x += $y           │
+│ Soustraction│ $x = $x - $y         │ $x -= $y           │
+│ Multiplic.  │ $x = $x * $y         │ $x *= $y           │
+│ Division    │ $x = $x / $y         │ $x /= $y           │
+│ Modulo      │ $x = $x % $y         │ $x %= $y           │
+└─────────────┴──────────────────────┴────────────────────┘
+
+EXEMPLES :
+
+    $total = 100;
+    $total += 50;    // $total devient 150 (équivalent à: $total = $total + 50)
+    $total -= 30;    // $total devient 120 (équivalent à: $total = $total - 30)
+    $total *= 2;     // $total devient 240 (équivalent à: $total = $total * 2)
+    $total /= 4;     // $total devient 60  (équivalent à: $total = $total / 4)
+    $total %= 7;     // $total devient 4   (équivalent à: $total = $total % 7)
+
+
+================================================================================
+A. L'OPÉRATEUR DE CONCATÉNATION AVEC ASSIGNATION (.=)
+================================================================================
+
+Cette tâche de concaténation est si courante que PHP offre une notation
+abrégée : l'opérateur de concaténation avec assignation (.=)
+
+EXEMPLE :
+
+    $message = "Bonjour";
+    $message .= " le monde!";
+    echo $message;  // Affiche: Bonjour le monde!
+
+
+================================================================================
+B. L'OPÉRATEUR D'ASSIGNATION PAR RÉFÉRENCE (=&)
+================================================================================
+
+COMMENT ÇA FONCTIONNE :
+
+Quand on assigne par référence, on indique que la variable à gauche de
+l'opérateur doit pointer, ou se référer, aux MÊMES DONNÉES EXACTES que la
+variable à droite.
+
+Avec l'assignation par référence, les changements effectués sur une variable
+affecteront l'autre :
+
+EXEMPLE :
+
+    $a = "chat";
+    $b =& $a;  // $b pointe vers la même donnée que $a
+
+    $b = "chien";
+    echo $a;  // Affiche: chien
+    echo $b;  // Affiche: chien
+
+IMPORTANT : Les deux variables partagent la même zone mémoire.
+Modifier l'une modifie automatiquement l'autre.
+
+
+================================================================================
+C. L'OPÉRATEUR DE PUISSANCE (**)
+================================================================================
+
+L'opérateur ** permet de calculer la puissance d'un nombre (exponentiation).
+
+SYNTAXE :
+    base ** exposant
+
+EXEMPLES :
+
+    echo 2 ** 3;   // Affiche: 8 (2 × 2 × 2)
+    echo 5 ** 2;   // Affiche: 25 (5 × 5)
+    echo 10 ** 4;  // Affiche: 10000 (10 × 10 × 10 × 10)
+
+    $nombre = 3;
+    $puissance = 4;
+    echo $nombre ** $puissance;  // Affiche: 81 (3 × 3 × 3 × 3)
+
+NOTE : Cet opérateur est disponible depuis PHP 5.6
+
+
+================================================================================
+D. OPÉRATEURS D'INCRÉMENTATION (++) ET DÉCRÉMENTATION (--)
+================================================================================
+
+Ces opérateurs permettent d'augmenter ou de diminuer une variable de 1.
+
+INCRÉMENTATION (++) : Augmente la valeur de 1
+DÉCRÉMENTATION (--) : Diminue la valeur de 1
+
+┌──────────────────┬────────────────────┬─────────────────────────────┐
+│ Opérateur        │ Équivalent         │ Description                 │
+├──────────────────┼────────────────────┼─────────────────────────────┤
+│ $x++             │ $x = $x + 1        │ Post-incrémentation         │
+│ ++$x             │ $x = $x + 1        │ Pré-incrémentation          │
+│ $x--             │ $x = $x - 1        │ Post-décrémentation         │
+│ --$x             │ $x = $x - 1        │ Pré-décrémentation          │
+└──────────────────┴────────────────────┴─────────────────────────────┘
+
+DIFFÉRENCE ENTRE PRÉ ET POST :
+
+POST-INCRÉMENTATION ($x++) : Utilise d'abord la valeur, puis incrémente
+
+    $a = 5;
+    $b = $a++;  // $b = 5, puis $a devient 6
+    echo $a;    // Affiche: 6
+    echo $b;    // Affiche: 5
+
+PRÉ-INCRÉMENTATION (++$x) : Incrémente d'abord, puis utilise la valeur
+
+    $a = 5;
+    $b = ++$a;  // $a devient 6, puis $b = 6
+    echo $a;    // Affiche: 6
+    echo $b;    // Affiche: 6
+
+EXEMPLES PRATIQUES :
+
+    $compteur = 0;
+    $compteur++;     // $compteur devient 1
+    $compteur++;     // $compteur devient 2
+    $compteur--;     // $compteur devient 1
+
+    // Utilisation courante dans les boucles
+    for ($i = 0; $i < 10; $i++) {
+        echo $i;  // Affiche de 0 à 9
+    }
+
+
+================================================================================
+E. OPÉRATEURS DE COMPARAISON (=, ==, ===, !=, !==)
+================================================================================
+
+VUE D'ENSEMBLE
+--------------
+
+┌───────────┬─────────────────┬──────────────────────────────────────────┐
+│ Opérateur │ Nom             │ Description                              │
+├───────────┼─────────────────┼──────────────────────────────────────────┤
+│ =         │ Assignation     │ Assigne une valeur à une variable        │
+│ ==        │ Égalité         │ Compare valeurs (avec conversion type)   │
+│ ===       │ Identité        │ Compare valeurs ET types (stricte)       │
+│ !=        │ Différent       │ Vérifie si différent (avec conversion)   │
+│ !==       │ Non identique   │ Vérifie si différent en type OU valeur   │
+└───────────┴─────────────────┴──────────────────────────────────────────┘
+
+
+L'OPÉRATEUR D'ASSIGNATION (=)
+------------------------------
+
+RÔLE : Assigner une valeur à une variable.
+
+    $nombre = 10;        // Assigne 10 à $nombre
+    $nom = "Marie";      // Assigne "Marie" à $nom
+    $actif = true;       // Assigne true à $actif
+
+⚠️ ERREUR COURANTE : Utiliser = au lieu de == dans une condition !
+
+    // ❌ ERREUR - Assignation au lieu de comparaison
+    if ($x = 5) {  // Assigne 5 à $x, toujours true !
+        echo "Oups";
+    }
+
+    // ✅ CORRECT - Comparaison
+    if ($x == 5) {  // Compare $x avec 5
+        echo "Correct!";
+    }
+
+
+L'OPÉRATEUR D'ÉGALITÉ (==)
+--------------------------
+
+RÔLE : Comparer deux valeurs APRÈS conversion de type (loose comparison).
+
+    $a = 5;
+    $b = "5";
+
+    if ($a == $b) {
+        echo "Égaux!";  // ✅ Affiche "Égaux!"
+    }
+    // PHP convertit "5" en 5, puis compare
+
+EXEMPLES DE CONVERSIONS AUTOMATIQUES :
+
+    5 == "5"      // true  (string → number)
+    true == 1     // true  (boolean → number)
+    false == 0    // true  (boolean → number)
+    null == ""    // true  (conversion)
+    0 == "0"      // true
+
+
+L'OPÉRATEUR D'IDENTITÉ (===)
+-----------------------------
+
+RÔLE : Comparer valeur ET type (strict comparison) - PAS de conversion.
+
+    $a = 5;
+    $b = "5";
+
+    if ($a === $b) {
+        echo "Identiques!";  // ❌ Ne s'affiche PAS
+    }
+    // Types différents : int vs string
+
+POURQUOI UTILISER === ?
+
+    ✅ Plus sûr et prévisible
+    ✅ Évite les bugs liés aux conversions implicites
+    ✅ Recommandé dans la plupart des cas
+
+
+TABLEAU COMPARATIF
+------------------
+
+┌──────────────┬──────────────────┬──────────────────┐
+│ Comparaison  │ == (Égalité)     │ === (Identité)   │
+├──────────────┼──────────────────┼──────────────────┤
+│ 5 == "5"     │ true             │ false            │
+│ 5 === 5      │ true             │ true             │
+│ 0 == false   │ true             │ false            │
+│ 1 == true    │ true             │ false            │
+│ null == ""   │ true             │ false            │
+│ "10" == 10   │ true             │ false            │
+└──────────────┴──────────────────┴──────────────────┘
+
+
+OPÉRATEURS DE DIFFÉRENCE (!= et !==)
+-------------------------------------
+
+!= - Différent (avec conversion) :
+
+    $a = 5;
+    $b = "5";
+
+    if ($a != $b) {
+        echo "Différents";  // ❌ Ne s'affiche PAS (5 == "5")
+    }
+
+!== - Non identique (strict) :
+
+    $a = 5;
+    $b = "5";
+
+    if ($a !== $b) {
+        echo "Non identiques";  // ✅ Affiche (types différents)
+    }
+
+
+CAS PRATIQUE : Piège avec strpos()
+-----------------------------------
+
+    $texte = "Bonjour le monde";
+    $position = strpos($texte, "Bonjour");  // Retourne 0
+
+    // ❌ MAUVAIS - 0 évalué comme false
+    if ($position) {
+        echo "Trouvé";  // Ne s'affiche PAS !
+    }
+
+    // ✅ BON - Comparaison stricte
+    if ($position !== false) {
+        echo "Trouvé";  // ✅ S'affiche correctement
+    }
+
+
+RECOMMANDATIONS
+---------------
+
+1. Privilégiez === et !== pour plus de sécurité
+
+2. Utilisez == uniquement si vous voulez la conversion de type
+
+3. Dans les conditions : Toujours comparer avec == ou ===, jamais =
+
+4. Avec strpos(), array_search() : Toujours utiliser !==
+
+
+POINTS CLÉS
+-----------
+
+- = → Assignation
+- == → Égalité (avec conversion)
+- === → Identité (strict, sans conversion)
+- != → Différent (avec conversion)
+- !== → Non identique (strict)
+- Par défaut : Préférez === et !==
+
+
+================================================================================
+K. L'OPÉRATEUR || (OR LOGIQUE)
+================================================================================
+
+DÉFINITION:
+|| signifie "OU". Il retourne true si AU MOINS une condition est vraie.
+
+TABLE DE VÉRITÉ
+---------------
+
+┌─────────────┬─────────────┬──────────┐
+│ Condition 1 │ Condition 2 │ Résultat │
+├─────────────┼─────────────┼──────────┤
+│ true        │ true        │ true     │
+│ true        │ false       │ true     │
+│ false       │ true        │ true     │
+│ false       │ false       │ false    │
+└─────────────┴─────────────┴──────────┘
+
+
+EXEMPLES PRATIQUES
+------------------
+
+1. Jour de week-end:
+
+    $jour = "samedi";
+
+    if ($jour === "samedi" || $jour === "dimanche") {
+        echo "C'est le week-end!";  // ✅ S'affiche
+    }
+
+2. Validation de formulaire:
+
+    $nom = "";
+    $email = "";
+
+    if ($nom === "" || $email === "") {
+        echo "Veuillez remplir tous les champs";  // ✅ S'affiche
+    }
+
+3. Tarif réduit:
+
+    $age = 70;
+
+    if ($age < 13 || $age > 65) {
+        echo "Tarif réduit";  // ✅ S'affiche
+    }
+
+4. Accès autorisé:
+
+    $est_admin = false;
+    $est_proprietaire = true;
+
+    if ($est_admin || $est_proprietaire) {
+        echo "Accès autorisé";  // ✅ S'affiche
+    }
+
+
+COURT-CIRCUIT (SHORT-CIRCUIT)
+------------------------------
+
+PHP évalue de GAUCHE à DROITE et s'arrête dès qu'une condition est true.
+
+    $utilisateur = null;
+
+    if ($utilisateur === null || $utilisateur->age < 18) {
+        echo "Accès refusé";
+    }
+    // Si $utilisateur === null → true
+    // Donc $utilisateur->age n'est JAMAIS évalué (évite une erreur)
+
+
+COMBINAISON AVEC &&
+-------------------
+
+    $age = 25;
+    $pays = "France";
+    $est_membre = true;
+
+    if (($age >= 18 && $pays === "France") || $est_membre) {
+        echo "Accès autorisé";
+    }
+    // Accès si : (majeur ET français) OU membre
+
+⚠️ UTILISEZ DES PARENTHÈSES pour clarifier l'ordre !
+
+
+AVEC readline()
+---------------
+
+    $reponse = readline("Continuer ? (oui/o) : ");
+
+    if ($reponse === "oui" || $reponse === "o") {
+        echo "On continue!";
+    }
+
+
+RÉSUMÉ
+------
+
+┌────────────────┬────────────────────────────────────────────┐
+│ Aspect         │ Description                                │
+├────────────────┼────────────────────────────────────────────┤
+│ Symbole        │ ||                                         │
+│ Signification  │ OU logique                                 │
+│ Retour         │ true si AU MOINS une condition est vraie   │
+│ Court-circuit  │ S'arrête dès qu'une condition est true     │
+│ Alternative    │ or (moins recommandé)                      │
+└────────────────┴────────────────────────────────────────────┘
+
+
+================================================================================
+POINTS CLÉS À RETENIR
+================================================================================
+
+1. L'opérateur .= est pratique pour ajouter du texte à une variable existante
+
+2. L'assignation par référence =& crée un lien entre deux variables
+   (à utiliser avec précaution)
+
+3. L'opérateur ** permet de calculer des puissances
+
+4. ++ et -- incrémentent/décrémentent de 1
+
+5. Différence entre pré (++$x) et post ($x++) incrémentation
+
+6. = assigne, == compare avec conversion, === compare strictement
+
+7. Toujours utiliser === pour éviter les bugs de conversion de type
+
+8. || retourne true si AU MOINS une condition est vraie
+
+9. Court-circuit : PHP arrête d'évaluer dès qu'une condition est true
+
+
+================================================================================
+Fichier 2/8 - Guide PHP Complet
+================================================================================

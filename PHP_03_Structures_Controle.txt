@@ -1,0 +1,484 @@
+================================================================================
+                  PHP MODULE 3 : STRUCTURES DE CONTRÔLE
+================================================================================
+
+TABLE DES MATIÈRES
+==================
+1. Introduction aux Conditionnels
+2. Le Type Boolean
+3. L'Instruction if
+4. L'Instruction else
+5. Opérateurs de Comparaison
+6. L'Instruction elseif
+7. L'Instruction switch
+8. L'Opérateur Ternaire
+9. Truthy et Falsy
+10. Input Utilisateur avec readline()
+11. Récapitulatif
+
+
+================================================================================
+A. INTRODUCTION AUX CONDITIONNELS
+================================================================================
+
+DÉFINITION:
+Les conditionnels permettent aux programmes de prendre des décisions et de
+réagir à différentes situations.
+
+PRINCIPE:
+Exécuter du code SEULEMENT SI une condition est vraie.
+
+
+================================================================================
+B. LE TYPE BOOLEAN
+================================================================================
+
+DÉFINITION:
+Type de données qui ne peut avoir que deux valeurs:
+    - TRUE (vrai)
+    - FALSE (faux)
+
+EXEMPLES:
+
+    $est_connecte = true;
+    $est_admin = false;
+    $age_valide = true;
+
+RÔLE: Fondation de la prise de décision programmatique.
+
+
+================================================================================
+C. L'INSTRUCTION IF
+================================================================================
+
+SYNTAXE:
+
+    if (condition) {
+        // Code exécuté si la condition est TRUE
+    }
+
+EXEMPLE:
+
+    $age = 18;
+
+    if ($age >= 18) {
+        echo "Vous êtes majeur.";
+    }
+
+
+================================================================================
+D. L'INSTRUCTION ELSE
+================================================================================
+
+RÔLE: Exécuter un bloc de code si la condition n'est PAS remplie.
+
+EXEMPLE:
+
+    $age = 15;
+
+    if ($age >= 18) {
+        echo "Vous êtes majeur.";
+    } else {
+        echo "Vous êtes mineur.";
+    }
+    // Affiche: Vous êtes mineur.
+
+
+================================================================================
+E. OPÉRATEURS DE COMPARAISON
+================================================================================
+
+Les opérateurs de comparaison évaluent une relation entre deux opérandes
+et retournent une valeur booléenne.
+
+┌────────────┬────────────────────┬───────────┬──────────┐
+│ Opérateur  │ Nom                │ Exemple   │ Résultat │
+├────────────┼────────────────────┼───────────┼──────────┤
+│ <          │ Inférieur à        │ 5 < 10    │ true     │
+│ <=         │ Inférieur ou égal  │ 5 <= 5    │ true     │
+│ >          │ Supérieur à        │ 10 > 5    │ true     │
+│ >=         │ Supérieur ou égal  │ 10 >= 10  │ true     │
+│ ===        │ Identique (strict) │ 5 === 5   │ true     │
+│ !==        │ Non identique      │ 5 !== "5" │ true     │
+└────────────┴────────────────────┴───────────┴──────────┘
+
+EXEMPLES PRATIQUES:
+
+    $prix = 50;
+    $budget = 100;
+
+    if ($prix < $budget) {
+        echo "Vous pouvez acheter!";  // ✅ S'affiche
+    }
+
+    $note = 15;
+
+    if ($note >= 10) {
+        echo "Vous avez réussi!";  // ✅ S'affiche
+    }
+
+
+================================================================================
+F. L'INSTRUCTION ELSEIF
+================================================================================
+
+RÔLE: Tester plusieurs conditions successives.
+
+EXEMPLE:
+
+    $note = 85;
+
+    if ($note >= 90) {
+        echo "Excellent!";
+    } elseif ($note >= 75) {
+        echo "Très bien!";  // ✅ S'affiche
+    } elseif ($note >= 60) {
+        echo "Bien.";
+    } else {
+        echo "Insuffisant.";
+    }
+
+NOMBRE ILLIMITÉ: Vous pouvez avoir autant de elseif que nécessaire.
+
+EXEMPLE AVEC PLUSIEURS ELSEIF:
+
+    $heure = 14;
+
+    if ($heure < 12) {
+        echo "Bonjour!";
+    } elseif ($heure < 18) {
+        echo "Bon après-midi!";  // ✅ S'affiche
+    } elseif ($heure < 22) {
+        echo "Bonsoir!";
+    } else {
+        echo "Bonne nuit!";
+    }
+
+
+================================================================================
+G. L'INSTRUCTION SWITCH
+================================================================================
+
+RÔLE:
+Comparer une valeur contre plusieurs cas possibles - alternative plus
+lisible qu'une série de if/elseif.
+
+SYNTAXE:
+
+    switch ($variable) {
+        case valeur1:
+            // Code si $variable === valeur1
+            break;
+        case valeur2:
+            // Code si $variable === valeur2
+            break;
+        default:
+            // Code si aucun cas ne correspond
+    }
+
+EXEMPLE PRATIQUE:
+
+    $jour = "mardi";
+
+    switch ($jour) {
+        case "lundi":
+            echo "Début de semaine";
+            break;
+        case "mardi":
+            echo "Deuxième jour";  // ✅ S'affiche
+            break;
+        case "mercredi":
+            echo "Milieu de semaine";
+            break;
+        case "samedi":
+        case "dimanche":
+            echo "Week-end!";
+            break;
+        default:
+            echo "Jour inconnu";
+    }
+
+
+⚠️ L'IMPORTANCE DU BREAK
+-------------------------
+
+SANS BREAK: Le code continue d'exécuter les cas suivants (fall-through).
+
+EXEMPLE SANS BREAK (INCORRECT):
+
+    $note = "B";
+
+    switch ($note) {
+        case "A":
+            echo "Excellent! ";
+            // PAS de break !
+        case "B":
+            echo "Très bien! ";  // ✅ S'affiche
+            // PAS de break !
+        case "C":
+            echo "Bien. ";  // ✅ S'affiche aussi !
+            break;
+        default:
+            echo "Note invalide";
+    }
+    // Affiche: Très bien! Bien.
+
+AVEC BREAK (CORRECT):
+
+    $note = "B";
+
+    switch ($note) {
+        case "A":
+            echo "Excellent!";
+            break;
+        case "B":
+            echo "Très bien!";  // ✅ S'affiche
+            break;  // ✅ Sort du switch
+        case "C":
+            echo "Bien.";
+            break;
+        default:
+            echo "Note invalide";
+    }
+    // Affiche: Très bien!
+
+
+================================================================================
+H. L'OPÉRATEUR TERNAIRE (?:)
+================================================================================
+
+DÉFINITION:
+Opérateur conditionnel raccourci qui prend trois opérandes.
+
+SYNTAXE:
+
+    condition ? valeur_si_vrai : valeur_si_faux
+
+ÉQUIVALENT À:
+
+    if (condition) {
+        return valeur_si_vrai;
+    } else {
+        return valeur_si_faux;
+    }
+
+EXEMPLES:
+
+    $age = 20;
+    $statut = ($age >= 18) ? "Majeur" : "Mineur";
+    echo $statut;  // Affiche: Majeur
+
+    // Équivalent à:
+    if ($age >= 18) {
+        $statut = "Majeur";
+    } else {
+        $statut = "Mineur";
+    }
+
+USAGE PRATIQUE:
+
+    $prix = 100;
+    $reduction = ($prix > 50) ? 10 : 5;
+    echo $reduction;  // Affiche: 10
+
+    $points = 85;
+    echo "Résultat: " . ($points >= 60 ? "Réussi" : "Échoué");
+    // Affiche: Résultat: Réussi
+
+
+================================================================================
+I. TRUTHY ET FALSY
+================================================================================
+
+DÉFINITION:
+Toute valeur ou expression dans une condition sera convertie en TRUE ou FALSE.
+
+- Truthy: Valeurs converties en TRUE
+- Falsy: Valeurs converties en FALSE
+
+
+VALEURS FALSY (évaluées comme FALSE)
+-------------------------------------
+
+Ces valeurs sont considérées comme FALSE:
+
+    false       // Boolean false
+    0           // Integer zéro
+    0.0         // Float zéro
+    "0"         // String zéro
+    ""          // String vide
+    null        // Null
+    []          // Tableau vide
+
+EXEMPLE:
+
+    $nom = "";
+
+    if ($nom) {
+        echo "Nom valide";
+    } else {
+        echo "Nom vide";  // ✅ S'affiche (car "" est falsy)
+    }
+
+
+VALEURS TRUTHY (évaluées comme TRUE)
+-------------------------------------
+
+Toutes les autres valeurs sont truthy:
+
+    true        // Boolean true
+    1           // Nombre non-zéro
+    -1          // Nombre négatif
+    "Hello"     // String non-vide
+    "0.0"       // String non-vide (même si contenu = zéro)
+    [1, 2]      // Tableau non-vide
+
+EXEMPLES PRATIQUES:
+
+    $utilisateur = "Marie";
+
+    if ($utilisateur) {
+        echo "Bienvenue $utilisateur";  // ✅ S'affiche (truthy)
+    }
+
+    $compteur = 0;
+
+    if ($compteur) {
+        echo "Il y a des éléments";
+    } else {
+        echo "Aucun élément";  // ✅ S'affiche (0 est falsy)
+    }
+
+
+⚠️ PIÈGE COURANT: Comparaison Stricte
+--------------------------------------
+
+    $resultat = strpos("Bonjour", "B");  // Retourne 0
+
+    // ❌ MAUVAIS - 0 est falsy
+    if ($resultat) {
+        echo "Trouvé";
+    } else {
+        echo "Non trouvé";  // S'affiche à tort !
+    }
+
+    // ✅ BON - Comparaison stricte
+    if ($resultat !== false) {
+        echo "Trouvé";  // ✅ Correct !
+    }
+
+
+================================================================================
+J. INPUT UTILISATEUR AVEC readline()
+================================================================================
+
+FONCTION:
+readline() permet d'obtenir une saisie utilisateur depuis le terminal.
+
+SYNTAXE:
+
+    $variable = readline("Message à afficher : ");
+
+EXEMPLE SIMPLE:
+
+    $nom = readline("Entrez votre nom : ");
+    echo "Bonjour, $nom!";
+
+    // Terminal :
+    // Entrez votre nom : Marie
+    // Bonjour, Marie!
+
+EXEMPLE AVEC CONDITION:
+
+    $age = readline("Quel est votre âge ? ");
+
+    if ($age >= 18) {
+        echo "Accès autorisé.";
+    } else {
+        echo "Accès refusé.";
+    }
+
+EXEMPLE AVEC BOUCLE:
+
+    $reponse = readline("Voulez-vous continuer ? (oui/non) : ");
+
+    if ($reponse === "oui") {
+        echo "C'est parti!";
+    } else {
+        echo "Au revoir!";
+    }
+
+NOTE:
+readline() retourne toujours une STRING. Pour les nombres, utilisez un cast:
+
+    $nombre = (int)readline("Entrez un nombre : ");
+
+    if ($nombre > 10) {
+        echo "Grand nombre!";
+    }
+
+
+================================================================================
+L. RÉCAPITULATIF
+================================================================================
+
+┌────────────────────────┬───────────────────────────────────────────┐
+│ Concept                │ Description                               │
+├────────────────────────┼───────────────────────────────────────────┤
+│ Conditionnels          │ Permettent aux programmes de prendre des  │
+│                        │ décisions                                 │
+├────────────────────────┼───────────────────────────────────────────┤
+│ if                     │ Exécute un bloc si condition = TRUE       │
+├────────────────────────┼───────────────────────────────────────────┤
+│ Boolean                │ Type de données : TRUE ou FALSE           │
+├────────────────────────┼───────────────────────────────────────────┤
+│ else                   │ Bloc exécuté si condition = FALSE         │
+├────────────────────────┼───────────────────────────────────────────┤
+│ Opérateurs comparaison │ <, <=, >, >=, ===, !==                    │
+├────────────────────────┼───────────────────────────────────────────┤
+│ elseif                 │ Teste plusieurs conditions successives    │
+├────────────────────────┼───────────────────────────────────────────┤
+│ switch                 │ Compare une valeur contre plusieurs cas   │
+├────────────────────────┼───────────────────────────────────────────┤
+│ break                  │ Sort du switch (sinon fall-through)       │
+├────────────────────────┼───────────────────────────────────────────┤
+│ Opérateur ternaire     │ condition ? vrai : faux                   │
+├────────────────────────┼───────────────────────────────────────────┤
+│ Truthy/Falsy           │ Conversion implicite en boolean           │
+├────────────────────────┼───────────────────────────────────────────┤
+│ readline()             │ Obtenir input utilisateur du terminal     │
+└────────────────────────┴───────────────────────────────────────────┘
+
+
+================================================================================
+POINTS CLÉS À RETENIR
+================================================================================
+
+1. Les conditionnels permettent de prendre des décisions dans le code
+
+2. Boolean : TRUE ou FALSE uniquement
+
+3. if exécute du code si condition est vraie
+
+4. else exécute du code si condition est fausse
+
+5. elseif permet de tester plusieurs conditions successives
+
+6. switch compare une valeur contre plusieurs cas (plus lisible que if/elseif)
+
+7. TOUJOURS utiliser break dans un switch (sauf intentionnellement)
+
+8. Opérateur ternaire : raccourci pour if/else simple
+
+9. Truthy/Falsy : conversion automatique en boolean
+
+10. Valeurs falsy : false, 0, "0", "", null, []
+
+11. readline() récupère une saisie utilisateur (retourne une string)
+
+12. Toujours utiliser !== avec strpos() pour éviter le piège du 0
+
+
+================================================================================
+Fichier 3/8 - Guide PHP Complet
+================================================================================

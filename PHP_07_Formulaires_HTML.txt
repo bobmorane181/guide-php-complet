@@ -1,0 +1,725 @@
+================================================================================
+                 PHP MODULE 7 : FORMULAIRES HTML ET PHP
+================================================================================
+
+TABLE DES MATIÈRES
+==================
+1. Raccourci <?= pour l'Affichage
+2. Les Superglobales PHP
+3. La Superglobale $_GET
+4. La Superglobale $_POST
+5. La Superglobale $_REQUEST
+6. Attributs HTML Importants pour les Formulaires
+7. Guide Complet des Éléments de Formulaire HTML
+8. Exemple Complet - Formulaire de Contact
+9. Récapitulatif - Formulaires et Superglobales
+
+
+================================================================================
+A. RACCOURCI <?= POUR L'AFFICHAGE
+================================================================================
+
+DÉFINITION:
+<?= est un RACCOURCI pour <?php echo. Il permet d'afficher rapidement des
+variables ou expressions PHP dans du code HTML.
+
+SYNTAXE COMPLÈTE vs RACCOURCI:
+
+    <!-- Syntaxe standard (longue) -->
+    <?php echo $nom; ?>
+
+    <!-- Syntaxe raccourcie (recommandée dans les templates) -->
+    <?= $nom ?>
+
+EXEMPLE PRATIQUE - Affichage dans HTML:
+
+    <h1><?= $titre ?></h1>
+    <p>Bienvenue, <?= $nom_utilisateur ?>!</p>
+    <span>Prix: <?= $prix ?> €</span>
+
+AVANTAGES:
+✓ Code plus court et plus lisible
+✓ Parfait pour les templates HTML/PHP
+✓ Réduit le "bruit visuel" dans le code
+✓ Standard dans les frameworks PHP modernes
+
+⚠️ CONSEIL: Utilisez <?= dans les fichiers de vue/template, mais gardez
+   <?php echo pour la logique métier où la lisibilité est différente.
+
+
+================================================================================
+B. LES SUPERGLOBALES PHP
+================================================================================
+
+DÉFINITION:
+Les SUPERGLOBALES sont des variables prédéfinies par PHP qui sont ACCESSIBLES
+PARTOUT dans le script (portée globale) - dans les fonctions, classes, fichiers.
+
+CARACTÉRISTIQUES IMPORTANTES:
+- Disponibles automatiquement (pas besoin de les déclarer)
+- Accessibles dans n'importe quelle portée (scope)
+- Toujours écrites en MAJUSCULES avec underscore
+- Commencent toujours par $ et _
+
+PRINCIPALES SUPERGLOBALES POUR LES FORMULAIRES:
+- $_GET      : Données envoyées via méthode GET (URL)
+- $_POST     : Données envoyées via méthode POST (corps de requête)
+- $_REQUEST  : Données de GET et POST combinées
+
+
+================================================================================
+C. LA SUPERGLOBALE $_GET
+================================================================================
+
+DÉFINITION:
+$_GET est un array ASSOCIATIF contenant les données envoyées via une requête
+HTTP GET. Les données sont visibles dans l'URL.
+
+STRUCTURE:
+$_GET est un array dont les CLÉS correspondent aux attributs "name" du formulaire
+ou aux paramètres de l'URL.
+
+EXEMPLE - URL avec paramètres:
+
+    URL: page.php?nom=Dupont&age=25&ville=Paris
+
+    // PHP peut accéder à ces données:
+    echo $_GET["nom"];      // Affiche: Dupont
+    echo $_GET["age"];      // Affiche: 25
+    echo $_GET["ville"];    // Affiche: Paris
+
+EXEMPLE - Formulaire HTML avec méthode GET:
+
+    <form action="traitement.php" method="GET">
+        <input type="text" name="prenom">
+        <input type="text" name="email">
+        <button type="submit">Envoyer</button>
+    </form>
+
+    <!-- Dans traitement.php: -->
+    <?php
+    $prenom = $_GET["prenom"];
+    $email = $_GET["email"];
+    echo "Bonjour $prenom, votre email est $email";
+    ?>
+
+CARACTÉRISTIQUES DE GET:
+✓ Données visibles dans l'URL
+✓ Peut être mis en favoris/partagé
+✓ Limite de taille (~2000 caractères)
+✗ PAS sécurisé pour données sensibles (mots de passe, etc.)
+✗ Données visibles dans l'historique du navigateur
+
+USAGES TYPIQUES:
+- Recherches et filtres
+- Pagination
+- Tri de données
+- Partage de liens avec paramètres
+
+
+================================================================================
+D. LA SUPERGLOBALE $_POST
+================================================================================
+
+DÉFINITION:
+$_POST est un array ASSOCIATIF contenant les données envoyées via une requête
+HTTP POST. Les données sont envoyées dans le CORPS de la requête (invisibles).
+
+EXEMPLE - Formulaire HTML avec méthode POST:
+
+    <form action="connexion.php" method="POST">
+        <input type="text" name="username">
+        <input type="password" name="password">
+        <button type="submit">Se connecter</button>
+    </form>
+
+    <!-- Dans connexion.php: -->
+    <?php
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+
+    // Vérification des identifiants...
+    if ($username === "admin" && $password === "secret") {
+        echo "Connexion réussie!";
+    }
+    ?>
+
+CARACTÉRISTIQUES DE POST:
+✓ Données INVISIBLES dans l'URL
+✓ Plus sécurisé que GET (mais pas crypté!)
+✓ Pas de limite de taille pratique
+✓ Ne peut pas être mis en favoris
+✗ Ne peut pas être partagé via URL
+
+USAGES TYPIQUES:
+- Formulaires de connexion
+- Envoi de données sensibles
+- Upload de fichiers
+- Création/modification de données
+
+
+================================================================================
+E. LA SUPERGLOBALE $_REQUEST
+================================================================================
+
+DÉFINITION:
+$_REQUEST est un array ASSOCIATIF contenant les données de BOTH $_GET ET $_POST
+combinées. À utiliser SEULEMENT si la méthode HTTP n'a pas d'importance.
+
+SYNTAXE:
+
+    $valeur = $_REQUEST["nom_du_champ"];
+
+EXEMPLE:
+
+    <!-- Fonctionne avec GET ou POST -->
+    <?php
+    $recherche = $_REQUEST["q"];
+    echo "Vous cherchez: $recherche";
+    ?>
+
+⚠️ ATTENTION: $_REQUEST devrait être utilisé UNIQUEMENT si vous ne vous souciez
+   pas de la méthode utilisée. Dans la plupart des cas, il est PRÉFÉRABLE
+   d'utiliser explicitement $_GET ou $_POST pour plus de clarté et sécurité.
+
+QUAND UTILISER $_REQUEST:
+- Scripts qui acceptent les deux méthodes
+- Prototypage rapide
+- Cas où la méthode n'importe pas vraiment
+
+QUAND NE PAS UTILISER:
+- Formulaires de connexion (utilisez $_POST)
+- APIs REST (la méthode a un sens précis)
+- Code de production (privilégiez l'explicite)
+
+
+================================================================================
+F. ATTRIBUTS HTML IMPORTANTS POUR LES FORMULAIRES
+================================================================================
+
+1. L'ATTRIBUT "name" (CRUCIAL):
+
+Les clés des arrays $_GET, $_POST, $_REQUEST sont définies par l'attribut
+"name" des éléments HTML. Chaque "name" DOIT être UNIQUE dans le formulaire.
+
+EXEMPLE:
+
+    <input type="text" name="email">
+    <!-- Accessible via $_POST["email"] ou $_GET["email"] -->
+
+    <input type="text" name="telephone">
+    <!-- Accessible via $_POST["telephone"] -->
+
+⚠️ RÈGLE IMPORTANTE: Sans attribut "name", les données ne seront PAS envoyées!
+
+    <input type="text">                    <!-- ✗ PAS envoyé -->
+    <input type="text" name="prenom">      <!-- ✓ Envoyé -->
+
+2. L'ATTRIBUT "action":
+
+Spécifie QUEL FICHIER PHP doit traiter les données du formulaire.
+
+SYNTAXE:
+
+    <form action="fichier_destination.php" method="POST">
+        <!-- Champs du formulaire -->
+    </form>
+
+EXEMPLES:
+
+    <!-- Envoie vers un fichier différent -->
+    <form action="traitement.php" method="POST">
+
+    <!-- Envoie vers le même fichier (auto-traitement) -->
+    <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
+
+    <!-- Valeur par défaut (fichier actuel) -->
+    <form method="POST">
+
+3. L'ATTRIBUT "method":
+
+Définit la méthode HTTP à utiliser (GET ou POST).
+
+    <form method="GET">    <!-- Données dans l'URL -->
+    <form method="POST">   <!-- Données dans le corps de requête -->
+
+Si omis, GET est utilisé par défaut (mais toujours SPÉCIFIER explicitement!)
+
+
+================================================================================
+F-bis. GUIDE COMPLET DES ÉLÉMENTS DE FORMULAIRE HTML
+================================================================================
+
+INTRODUCTION:
+Les formulaires HTML offrent de nombreux types d'éléments pour collecter
+différents types de données. Voici un guide complet des principaux éléments.
+
+1. INPUT TYPE="TEXT" - CHAMP DE TEXTE
+--------------------------------------
+
+USAGE: Saisie de texte court (nom, prénom, ville, etc.)
+
+SYNTAXE:
+    <label for="nom">Nom:</label>
+    <input type="text" name="nom" id="nom" />
+
+ATTRIBUTS UTILES:
+- placeholder="Texte d'exemple"  : Texte indicatif grisé
+- maxlength="50"                 : Limite de caractères
+- required                       : Champ obligatoire
+- value="Valeur par défaut"      : Valeur pré-remplie
+
+EXEMPLE COMPLET:
+    <label for="prenom">Prénom:</label>
+    <input type="text" name="prenom" id="prenom"
+           placeholder="Entrez votre prénom"
+           maxlength="30"
+           required />
+
+
+2. INPUT TYPE="NUMBER" - NOMBRE
+--------------------------------
+
+USAGE: Saisie de valeurs numériques (âge, quantité, prix, etc.)
+
+SYNTAXE:
+    <label for="age">Âge:</label>
+    <input type="number" name="age" id="age" />
+
+ATTRIBUTS UTILES:
+- min="0"        : Valeur minimum
+- max="100"      : Valeur maximum
+- step="1"       : Pas d'incrémentation
+- value="18"     : Valeur par défaut
+
+EXEMPLE COMPLET:
+    <label for="quantite">Quantité:</label>
+    <input type="number" name="quantite" id="quantite"
+           min="1" max="99" step="1" value="1" />
+
+
+3. INPUT TYPE="EMAIL" - EMAIL
+------------------------------
+
+USAGE: Saisie d'adresse email (avec validation automatique)
+
+SYNTAXE:
+    <label for="email">Email:</label>
+    <input type="email" name="email" id="email" />
+
+AVANTAGES:
+✓ Validation automatique du format email
+✓ Clavier adapté sur mobile (avec @)
+✓ Message d'erreur si format invalide
+
+EXEMPLE:
+    <label for="email">Votre email:</label>
+    <input type="email" name="email" id="email"
+           placeholder="exemple@domaine.com"
+           required />
+
+
+4. INPUT TYPE="PASSWORD" - MOT DE PASSE
+----------------------------------------
+
+USAGE: Saisie de mot de passe (texte masqué)
+
+SYNTAXE:
+    <label for="mdp">Mot de passe:</label>
+    <input type="password" name="mdp" id="mdp" />
+
+CARACTÉRISTIQUES:
+✓ Caractères masqués (•••••)
+✓ Plus sécurisé visuellement
+✗ Toujours utiliser HTTPS en production!
+
+EXEMPLE:
+    <label for="password">Mot de passe:</label>
+    <input type="password" name="password" id="password"
+           minlength="8" required />
+
+
+5. INPUT TYPE="RANGE" - CURSEUR
+--------------------------------
+
+USAGE: Sélection d'une valeur dans une plage (volume, note, etc.)
+
+SYNTAXE:
+    <label for="volume">Volume:</label>
+    <input type="range" name="volume" id="volume"
+           min="0" max="100" value="50" />
+
+ATTRIBUTS IMPORTANTS:
+- min="1"    : Valeur minimum (obligatoire)
+- max="10"   : Valeur maximum (obligatoire)
+- value="5"  : Position initiale
+- step="1"   : Incrément (défaut: 1)
+
+EXEMPLE AVEC LABELS:
+    <label for="slider">Niveau de satisfaction:</label>
+    <br />
+    <span>Faible</span>
+    <input type="range" name="slider" id="slider"
+           value="3" min="1" max="5" />
+    <span>Élevé</span>
+
+
+6. INPUT TYPE="CHECKBOX" - CASES À COCHER
+------------------------------------------
+
+USAGE: Sélection MULTIPLE d'options (peut cocher plusieurs cases)
+
+SYNTAXE:
+    <input type="checkbox" name="option" value="valeur" id="opt1" />
+    <label for="opt1">Texte de l'option</label>
+
+CARACTÉRISTIQUES:
+- Permet de sélectionner 0, 1 ou plusieurs options
+- Chaque checkbox peut avoir un "name" différent
+- L'attribut "value" définit la valeur envoyée si cochée
+
+EXEMPLE - OPTIONS INDÉPENDANTES:
+    <label>Choisissez vos options:</label>
+    <br />
+    <input type="checkbox" name="newsletter" value="oui" id="news" />
+    <label for="news">Recevoir la newsletter</label>
+    <br />
+    <input type="checkbox" name="conditions" value="accepte" id="cond" />
+    <label for="cond">J'accepte les conditions</label>
+
+EXEMPLE - GROUPE D'OPTIONS (même "name"):
+    <label>Sélectionnez vos centres d'intérêt:</label>
+    <br />
+    <input type="checkbox" name="interets[]" value="sport" id="sport" />
+    <label for="sport">Sport</label>
+
+    <input type="checkbox" name="interets[]" value="musique" id="musique" />
+    <label for="musique">Musique</label>
+
+    <input type="checkbox" name="interets[]" value="cinema" id="cinema" />
+    <label for="cinema">Cinéma</label>
+
+⚠️ NOTE: Utiliser "name[]" avec crochets pour recevoir un array en PHP!
+
+
+7. INPUT TYPE="RADIO" - BOUTONS RADIO
+--------------------------------------
+
+USAGE: Sélection UNIQUE parmi plusieurs options (une seule possible)
+
+SYNTAXE:
+    <input type="radio" name="choix" value="valeur" id="opt1" />
+    <label for="opt1">Option 1</label>
+
+RÈGLE IMPORTANTE:
+Tous les boutons radio d'un même groupe doivent avoir le MÊME "name"
+pour que la sélection soit mutuellement exclusive.
+
+EXEMPLE:
+    <label>Sélectionnez votre réponse:</label>
+    <br />
+    <input type="radio" name="reponse" value="oui" id="oui" />
+    <label for="oui">OUI</label>
+
+    <input type="radio" name="reponse" value="non" id="non" />
+    <label for="non">NON</label>
+
+    <input type="radio" name="reponse" value="peut-etre" id="peut" />
+    <label for="peut">Peut-être</label>
+
+DIFFÉRENCE CHECKBOX vs RADIO:
+- CHECKBOX: Plusieurs sélections possibles (cases indépendantes)
+- RADIO: Une seule sélection possible (mutuellement exclusif)
+
+
+8. SELECT - LISTE DÉROULANTE
+-----------------------------
+
+USAGE: Sélection dans une liste déroulante (économise de l'espace)
+
+SYNTAXE:
+    <label for="pays">Pays:</label>
+    <select name="pays" id="pays">
+        <option value="fr">France</option>
+        <option value="be">Belgique</option>
+        <option value="ca">Canada</option>
+    </select>
+
+ATTRIBUTS UTILES:
+- selected : Marque une option comme sélectionnée par défaut
+- disabled : Désactive une option
+- multiple : Permet la sélection multiple (avec Ctrl/Cmd)
+
+EXEMPLE AVEC OPTION PAR DÉFAUT:
+    <label for="dropdown">Choisissez une option:</label>
+    <select name="dropdown" id="dropdown">
+        <option value="">-- Sélectionnez --</option>
+        <option value="first">Première option</option>
+        <option value="second" selected>Deuxième option</option>
+        <option value="third">Troisième option</option>
+    </select>
+
+EXEMPLE AVEC GROUPES (optgroup):
+    <select name="categorie">
+        <optgroup label="Fruits">
+            <option value="pomme">Pomme</option>
+            <option value="banane">Banane</option>
+        </optgroup>
+        <optgroup label="Légumes">
+            <option value="carotte">Carotte</option>
+            <option value="tomate">Tomate</option>
+        </optgroup>
+    </select>
+
+
+9. TEXTAREA - ZONE DE TEXTE MULTILIGNE
+---------------------------------------
+
+USAGE: Saisie de texte long (message, commentaire, description, etc.)
+
+SYNTAXE:
+    <label for="message">Message:</label>
+    <textarea name="message" id="message" rows="5" cols="40">
+    </textarea>
+
+ATTRIBUTS UTILES:
+- rows="5"       : Nombre de lignes visibles
+- cols="40"      : Nombre de colonnes (largeur)
+- maxlength="500": Limite de caractères
+- placeholder="Votre message ici..."
+
+EXEMPLE:
+    <label for="commentaire">Votre commentaire:</label>
+    <br />
+    <textarea name="commentaire" id="commentaire"
+              rows="6" cols="50"
+              placeholder="Écrivez votre commentaire ici..."
+              maxlength="500">
+    </textarea>
+
+
+10. INPUT TYPE="SUBMIT" - BOUTON D'ENVOI
+-----------------------------------------
+
+USAGE: Bouton qui envoie les données du formulaire
+
+SYNTAXE:
+    <input type="submit" value="Envoyer" />
+
+    <!-- OU avec balise <button> (recommandé) -->
+    <button type="submit">Envoyer</button>
+
+DIFFÉRENCES:
+- <input type="submit"> : Texte simple uniquement
+- <button type="submit"> : Peut contenir HTML (icônes, images, etc.)
+
+EXEMPLE:
+    <input type="submit" value="Soumettre le formulaire" />
+
+    <!-- Plus flexible: -->
+    <button type="submit">
+        Envoyer
+    </button>
+
+
+11. AUTRES TYPES INPUT UTILES
+------------------------------
+
+INPUT TYPE="DATE" - Sélecteur de date:
+    <input type="date" name="date_naissance" />
+
+INPUT TYPE="TIME" - Sélecteur d'heure:
+    <input type="time" name="heure_rdv" />
+
+INPUT TYPE="COLOR" - Sélecteur de couleur:
+    <input type="color" name="couleur_preferee" value="#ff0000" />
+
+INPUT TYPE="FILE" - Upload de fichier:
+    <input type="file" name="document" accept=".pdf,.doc" />
+
+INPUT TYPE="TEL" - Numéro de téléphone:
+    <input type="tel" name="telephone" pattern="[0-9]{10}" />
+
+INPUT TYPE="URL" - Adresse web:
+    <input type="url" name="site_web" placeholder="https://exemple.com" />
+
+INPUT TYPE="SEARCH" - Champ de recherche:
+    <input type="search" name="q" placeholder="Rechercher..." />
+
+
+12. TRAITEMENT PHP DES DIFFÉRENTS TYPES
+----------------------------------------
+
+Voici comment récupérer les données de chaque type en PHP:
+
+    <?php
+    // 1. TEXTE et NOMBRE - Simple
+    $texte = $_POST["text"];
+    $nombre = $_POST["num"];
+
+    // 2. RANGE (curseur) - Retourne un nombre
+    $slider = $_POST["slider"];
+
+    // 3. CHECKBOX - Peut être un array (si name="boxes[]")
+    if (isset($_POST["boxes"])) {
+        $cases_cochees = $_POST["boxes"];  // Array
+        foreach ($cases_cochees as $case) {
+            echo "Case cochée: $case\n";
+        }
+    }
+
+    // 4. RADIO - Retourne la valeur du bouton sélectionné
+    $choix_radio = $_POST["radio"];  // "true" ou "false"
+
+    // 5. SELECT (liste déroulante) - Retourne la value
+    $selection = $_POST["dropdown"];
+
+    // 6. TEXTAREA - Comme un texte normal
+    $message = $_POST["message"];
+
+    ?>
+
+
+13. BONNES PRATIQUES - FORMULAIRES HTML
+----------------------------------------
+
+✓ TOUJOURS utiliser l'attribut "name" (sinon données non envoyées)
+
+✓ TOUJOURS associer <label> avec "for" et "id" (accessibilité)
+
+✓ Utiliser "required" pour les champs obligatoires
+
+✓ Ajouter des "placeholder" pour guider l'utilisateur
+
+✓ Valider côté client (HTML5) ET côté serveur (PHP)
+
+✓ Utiliser le bon type d'input selon les données (email, number, date, etc.)
+
+✓ Pour checkboxes multiples, utiliser name="nom[]" (array en PHP)
+
+✓ Pour radio, MÊME name pour toutes les options du groupe
+
+✓ Toujours spécifier method="POST" ou "GET" explicitement
+
+✓ Utiliser htmlspecialchars() en PHP pour afficher les données
+
+
+14. RÉCAPITULATIF DES TYPES D'INPUT
+------------------------------------
+
+Type          Usage                           Sélection multiple
+----          -----                           ------------------
+text          Texte court                     -
+number        Nombres                         -
+email         Adresses email                  -
+password      Mots de passe                   -
+range         Curseur                         -
+checkbox      Options multiples               ✓ OUI
+radio         Option unique dans un groupe    ✗ NON (exclusif)
+select        Liste déroulante                Possible (avec "multiple")
+textarea      Texte long multiligne           -
+submit        Bouton d'envoi                  -
+
+
+DIFFÉRENCES CLÉS:
+- CHECKBOX: Chaque case est indépendante, plusieurs peuvent être cochées
+- RADIO: Dans un groupe (même "name"), une seule option sélectionnable
+- SELECT: Comme radio, mais sous forme de liste déroulante
+
+
+================================================================================
+G. EXEMPLE COMPLET - FORMULAIRE DE CONTACT
+================================================================================
+
+FICHIER: contact.html
+
+    <!DOCTYPE html>
+    <html>
+    <body>
+        <h1>Formulaire de Contact</h1>
+
+        <form action="traiter_contact.php" method="POST">
+            <label>Nom:</label>
+            <input type="text" name="nom" required>
+            <br>
+
+            <label>Email:</label>
+            <input type="email" name="email" required>
+            <br>
+
+            <label>Message:</label>
+            <textarea name="message" required></textarea>
+            <br>
+
+            <button type="submit">Envoyer</button>
+        </form>
+    </body>
+    </html>
+
+FICHIER: traiter_contact.php
+
+    <?php
+    // Récupération des données du formulaire
+    $nom = $_POST["nom"];
+    $email = $_POST["email"];
+    $message = $_POST["message"];
+
+    // Affichage de confirmation
+    ?>
+    <!DOCTYPE html>
+    <html>
+    <body>
+        <h1>Message reçu!</h1>
+
+        <p><strong>Nom:</strong> <?= $nom ?></p>
+        <p><strong>Email:</strong> <?= $email ?></p>
+        <p><strong>Message:</strong></p>
+        <p><?= $message ?></p>
+
+        <a href="contact.html">Retour au formulaire</a>
+    </body>
+    </html>
+
+ANALYSE DU FLUX:
+
+1. Utilisateur remplit le formulaire (contact.html)
+2. Click sur "Envoyer" → Données envoyées vers traiter_contact.php via POST
+3. PHP récupère les données avec $_POST["nom"], $_POST["email"], etc.
+4. Les clés "nom", "email", "message" correspondent aux attributs name du HTML
+5. PHP affiche une page de confirmation avec les données reçues
+
+
+================================================================================
+I. RÉCAPITULATIF - FORMULAIRES ET SUPERGLOBALES
+================================================================================
+
+POINTS CLÉS:
+
+1. <?= est un raccourci pour <?php echo (pratique dans les templates)
+
+2. SUPERGLOBALES = Variables PHP accessibles partout dans le script
+
+3. $_GET = Array associatif avec données de requête GET (visible dans URL)
+
+4. $_POST = Array associatif avec données de requête POST (invisible)
+
+5. $_REQUEST = Combine $_GET et $_POST (utiliser avec précaution)
+
+6. Attribut "name" = Définit les CLÉS dans les arrays PHP
+
+7. Les "name" doivent être UNIQUES dans un formulaire
+
+8. Attribut "action" = Spécifie quel fichier traite les données
+
+9. Attribut "method" = Définit GET ou POST
+
+10. GET = Données visibles, pour recherches/filtres, non-sensibles
+
+11. POST = Données invisibles, pour connexions/modifications, plus sécurisé
+
+12. TOUJOURS valider et nettoyer les données utilisateur (sécurité!)
+
+
+================================================================================
+Fichier 7/8 - Guide PHP Complet
+================================================================================

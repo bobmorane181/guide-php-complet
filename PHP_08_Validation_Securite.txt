@@ -5,7 +5,26 @@
 TABLE DES MATIÈRES
 ==================
 1. Sécurité et Validation - Introduction
-2. Les Expressions Régulières (Regex)
+2. Les Expressions Régulières (Regex) - Guide Complet ⭐ NOUVELLE SECTION
+   A. Littéraux
+   B. Alternation (|)
+   C. Ensembles de caractères []
+   D. Wildcard (.)
+   E. Ranges [a-z]
+   F. Classes raccourcies (\w, \d, \s)
+   G. Groupements ()
+   H. Quantificateurs fixes {}
+   I. Optionnel (?)
+   J. Kleene star (*)
+   K. Kleene plus (+)
+   L. Ancres (^ et $)
+   M. Récapitulatif des symboles
+   N. Exemples pratiques
+   O. Utilisation en PHP
+   P. Utilisation en HTML
+   Q. Bonnes pratiques
+   R. Exercices pratiques
+   S. Résumé
 3. Validation HTML5 Intégrée
 4. Validation JavaScript Personnalisée
 5. Validation Asynchrone (AJAX)
@@ -75,38 +94,520 @@ RAISONS ESSENTIELLES:
 
 
 ================================================================================
-2. LES EXPRESSIONS RÉGULIÈRES (REGEX)
+2. LES EXPRESSIONS RÉGULIÈRES (REGEX) - GUIDE COMPLET
 ================================================================================
 
 DÉFINITION:
-Les expressions régulières (regex) sont des SÉQUENCES DE CARACTÈRES qui
-définissent des MOTIFS (patterns) à rechercher dans du texte. Elles sont
-un outil important pour valider les données saisies.
+Les expressions régulières (regex) sont des SÉQUENCES SPÉCIALES DE CARACTÈRES
+qui décrivent un MOTIF (pattern) de texte à faire correspondre. Elles sont
+un outil puissant et essentiel pour valider les données saisies.
 
-USAGE EN VALIDATION:
-- Vérifier le format d'un email
-- Valider un numéro de téléphone
-- Contrôler un code postal
-- Vérifier la force d'un mot de passe
+PUISSANCE DES REGEX:
+✓ Rechercher des motifs complexes dans du texte
+✓ Valider le format de données (email, téléphone, code postal)
+✓ Extraire des informations spécifiques
+✓ Remplacer du texte selon des motifs
+✓ Vérifier la conformité de saisies utilisateur
 
-EXEMPLES DE REGEX COURANTES:
 
-Email basique:
+A) LES LITTÉRAUX - CORRESPONDANCE EXACTE
+-----------------------------------------
+
+Les littéraux permettent de chercher exactement les caractères désirés.
+
+EXEMPLE:
+    Regex: abc
+    Correspond à: "abc" dans "abcdef"
+    Ne correspond PAS à: "ABC" (sensible à la casse)
+
+UTILISATION EN PHP:
+    if (preg_match('/abc/', $texte)) {
+        echo "Trouvé!";
+    }
+
+
+B) L'ALTERNATION - OPÉRATEUR PIPE (|)
+--------------------------------------
+
+Le symbole pipe | permet de faire correspondre le texte AVANT OU APRÈS le |.
+
+SYNTAXE:
+    motif1|motif2
+
+EXEMPLE:
+    Regex: chat|chien
+    Correspond à: "chat" OU "chien"
+
+    Texte: "J'ai un chat"     → ✓ Match
+    Texte: "J'ai un chien"    → ✓ Match
+    Texte: "J'ai un oiseau"   → ✗ Pas de match
+
+EXEMPLE PHP:
+    if (preg_match('/oui|yes/', $reponse)) {
+        echo "Réponse positive!";
+    }
+
+
+C) LES ENSEMBLES DE CARACTÈRES [...]
+-------------------------------------
+
+Les crochets [] permettent de faire correspondre UN SEUL caractère parmi
+une série de caractères.
+
+SYNTAXE:
+    [abc]    → Correspond à 'a' OU 'b' OU 'c'
+    [aeiou]  → Correspond à une voyelle
+    [0-9]    → Correspond à un chiffre (voir ranges)
+
+EXEMPLES:
+    Regex: gr[aeiou]s
+    Correspond à: "gras", "gris", "gros"
+    Ne correspond PAS à: "grys" (y n'est pas dans l'ensemble)
+
+    Regex: [Bb]onjour
+    Correspond à: "Bonjour" OU "bonjour"
+
+NÉGATION AVEC ^:
+    [^abc]   → Correspond à tout SAUF 'a', 'b' ou 'c'
+    [^0-9]   → Correspond à tout SAUF les chiffres
+
+EXEMPLE PHP:
+    // Vérifier qu'un texte contient une voyelle
+    if (preg_match('/[aeiou]/', $texte)) {
+        echo "Contient une voyelle";
+    }
+
+
+D) LE WILDCARD - POINT (.)
+---------------------------
+
+Le point . correspond à N'IMPORTE QUEL CARACTÈRE unique (lettre, chiffre,
+symbole ou espace).
+
+SYNTAXE:
+    .    → N'importe quel caractère (sauf nouvelle ligne par défaut)
+
+EXEMPLES:
+    Regex: c.t
+    Correspond à: "cat", "cot", "c9t", "c@t", "c t"
+
+    Regex: a.c
+    Correspond à: "abc", "a1c", "a c"
+
+⚠️ ATTENTION: Pour chercher un point littéral, il faut l'échapper: \.
+
+EXEMPLE:
+    Regex: 192\.168\.1\.1
+    Correspond à: "192.168.1.1" (adresse IP)
+
+EXEMPLE PHP:
+    // Valider format xxx.xxx.xxx.xxx
+    if (preg_match('/\d+\.\d+\.\d+\.\d+/', $ip)) {
+        echo "Format IP valide";
+    }
+
+
+E) LES RANGES (PLAGES) - [a-z]
+-------------------------------
+
+Les ranges permettent de spécifier une PLAGE de caractères dans laquelle
+on peut faire une correspondance.
+
+SYNTAXES COURANTES:
+    [a-z]    → Lettres minuscules de a à z
+    [A-Z]    → Lettres majuscules de A à Z
+    [0-9]    → Chiffres de 0 à 9
+    [a-zA-Z] → Toutes les lettres (min et maj)
+    [0-9a-f] → Chiffres hexadécimaux
+
+EXEMPLES:
+    Regex: [0-9]
+    Correspond à: "0", "1", "2", ..., "9"
+
+    Regex: [a-z]{3}
+    Correspond à: Exactement 3 lettres minuscules ("abc", "xyz")
+
+    Regex: [A-Z][a-z]+
+    Correspond à: Majuscule suivie d'une ou plusieurs minuscules ("Bonjour")
+
+EXEMPLE PHP:
+    // Vérifier code postal (5 chiffres)
+    if (preg_match('/^[0-9]{5}$/', $code_postal)) {
+        echo "Code postal valide";
+    }
+
+
+F) CLASSES DE CARACTÈRES RACCOURCIES
+-------------------------------------
+
+Des raccourcis existent pour représenter des ensembles communs.
+
+\w  → WORD CHARACTER (caractère de mot)
+      Équivaut à: [a-zA-Z0-9_]
+      Correspond à: lettres, chiffres, underscore
+
+\d  → DIGIT CHARACTER (chiffre)
+      Équivaut à: [0-9]
+      Correspond à: chiffres de 0 à 9
+
+\s  → WHITESPACE CHARACTER (espace blanc)
+      Correspond à: espace, tabulation, nouvelle ligne
+
+\W  → NON-WORD (inverse de \w)
+      Correspond à: tout SAUF lettres, chiffres, underscore
+
+\D  → NON-DIGIT (inverse de \d)
+      Correspond à: tout SAUF les chiffres
+
+\S  → NON-WHITESPACE (inverse de \s)
+      Correspond à: tout SAUF les espaces blancs
+
+EXEMPLES:
+    Regex: \d{3}
+    Correspond à: Exactement 3 chiffres ("123", "456")
+
+    Regex: \w+
+    Correspond à: Un ou plusieurs caractères de mot ("hello", "test123")
+
+    Regex: \s+
+    Correspond à: Un ou plusieurs espaces blancs
+
+EXEMPLE PHP:
+    // Valider username (lettres, chiffres, underscore uniquement)
+    if (preg_match('/^\w+$/', $username)) {
+        echo "Username valide";
+    }
+
+
+G) LES GROUPEMENTS - PARENTHÈSES ()
+------------------------------------
+
+Les parenthèses () permettent de GROUPER des parties d'une expression
+régulière et de limiter l'alternation à une partie seulement.
+
+SYNTAXE:
+    (motif)
+
+EXEMPLES:
+    Regex: (chat|chien)s
+    Correspond à: "chats" OU "chiens"
+
+    Sans groupement: chat|chiens
+    Correspondrait à: "chat" OU "chiens" (pas "chats"!)
+
+    Regex: (ha)+
+    Correspond à: "ha", "haha", "hahaha", etc.
+
+CAPTURE DE GROUPES:
+Les groupements capturent aussi le texte correspondant pour extraction.
+
+EXEMPLE PHP:
+    // Extraire jour, mois, année d'une date
+    if (preg_match('/(\d{2})\/(\d{2})\/(\d{4})/', $date, $matches)) {
+        $jour = $matches[1];
+        $mois = $matches[2];
+        $annee = $matches[3];
+    }
+
+
+H) QUANTIFICATEURS FIXES - ACCOLADES {}
+----------------------------------------
+
+Les accolades {} permettent d'indiquer la QUANTITÉ EXACTE ou une PLAGE
+de quantité d'un caractère qu'on souhaite faire correspondre.
+
+SYNTAXES:
+    {n}      → Exactement n occurrences
+    {n,m}    → Entre n et m occurrences (inclus)
+    {n,}     → n occurrences ou plus
+    {,m}     → Jusqu'à m occurrences
+
+EXEMPLES:
+    Regex: \d{3}
+    Correspond à: Exactement 3 chiffres ("123", "456")
+
+    Regex: \d{2,4}
+    Correspond à: Entre 2 et 4 chiffres ("12", "123", "1234")
+
+    Regex: [a-z]{5,}
+    Correspond à: 5 lettres minuscules ou plus
+
+    Regex: ha{3}
+    Correspond à: "haaa" (h suivi de 3 'a')
+
+EXEMPLE PHP:
+    // Valider mot de passe (minimum 8 caractères)
+    if (preg_match('/^.{8,}$/', $password)) {
+        echo "Longueur suffisante";
+    }
+
+
+I) QUANTIFICATEUR OPTIONNEL - POINT D'INTERROGATION ?
+------------------------------------------------------
+
+Le point d'interrogation ? indique qu'un caractère est OPTIONNEL
+(peut apparaître 0 ou 1 fois).
+
+SYNTAXE:
+    caractère?
+
+EXEMPLES:
+    Regex: colou?r
+    Correspond à: "color" OU "colour" (u est optionnel)
+
+    Regex: https?://
+    Correspond à: "http://" OU "https://" (s est optionnel)
+
+    Regex: \d{1,3}\.?\d{3}
+    Correspond à: "1000" OU "1.000" (point optionnel)
+
+EXEMPLE PHP:
+    // Email avec ou sans point avant @
+    if (preg_match('/^\w+\.?\w+@/', $email)) {
+        echo "Format email accepté";
+    }
+
+
+J) ÉTOILE DE KLEENE - ASTÉRISQUE *
+-----------------------------------
+
+L'astérisque * est un quantificateur qui fait correspondre le caractère
+précédent 0 FOIS OU PLUS.
+
+SYNTAXE:
+    caractère*
+
+EXEMPLES:
+    Regex: ha*
+    Correspond à: "h", "ha", "haa", "haaa", etc.
+
+    Regex: \d*
+    Correspond à: "", "1", "12", "123", etc. (même chaîne vide!)
+
+    Regex: bon*jour
+    Correspond à: "bojour", "bonjour", "bonnjour", "bonnnjour"
+
+UTILISATION COURANTE:
+    Regex: \s*
+    Correspond à: Zéro ou plusieurs espaces (souvent utilisé pour ignorer les espaces)
+
+EXEMPLE PHP:
+    // Texte avec zéro ou plusieurs espaces autour
+    if (preg_match('/^\s*\w+\s*$/', $texte)) {
+        echo "Un mot avec espaces optionnels";
+    }
+
+
+K) PLUS DE KLEENE - SIGNE PLUS +
+---------------------------------
+
+Le signe + fait correspondre le caractère précédent 1 FOIS OU PLUS.
+
+SYNTAXE:
+    caractère+
+
+EXEMPLES:
+    Regex: ha+
+    Correspond à: "ha", "haa", "haaa" (mais PAS "h")
+
+    Regex: \d+
+    Correspond à: "1", "12", "123" (un ou plusieurs chiffres)
+
+    Regex: \s+
+    Correspond à: Un ou plusieurs espaces
+
+DIFFÉRENCE AVEC * :
+    *  → 0 ou plus (accepte chaîne vide)
+    +  → 1 ou plus (nécessite au moins 1 occurrence)
+
+EXEMPLE PHP:
+    // Au moins un chiffre requis
+    if (preg_match('/\d+/', $texte)) {
+        echo "Contient au moins un chiffre";
+    }
+
+
+L) ANCRES - CHAPEAU ^ ET DOLLAR $
+----------------------------------
+
+Les symboles d'ancrage ^ et $ sont utilisés pour faire correspondre du texte
+au DÉBUT et à la FIN d'une chaîne, respectivement.
+
+^  → DÉBUT de chaîne
+$  → FIN de chaîne
+
+EXEMPLES:
+    Regex: ^Bonjour
+    Correspond à: "Bonjour le monde" (commence par Bonjour)
+    Ne correspond PAS à: "Dire Bonjour" (Bonjour n'est pas au début)
+
+    Regex: fin$
+    Correspond à: "C'est la fin" (finit par fin)
+    Ne correspond PAS à: "fin du monde" (fin n'est pas à la fin)
+
+    Regex: ^Hello$
+    Correspond UNIQUEMENT à: "Hello" (exactement "Hello", rien d'autre)
+
+UTILISATION COURANTE:
+    ^  et  $  ensemble forcent une correspondance EXACTE de toute la chaîne.
+
+EXEMPLE PHP:
+    // Email doit être exactement un email, rien avant/après
+    if (preg_match('/^[\w.-]+@[\w.-]+\.[a-z]{2,}$/i', $email)) {
+        echo "Email valide";
+    }
+
+
+M) RÉCAPITULATIF DES SYMBOLES REGEX
+------------------------------------
+
+SYMBOLE    NOM                    FONCTION
+-------    ---                    --------
+.          Wildcard               N'importe quel caractère
+|          Pipe (alternation)     OU logique
+[]         Character set          Un caractère parmi l'ensemble
+[^]        Negated set            Tout sauf l'ensemble
+-          Range                  Plage de caractères
+()         Grouping               Grouper des motifs
+\          Escape                 Échapper un caractère spécial
+
+\w         Word character         [a-zA-Z0-9_]
+\d         Digit                  [0-9]
+\s         Whitespace             Espace, tab, newline
+
+\W         Non-word               Inverse de \w
+\D         Non-digit              Inverse de \d
+\S         Non-whitespace         Inverse de \s
+
+?          Optional               0 ou 1 occurrence
+*          Kleene star            0 ou plus occurrences
++          Kleene plus            1 ou plus occurrences
+{n}        Fixed quantifier       Exactement n occurrences
+{n,m}      Range quantifier       Entre n et m occurrences
+
+^          Anchor start           Début de chaîne
+$          Anchor end             Fin de chaîne
+
+
+N) EXEMPLES PRATIQUES DE REGEX
+-------------------------------
+
+1. EMAIL:
     /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 
-Numéro de téléphone français (10 chiffres):
-    /^0[1-9][0-9]{8}$/
+2. NUMÉRO DE TÉLÉPHONE (10 chiffres):
+    /^0[1-9]\d{8}$/
 
-Code postal français:
+3. CODE POSTAL FRANÇAIS:
     /^[0-9]{5}$/
 
-Mot de passe fort (min 8 caractères, lettres + chiffres):
+4. MOT DE PASSE FORT (min 8 caractères, lettres + chiffres):
     /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
 
-UTILISATION EN HTML:
-    <input type="tel" name="telephone"
+5. URL:
+    /^https?:\/\/[\w.-]+\.[a-z]{2,}(\/.*)?$/i
+
+6. DATE (JJ/MM/AAAA):
+    /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/\d{4}$/
+
+7. NOM D'UTILISATEUR (3-20 caractères alphanumériques):
+    /^\w{3,20}$/
+
+8. CARTE DE CRÉDIT (format xxxx-xxxx-xxxx-xxxx):
+    /^\d{4}-\d{4}-\d{4}-\d{4}$/
+
+
+O) UTILISATION EN PHP
+---------------------
+
+FONCTION preg_match():
+Vérifie si un motif correspond.
+
+    if (preg_match('/regex/', $texte)) {
+        echo "Correspondance trouvée!";
+    }
+
+FONCTION preg_match_all():
+Trouve toutes les correspondances.
+
+    preg_match_all('/\d+/', $texte, $matches);
+    print_r($matches);
+
+FONCTION preg_replace():
+Remplace le texte correspondant.
+
+    $nouveau = preg_replace('/\s+/', ' ', $texte);  // Remplace multiples espaces par un seul
+
+FONCTION preg_split():
+Divise une chaîne selon un motif.
+
+    $parts = preg_split('/[,;]/', $texte);  // Split sur virgule ou point-virgule
+
+
+P) UTILISATION EN HTML (ATTRIBUT PATTERN)
+------------------------------------------
+
+L'attribut pattern utilise des regex pour la validation côté client:
+
+    <input type="text" name="telephone"
            pattern="0[1-9][0-9]{8}"
-           title="Format: 0612345678" />
+           title="Format: 0612345678"
+           required />
+
+⚠️ NOTE: En HTML, ne pas mettre les délimiteurs / /
+
+
+Q) BONNES PRATIQUES REGEX
+--------------------------
+
+✓ Commencer simple, puis complexifier progressivement
+✓ Tester vos regex sur des outils en ligne (regex101.com, regexr.com)
+✓ Utiliser des commentaires pour expliquer les regex complexes
+✓ Échapper les caractères spéciaux avec \ quand nécessaire
+✓ Utiliser des groupements () pour clarifier la logique
+✓ Préférer les quantificateurs précis {n,m} aux * et + quand possible
+✓ Toujours valider côté serveur en plus du client
+
+
+R) EXERCICES PRATIQUES
+-----------------------
+
+Créez des regex pour valider:
+
+1. Un prénom (lettres uniquement, 2-30 caractères)
+   Réponse: /^[A-Za-zÀ-ÿ]{2,30}$/
+
+2. Un âge (1-3 chiffres, entre 1 et 150)
+   Réponse: /^(1[0-4][0-9]|150|[1-9][0-9]?)$/
+
+3. Une couleur hexadécimale (#RGB ou #RRGGBB)
+   Réponse: /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/
+
+4. Un identifiant Twitter (@username)
+   Réponse: /^@\w{1,15}$/
+
+
+S) RÉSUMÉ - EXPRESSIONS RÉGULIÈRES
+-----------------------------------
+
+Les expressions régulières sont des séquences spéciales de caractères qui
+décrivent un motif de texte à faire correspondre.
+
+✓ LITTÉRAUX: Correspondance exacte des caractères
+✓ ALTERNATION (|): Permet de matcher texte avant OU après le pipe
+✓ CHARACTER SETS []: Matcher un caractère parmi une série
+✓ WILDCARDS (.): Matcher n'importe quel caractère unique
+✓ RANGES: Spécifier une plage de caractères ([a-z], [0-9])
+✓ SHORTHAND CLASSES: \w, \d, \s représentent word, digit, whitespace
+✓ GROUPINGS (): Grouper des parties de regex et limiter l'alternation
+✓ QUANTIFIERS {}: Indiquer quantité exacte ou plage ({3}, {2,5})
+✓ OPTIONAL (?): Indiquer qu'un caractère est optionnel (0 ou 1 fois)
+✓ KLEENE STAR (*): Matcher 0 ou plus occurrences
+✓ KLEENE PLUS (+): Matcher 1 ou plus occurrences
+✓ ANCHORS (^ et $): Matcher au début et fin de chaîne
+
+⚠️ Les regex sont PUISSANTES mais peuvent être complexes.
+   Commencez simple et testez toujours vos expressions!
 
 
 ================================================================================

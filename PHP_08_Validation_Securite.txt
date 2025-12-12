@@ -1207,6 +1207,254 @@ La validation vérifie que les données respectent les RÈGLES.
        echo "IP invalide";
    }
 
+5. VALIDER DES NOMBRES AVEC PLAGES (MIN/MAX) - LES $OPTIONS
+
+   🎯 ANALOGIE: Un videur qui vérifie l'âge ET que vous avez entre 18 et 65 ans
+
+   filter_var() peut utiliser un tableau $options pour définir des règles précises!
+
+   SYNTAXE COMPLÈTE:
+
+   $resultat = filter_var($valeur, FILTER_TYPE, $options);
+
+   💡 EXEMPLES CONCRETS:
+
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   EXEMPLE 1 - Valider une année entre 1900 et 2025:
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+   $annee = $_POST["annee"];  // Ex: "2024"
+
+   // Définir les options
+   $options = [
+       'options' => [
+           'min_range' => 1900,
+           'max_range' => 2025
+       ]
+   ];
+
+   // Valider avec filter_var()
+   $annee_valide = filter_var($annee, FILTER_VALIDATE_INT, $options);
+
+   if ($annee_valide === false) {
+       echo "Année invalide! Doit être entre 1900 et 2025";
+   } else {
+       echo "Année valide: $annee_valide";
+   }
+
+   ⚠️ IMPORTANT:
+   - filter_var() retourne FALSE si invalide
+   - filter_var() retourne LA VALEUR si valide
+   - Toujours utiliser === false (pas juste ==)
+
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   EXEMPLE 2 - Valider un âge entre 18 et 99:
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+   $age = $_POST["age"];
+
+   $options_age = [
+       'options' => [
+           'min_range' => 18,
+           'max_range' => 99
+       ]
+   ];
+
+   $age_valide = filter_var($age, FILTER_VALIDATE_INT, $options_age);
+
+   if ($age_valide === false) {
+       echo "Âge invalide! Vous devez avoir entre 18 et 99 ans";
+   } else {
+       echo "Âge accepté: $age_valide ans";
+   }
+
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   EXEMPLE 3 - Valider un score de jeu (0 à 100):
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+   $score = $_POST["score"];
+
+   $options_score = [
+       'options' => [
+           'min_range' => 0,
+           'max_range' => 100
+       ]
+   ];
+
+   $score_valide = filter_var($score, FILTER_VALIDATE_INT, $options_score);
+
+   if ($score_valide === false) {
+       echo "Score invalide! Doit être entre 0 et 100";
+   } else {
+       echo "Score enregistré: $score_valide points";
+   }
+
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   EXEMPLE 4 - Valider une note scolaire (0 à 20):
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+   $note = $_POST["note"];
+
+   $options_note = [
+       'options' => [
+           'min_range' => 0,
+           'max_range' => 20
+       ]
+   ];
+
+   $note_valide = filter_var($note, FILTER_VALIDATE_INT, $options_note);
+
+   if ($note_valide === false) {
+       echo "Note invalide! Doit être entre 0 et 20";
+   } else {
+       echo "Note enregistrée: $note_valide/20";
+   }
+
+   💡 POURQUOI UTILISER $options AU LIEU DE if ($age < 18) ?
+
+   MÉTHODE 1 - Sans $options (manuelle):
+
+   $age = intval($_POST["age"]);
+
+   if ($age < 18 || $age > 99) {
+       echo "Invalide";
+   }
+
+   MÉTHODE 2 - Avec $options (recommandée):
+
+   $age_valide = filter_var($_POST["age"], FILTER_VALIDATE_INT, [
+       'options' => ['min_range' => 18, 'max_range' => 99]
+   ]);
+
+   if ($age_valide === false) {
+       echo "Invalide";
+   }
+
+   ✅ AVANTAGES DE $options:
+   1. VÉRIFIE que c'est un NOMBRE (pas "abc")
+   2. VÉRIFIE la PLAGE en même temps
+   3. Code plus PROPRE et SÉCURISÉ
+   4. Évite les injections
+
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   EXEMPLE COMPLET - Formulaire d'inscription avec année de naissance:
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+   <?php
+   $erreurs = [];
+
+   if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+       // Récupérer l'année
+       $annee_naissance = $_POST["annee_naissance"] ?? "";
+
+       // Définir les options
+       $options_annee = [
+           'options' => [
+               'min_range' => 1900,
+               'max_range' => 2007  // Né avant 2007 = 18 ans en 2025
+           ]
+       ];
+
+       // Valider
+       $annee_valide = filter_var($annee_naissance, FILTER_VALIDATE_INT, $options_annee);
+
+       if ($annee_valide === false) {
+           $erreurs[] = "Année de naissance invalide (1900-2007)";
+       } else {
+           // Calculer l'âge
+           $age = 2025 - $annee_valide;
+           echo "Vous avez $age ans. Inscription acceptée!";
+       }
+   }
+   ?>
+
+   <form method="POST">
+       <label>Année de naissance:</label>
+       <input type="number" name="annee_naissance"
+              min="1900" max="2007" required>
+       <button type="submit">S'inscrire</button>
+   </form>
+
+   <?php if (!empty($erreurs)): ?>
+       <div style="color:red;">
+           <?php foreach ($erreurs as $erreur): ?>
+               <p><?= $erreur ?></p>
+           <?php endforeach; ?>
+       </div>
+   <?php endif; ?>
+
+   ⚠️ PIÈGES À ÉVITER:
+
+   PIÈGE 1 - Oublier le mot 'options':
+
+   // ❌ FAUX
+   $options = [
+       'min_range' => 18,
+       'max_range' => 99
+   ];
+
+   // ✅ CORRECT
+   $options = [
+       'options' => [
+           'min_range' => 18,
+           'max_range' => 99
+       ]
+   ];
+
+   PIÈGE 2 - Utiliser == au lieu de ===:
+
+   // ❌ DANGEREUX
+   if ($age_valide == false) {  // 0 serait considéré false!
+
+   // ✅ CORRECT
+   if ($age_valide === false) {  // Seul FALSE est rejeté
+
+   💡 EXPLICATION:
+   Si quelqu'un entre "0", c'est VALIDE (zéro est un nombre)
+   Mais 0 == false retourne TRUE (faux positif!)
+   Donc toujours utiliser === false
+
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   RÉCAPITULATIF - STRUCTURE DE $options:
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+   $options = [
+       'options' => [           ← Mot-clé obligatoire
+           'min_range' => X,    ← Valeur minimale
+           'max_range' => Y     ← Valeur maximale
+       ]
+   ];
+
+   $resultat = filter_var($valeur, FILTER_VALIDATE_INT, $options);
+
+   if ($resultat === false) {
+       // INVALIDE (pas un nombre OU hors plage)
+   } else {
+       // VALIDE - $resultat contient le nombre
+   }
+
+   📚 AUTRES OPTIONS DISPONIBLES:
+
+   // Autoriser les valeurs octales (ex: 0755)
+   $options = [
+       'flags' => FILTER_FLAG_ALLOW_OCTAL
+   ];
+
+   // Autoriser les valeurs hexadécimales (ex: 0xFF)
+   $options = [
+       'flags' => FILTER_FLAG_ALLOW_HEX
+   ];
+
+   // Combiner avec min/max
+   $options = [
+       'options' => [
+           'min_range' => 0,
+           'max_range' => 255
+       ],
+       'flags' => FILTER_FLAG_ALLOW_HEX
+   ];
+
 
 F) VALIDATIONS PERSONNALISÉES COMPLEXES
 ----------------------------------------

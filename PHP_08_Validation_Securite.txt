@@ -5,7 +5,7 @@
 TABLE DES MATIÈRES
 ==================
 1. Sécurité et Validation - Introduction
-2. Les Expressions Régulières (Regex) - Guide Complet ⭐ NOUVELLE SECTION
+2. Les Expressions Régulières (Regex) - Guide Complet ⭐
    A. Littéraux
    B. Alternation (|)
    C. Ensembles de caractères []
@@ -29,6 +29,20 @@ TABLE DES MATIÈRES
 4. Validation JavaScript Personnalisée
 5. Validation Asynchrone (AJAX)
 6. Validation Back-End (Serveur) - OBLIGATOIRE
+6-bis. Guide Pratique - Validation et Sanitization Back-End ⭐ NOUVEAU
+   A. Pourquoi le back-end est essentiel
+   B. La méthode POST
+   C. Afficher du feedback
+   D. Sanitization (trim, htmlspecialchars, filter_var)
+   E. Validation (empty, strlen, is_numeric, filter_var)
+   F. Validations complexes (preg_match, performance)
+   G. Comparer avec back-end
+   H. Sanitizer avant stockage DB
+   I. Rediriger après succès
+   J. Séparer logique de validation
+   K. Récapitulatif - Checklist
+   L. Exemple complet - Inscription
+   M. Points clés
 7. Stratégie de Validation Complète
 8. Récapitulatif - Validation de Formulaires
 
@@ -905,6 +919,828 @@ SANITIZATION (NETTOYAGE):
 - filter_var()           : Nettoie email, URL, etc.
 - intval()               : Convertit en entier
 - floatval()             : Convertit en décimal
+
+
+================================================================================
+6-bis. GUIDE PRATIQUE - VALIDATION ET SANITIZATION BACK-END
+================================================================================
+
+INTRODUCTION POUR DÉBUTANTS:
+Imaginez que vous êtes le gardien d'un château (votre site web). Les visiteurs
+(utilisateurs) doivent passer par une porte (formulaire) pour entrer. Votre
+travail est de vérifier que ce qu'ils apportent est SÉCURISÉ avant de les
+laisser entrer. C'est exactement ce que fait la validation back-end!
+
+
+A) POURQUOI LE BACK-END EST ESSENTIEL ?
+----------------------------------------
+
+🎯 ANALOGIE SIMPLE:
+Pensez au back-end comme à un garde de sécurité dans une boîte de nuit.
+Le videur à l'entrée (validation front-end) peut vérifier les IDs, mais un
+vrai garde à l'intérieur (back-end) vérifie TOUT une seconde fois pour être sûr!
+
+POURQUOI C'EST CRITIQUE:
+✓ Le front-end peut être contourné (comme montrer une fausse ID)
+✓ JavaScript peut être désactivé
+✓ Un hacker peut envoyer des données directement à votre serveur
+✓ C'est votre DERNIÈRE ligne de défense
+
+🔒 RÈGLE D'OR:
+"Ne JAMAIS faire confiance aux données qui viennent de l'utilisateur!"
+(Même si ça vient d'un formulaire que VOUS avez créé!)
+
+
+B) LA MÉTHODE POST - RECEVOIR LES DONNÉES
+------------------------------------------
+
+🎯 ANALOGIE: POST est comme une enveloppe FERMÉE vs GET qui est une carte postale
+
+Quand un formulaire utilise method="POST", PHP reçoit les données dans
+la superglobale $_POST.
+
+FORMULAIRE HTML:
+    <form action="traitement.php" method="POST">
+        <input type="text" name="prenom">
+        <input type="email" name="email">
+        <button type="submit">Envoyer</button>
+    </form>
+
+RÉCUPÉRER LES DONNÉES EN PHP:
+    <?php
+    // Les données arrivent dans $_POST
+    $prenom = $_POST["prenom"];  // ⚠️ DANGER! Pas encore validé ni nettoyé!
+    $email = $_POST["email"];    // ⚠️ DANGER! Peut contenir n'importe quoi!
+    ?>
+
+⚠️ PROBLÈME: Ces données peuvent contenir:
+- Du code malveillant (<script>alert('hack')</script>)
+- Des données dans le mauvais format
+- Rien du tout (chaîne vide)
+- Des tentatives d'injection SQL
+
+
+C) AFFICHER DU FEEDBACK À L'UTILISATEUR
+----------------------------------------
+
+🎯 ANALOGIE: Comme quand un videur vous dit "Désolé, vous devez avoir 18 ans"
+
+Quand les données sont invalides, on doit dire à l'utilisateur POURQUOI.
+
+EXEMPLE - Formulaire avec validation et feedback:
+
+FICHIER: formulaire.php
+    <?php
+    $erreurs = [];  // 📦 Boîte pour collecter les erreurs
+    $succes = false;
+
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        // Vérifier le prénom
+        if (empty($_POST["prenom"])) {
+            $erreurs[] = "Le prénom est obligatoire";
+        }
+
+        // Vérifier l'email
+        if (empty($_POST["email"])) {
+            $erreurs[] = "L'email est obligatoire";
+        }
+
+        // Si pas d'erreurs, succès!
+        if (empty($erreurs)) {
+            $succes = true;
+        }
+    }
+    ?>
+
+    <!DOCTYPE html>
+    <html>
+    <body>
+        <?php if ($succes): ?>
+            <p style="color: green;">✓ Inscription réussie!</p>
+        <?php endif; ?>
+
+        <?php if (!empty($erreurs)): ?>
+            <div style="color: red;">
+                <p>⚠️ Erreurs détectées:</p>
+                <ul>
+                    <?php foreach ($erreurs as $erreur): ?>
+                        <li><?= $erreur ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+
+        <form method="POST">
+            <input type="text" name="prenom" placeholder="Prénom">
+            <input type="email" name="email" placeholder="Email">
+            <button type="submit">Envoyer</button>
+        </form>
+    </body>
+    </html>
+
+💡 EXPLICATION:
+1. On crée un array $erreurs pour stocker les problèmes
+2. Si quelque chose ne va pas, on ajoute un message dans $erreurs
+3. On affiche tous les messages d'erreur à l'utilisateur
+4. Si $erreurs est vide, tout est bon!
+
+
+D) SANITIZATION - NETTOYER LES DONNÉES
+---------------------------------------
+
+🎯 ANALOGIE: Comme nettoyer des légumes avant de cuisiner!
+Même si elles ont l'air propres, vous les lavez quand même.
+
+La sanitization NETTOIE les données pour les rendre sûres.
+
+1. trim() - RETIRER LES ESPACES INUTILES
+
+   🎯 ANALOGIE: Couper les parties abîmées d'une pomme
+
+   PROBLÈME:
+   L'utilisateur tape "  Jean  " (avec des espaces)
+
+   SOLUTION:
+   $nom = trim($_POST["nom"]);
+   // Résultat: "Jean" (espaces retirés)
+
+   EXEMPLE:
+   $texte = "   Bonjour   ";
+   echo trim($texte);  // "Bonjour"
+
+2. htmlspecialchars() - ÉCHAPPER LE CODE HTML
+
+   🎯 ANALOGIE: Transformer des armes dangereuses en jouets en plastique
+
+   PROBLÈME:
+   Un hacker envoie: <script>alert('Hack!')</script>
+
+   SOLUTION:
+   $message = htmlspecialchars($_POST["message"]);
+   // Transforme < en &lt; et > en &gt;
+   // Résultat: &lt;script&gt;alert('Hack!')&lt;/script&gt;
+   // Le code HTML ne s'exécute PAS!
+
+   EXEMPLE COMPLET:
+   <?php
+   $commentaire = $_POST["commentaire"];
+   $commentaire_propre = htmlspecialchars($commentaire);
+
+   // Maintenant sûr à afficher!
+   echo "<p>Commentaire: $commentaire_propre</p>";
+   ?>
+
+3. filter_var() - NETTOYER SELON UN TYPE
+
+   🎯 ANALOGIE: Un filtre à café qui ne laisse passer que le liquide
+
+   POUR LES EMAILS:
+   $email_brut = $_POST["email"];
+   $email_propre = filter_var($email_brut, FILTER_SANITIZE_EMAIL);
+
+   EXEMPLE:
+   Entrée:    "jean..@example..com"
+   Sortie:    "jean@example.com"
+
+   POUR LES URLS:
+   $url_propre = filter_var($_POST["url"], FILTER_SANITIZE_URL);
+
+   POUR LES NOMBRES:
+   $age_propre = filter_var($_POST["age"], FILTER_SANITIZE_NUMBER_INT);
+
+EXEMPLE COMPLET DE SANITIZATION:
+    <?php
+    // Données reçues du formulaire
+    $nom_brut = $_POST["nom"];
+    $email_brut = $_POST["email"];
+    $age_brut = $_POST["age"];
+
+    // ÉTAPE 1: Nettoyer (sanitize)
+    $nom = htmlspecialchars(trim($nom_brut));
+    $email = filter_var($email_brut, FILTER_SANITIZE_EMAIL);
+    $age = intval($age_brut);  // Convertir en nombre entier
+
+    // ÉTAPE 2: Maintenant sûr à utiliser!
+    echo "Nom: $nom<br>";
+    echo "Email: $email<br>";
+    echo "Âge: $age ans<br>";
+    ?>
+
+
+E) VALIDATION - VÉRIFIER QUE LES DONNÉES SONT CORRECTES
+--------------------------------------------------------
+
+🎯 ANALOGIE: Vérifier qu'un ticket de concert est VALIDE et pas expiré
+
+La validation vérifie que les données respectent les RÈGLES.
+
+1. VÉRIFIER SI UNE DONNÉE EXISTE
+
+   Utiliser empty() pour vérifier si un champ est vide:
+
+   if (empty($_POST["nom"])) {
+       echo "Le nom est requis!";
+   }
+
+   💡 empty() retourne TRUE si:
+   - La variable n'existe pas
+   - La valeur est ""  (chaîne vide)
+   - La valeur est 0
+   - La valeur est NULL
+
+2. VÉRIFIER LA LONGUEUR DU TEXTE
+
+   🎯 ANALOGIE: Vérifier qu'un mot de passe n'est pas trop court
+
+   $password = $_POST["password"];
+
+   if (strlen($password) < 8) {
+       echo "Le mot de passe doit contenir au moins 8 caractères";
+   }
+
+   VÉRIFIER MIN ET MAX:
+   $nom = $_POST["nom"];
+
+   if (strlen($nom) < 2 || strlen($nom) > 50) {
+       echo "Le nom doit contenir entre 2 et 50 caractères";
+   }
+
+3. VÉRIFIER QUE C'EST UN NOMBRE
+
+   Utiliser is_numeric() pour vérifier:
+
+   $age = $_POST["age"];
+
+   if (!is_numeric($age)) {
+       echo "L'âge doit être un nombre!";
+   }
+
+   VÉRIFIER UNE PLAGE DE NOMBRES:
+   if ($age < 18 || $age > 99) {
+       echo "L'âge doit être entre 18 et 99";
+   }
+
+4. VALIDER UN EMAIL AVEC filter_var()
+
+   🎯 ANALOGIE: Vérifier qu'une adresse mail ressemble vraiment à une adresse
+
+   $email = $_POST["email"];
+
+   if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+       echo "Format d'email invalide!";
+   }
+
+   💡 filter_var() vérifie:
+   - Présence d'un @
+   - Domaine valide
+   - Format général correct
+
+   AUTRES VALIDATIONS AVEC filter_var():
+
+   // Valider une URL
+   if (!filter_var($url, FILTER_VALIDATE_URL)) {
+       echo "URL invalide";
+   }
+
+   // Valider une adresse IP
+   if (!filter_var($ip, FILTER_VALIDATE_IP)) {
+       echo "IP invalide";
+   }
+
+
+F) VALIDATIONS PERSONNALISÉES COMPLEXES
+----------------------------------------
+
+🎯 ANALOGIE: Créer vos propres règles pour votre club privé
+
+1. VÉRIFIER AVEC preg_match() (REGEX)
+
+   🎯 ANALOGIE: Un détecteur de métal qui cherche un motif spécifique
+
+   La fonction preg_match() compare un texte à un motif (pattern).
+
+   EXEMPLE - Vérifier qu'un username contient seulement lettres et chiffres:
+
+   $username = $_POST["username"];
+
+   if (!preg_match('/^[a-zA-Z0-9]+$/', $username)) {
+       echo "Username invalide! (lettres et chiffres uniquement)";
+   }
+
+   💡 EXPLICATION DU PATTERN:
+   ^           → Début de chaîne
+   [a-zA-Z0-9] → Lettres ou chiffres
+   +           → Un ou plusieurs
+   $           → Fin de chaîne
+
+   EXEMPLE - Vérifier un numéro de téléphone français:
+
+   $tel = $_POST["telephone"];
+
+   if (!preg_match('/^0[1-9][0-9]{8}$/', $tel)) {
+       echo "Numéro de téléphone invalide!";
+   }
+
+   💡 EXPLICATION:
+   ^         → Début
+   0         → Commence par 0
+   [1-9]     → Deuxième chiffre de 1 à 9
+   [0-9]{8}  → 8 chiffres supplémentaires
+   $         → Fin
+
+2. VÉRIFIER LA LONGUEUR AVANT REGEX (PERFORMANCE)
+
+   ⚠️ IMPORTANT: Les regex consomment beaucoup de ressources!
+
+   MAUVAISE PRATIQUE:
+   if (!preg_match('/^.{3,20}$/', $username)) {
+       // Utilise regex juste pour vérifier la longueur
+   }
+
+   BONNE PRATIQUE:
+   // D'ABORD vérifier la longueur (rapide)
+   if (strlen($username) < 3 || strlen($username) > 20) {
+       echo "Username: entre 3 et 20 caractères";
+   }
+   // ENSUITE utiliser regex si nécessaire
+   elseif (!preg_match('/^[a-zA-Z0-9_]+$/', $username)) {
+       echo "Username: lettres, chiffres et _ uniquement";
+   }
+
+   💡 POURQUOI?
+   strlen() est 10-100x plus rapide que preg_match()!
+
+
+G) COMPARER AVEC DES DONNÉES DU BACK-END
+-----------------------------------------
+
+🎯 ANALOGIE: Vérifier qu'un nom d'utilisateur n'est pas déjà pris
+
+Souvent, on doit vérifier les données contre une base de données.
+
+EXEMPLE - Vérifier qu'un username est disponible:
+
+    <?php
+    // Liste des usernames déjà pris (normalement dans une DB)
+    $usernames_pris = ['admin', 'root', 'test', 'user'];
+
+    $username = $_POST["username"];
+
+    if (in_array($username, $usernames_pris)) {
+        echo "Ce nom d'utilisateur est déjà pris!";
+    } else {
+        echo "Nom d'utilisateur disponible!";
+    }
+    ?>
+
+EXEMPLE - Vérifier un code promo:
+
+    <?php
+    $codes_valides = [
+        'PROMO2024' => 10,  // 10% de réduction
+        'WELCOME'   => 15,  // 15% de réduction
+        'STUDENT'   => 20   // 20% de réduction
+    ];
+
+    $code = $_POST["code_promo"];
+
+    if (isset($codes_valides[$code])) {
+        $reduction = $codes_valides[$code];
+        echo "Code valide! Réduction de $reduction%";
+    } else {
+        echo "Code promo invalide!";
+    }
+    ?>
+
+
+H) SANITIZER AVANT DE STOCKER EN BASE DE DONNÉES
+-------------------------------------------------
+
+🎯 ANALOGIE: Emballer des aliments avant de les mettre au frigo
+
+Avant de sauvegarder des données, on les nettoie ET on les formate.
+
+EXEMPLE COMPLET - Inscription d'un utilisateur:
+
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+        // 1. RÉCUPÉRER les données brutes
+        $nom_brut = $_POST["nom"];
+        $email_brut = $_POST["email"];
+        $age_brut = $_POST["age"];
+
+        // 2. SANITIZER (nettoyer)
+        $nom = htmlspecialchars(trim($nom_brut));
+        $email = filter_var(trim($email_brut), FILTER_SANITIZE_EMAIL);
+        $age = intval($age_brut);
+
+        // 3. VALIDER
+        $erreurs = [];
+
+        if (empty($nom)) {
+            $erreurs[] = "Le nom est requis";
+        } elseif (strlen($nom) < 2) {
+            $erreurs[] = "Le nom doit contenir au moins 2 caractères";
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $erreurs[] = "Email invalide";
+        }
+
+        if ($age < 18 || $age > 150) {
+            $erreurs[] = "Âge invalide";
+        }
+
+        // 4. SI TOUT EST BON, ENREGISTRER
+        if (empty($erreurs)) {
+            // Les données sont maintenant SÛRES et VALIDES
+            // On peut les sauvegarder en base de données
+
+            // Exemple avec fichier (remplacer par DB en production)
+            $data = "Nom: $nom, Email: $email, Âge: $age\n";
+            file_put_contents('utilisateurs.txt', $data, FILE_APPEND);
+
+            echo "✓ Inscription réussie!";
+        } else {
+            // Afficher les erreurs
+            foreach ($erreurs as $erreur) {
+                echo "<p style='color:red;'>⚠️ $erreur</p>";
+            }
+        }
+    }
+    ?>
+
+
+I) REDIRIGER L'UTILISATEUR APRÈS SUCCÈS
+----------------------------------------
+
+🎯 ANALOGIE: Emmener quelqu'un vers une autre pièce après vérification
+
+Après une soumission réussie, on redirige vers une page de confirmation.
+
+UTILISER header() POUR REDIRIGER:
+
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        // Validation...
+
+        if ($tout_est_valide) {
+            // Sauvegarder les données...
+
+            // Rediriger vers page de succès
+            header("Location: merci.php");
+            exit();  // ⚠️ IMPORTANT: Toujours exit() après header()
+        }
+    }
+    ?>
+
+EXEMPLE COMPLET:
+
+    <?php
+    session_start();  // Pour stocker des messages
+
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        $email = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
+
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            // Sauvegarder l'email...
+
+            // Stocker un message de succès
+            $_SESSION['message'] = "Inscription réussie pour $email!";
+
+            // Rediriger
+            header("Location: confirmation.php");
+            exit();
+        }
+    }
+    ?>
+
+FICHIER: confirmation.php
+    <?php
+    session_start();
+
+    if (isset($_SESSION['message'])) {
+        echo "<p style='color:green;'>" . $_SESSION['message'] . "</p>";
+        unset($_SESSION['message']);  // Nettoyer le message
+    }
+    ?>
+
+⚠️ ATTENTION:
+header() doit être appelé AVANT tout echo ou HTML!
+
+
+J) SÉPARER LA LOGIQUE DE VALIDATION
+------------------------------------
+
+🎯 ANALOGIE: Un chef ne cuisine pas ET ne sert pas en même temps
+
+Pour du code propre, séparez la VALIDATION et l'AFFICHAGE.
+
+MAUVAISE PRATIQUE (tout mélangé):
+    <?php
+    echo "<form>";
+    if (!empty($_POST["nom"])) {
+        if (strlen($_POST["nom"]) > 2) {
+            echo "Valide";
+        }
+    }
+    echo "</form>";
+    // 😵 Difficile à lire et maintenir!
+    ?>
+
+BONNE PRATIQUE (séparation):
+
+FICHIER: validation.php
+    <?php
+    function valider_nom($nom) {
+        if (empty($nom)) {
+            return "Le nom est requis";
+        }
+        if (strlen($nom) < 2) {
+            return "Le nom doit contenir au moins 2 caractères";
+        }
+        return null;  // Pas d'erreur
+    }
+
+    function valider_email($email) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return "Email invalide";
+        }
+        return null;
+    }
+    ?>
+
+FICHIER: formulaire.php
+    <?php
+    require 'validation.php';
+
+    $erreurs = [];
+
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        // Utiliser les fonctions de validation
+        $erreur_nom = valider_nom($_POST["nom"]);
+        if ($erreur_nom) {
+            $erreurs[] = $erreur_nom;
+        }
+
+        $erreur_email = valider_email($_POST["email"]);
+        if ($erreur_email) {
+            $erreurs[] = $erreur_email;
+        }
+    }
+    ?>
+
+    <!-- HTML séparé -->
+    <!DOCTYPE html>
+    <html>
+    <body>
+        <?php if (!empty($erreurs)): ?>
+            <?php foreach ($erreurs as $erreur): ?>
+                <p style="color:red;"><?= $erreur ?></p>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+        <form method="POST">
+            <!-- Formulaire ici -->
+        </form>
+    </body>
+    </html>
+
+💡 AVANTAGES:
+✓ Code plus lisible
+✓ Fonctions réutilisables
+✓ Plus facile à tester
+✓ Plus facile à maintenir
+
+
+K) RÉCAPITULATIF - VALIDATION BACK-END
+---------------------------------------
+
+🎯 CHECKLIST POUR CHAQUE FORMULAIRE:
+
+1. ✓ Utiliser method="POST" dans le formulaire HTML
+2. ✓ Vérifier que les données existent avec empty()
+3. ✓ SANITIZER les données:
+   - trim() pour retirer espaces
+   - htmlspecialchars() pour échapper HTML
+   - filter_var() avec FILTER_SANITIZE_*
+4. ✓ VALIDER les données:
+   - strlen() pour vérifier longueur
+   - is_numeric() pour vérifier nombres
+   - filter_var() avec FILTER_VALIDATE_*
+   - preg_match() pour patterns complexes
+5. ✓ Comparer avec back-end si nécessaire (DB)
+6. ✓ Afficher des messages d'erreur clairs
+7. ✓ Si tout est valide, traiter et rediriger
+8. ✓ Séparer logique de validation et affichage
+
+⚠️ RÈGLES D'OR:
+- TOUJOURS sanitizer avant d'afficher
+- TOUJOURS valider côté serveur (back-end)
+- Ne JAMAIS faire confiance aux données utilisateur
+- Vérifier longueur AVANT regex (performance)
+- Donner des messages d'erreur clairs
+- Séparer validation et affichage
+
+💡 ORDRE DES OPÉRATIONS:
+    1. Recevoir données ($_POST)
+    2. Sanitizer (nettoyer)
+    3. Valider (vérifier règles)
+    4. Comparer avec back-end si nécessaire
+    5. Si OK → Traiter et sauvegarder
+    6. Si erreurs → Afficher feedback
+    7. Si succès → Rediriger
+
+
+L) EXEMPLE COMPLET - FORMULAIRE D'INSCRIPTION
+----------------------------------------------
+
+Voici un exemple COMPLET qui montre tout ce qu'on a appris:
+
+FICHIER: inscription.php
+    <?php
+    // Démarrer la session pour les messages
+    session_start();
+
+    // Initialiser les variables
+    $erreurs = [];
+    $nom = "";
+    $email = "";
+
+    // Si le formulaire est soumis
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+        // 1. RÉCUPÉRER et SANITIZER
+        $nom = htmlspecialchars(trim($_POST["nom"] ?? ""));
+        $email = filter_var(trim($_POST["email"] ?? ""), FILTER_SANITIZE_EMAIL);
+        $age = intval($_POST["age"] ?? 0);
+        $password = $_POST["password"] ?? "";
+
+        // 2. VALIDER - Nom
+        if (empty($nom)) {
+            $erreurs[] = "Le nom est requis";
+        } elseif (strlen($nom) < 2 || strlen($nom) > 50) {
+            $erreurs[] = "Le nom doit contenir entre 2 et 50 caractères";
+        }
+
+        // 3. VALIDER - Email
+        if (empty($email)) {
+            $erreurs[] = "L'email est requis";
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $erreurs[] = "Format d'email invalide";
+        }
+
+        // 4. VALIDER - Âge
+        if ($age < 18) {
+            $erreurs[] = "Vous devez avoir au moins 18 ans";
+        } elseif ($age > 150) {
+            $erreurs[] = "Âge invalide";
+        }
+
+        // 5. VALIDER - Mot de passe
+        if (strlen($password) < 8) {
+            $erreurs[] = "Le mot de passe doit contenir au moins 8 caractères";
+        } elseif (!preg_match('/[0-9]/', $password)) {
+            $erreurs[] = "Le mot de passe doit contenir au moins un chiffre";
+        }
+
+        // 6. SI PAS D'ERREURS
+        if (empty($erreurs)) {
+            // Sauvegarder les données (simulé ici)
+            $_SESSION['message'] = "✓ Inscription réussie pour $nom!";
+
+            // Rediriger
+            header("Location: confirmation.php");
+            exit();
+        }
+    }
+    ?>
+
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>Inscription</title>
+        <style>
+            .erreur { color: red; padding: 10px; background: #ffe6e6; }
+            .form-group { margin: 15px 0; }
+            label { display: block; margin-bottom: 5px; }
+            input { padding: 8px; width: 300px; }
+            button { padding: 10px 20px; background: #007bff; color: white; border: none; }
+        </style>
+    </head>
+    <body>
+        <h1>Formulaire d'Inscription</h1>
+
+        <?php if (!empty($erreurs)): ?>
+            <div class="erreur">
+                <p><strong>⚠️ Erreurs détectées:</strong></p>
+                <ul>
+                    <?php foreach ($erreurs as $erreur): ?>
+                        <li><?= $erreur ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+
+        <form method="POST">
+            <div class="form-group">
+                <label for="nom">Nom:</label>
+                <input type="text" id="nom" name="nom"
+                       value="<?= htmlspecialchars($nom) ?>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email"
+                       value="<?= htmlspecialchars($email) ?>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="age">Âge:</label>
+                <input type="number" id="age" name="age"
+                       min="18" max="150" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Mot de passe:</label>
+                <input type="password" id="password" name="password"
+                       minlength="8" required>
+            </div>
+
+            <button type="submit">S'inscrire</button>
+        </form>
+    </body>
+    </html>
+
+FICHIER: confirmation.php
+    <?php
+    session_start();
+    ?>
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>Confirmation</title>
+        <style>
+            .succes {
+                color: green;
+                padding: 20px;
+                background: #e6ffe6;
+                font-size: 1.2em;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Confirmation</h1>
+
+        <?php if (isset($_SESSION['message'])): ?>
+            <div class="succes">
+                <?= $_SESSION['message'] ?>
+            </div>
+            <?php unset($_SESSION['message']); ?>
+        <?php else: ?>
+            <p>Aucune inscription en attente.</p>
+        <?php endif; ?>
+
+        <p><a href="inscription.php">← Retour au formulaire</a></p>
+    </body>
+    </html>
+
+💡 CE QUE CET EXEMPLE MONTRE:
+✓ Sanitization de toutes les données
+✓ Validations multiples avec messages clairs
+✓ Affichage des erreurs avec style
+✓ Conservation des valeurs après erreur (UX)
+✓ Redirection après succès
+✓ Utilisation de sessions pour messages
+✓ Code HTML propre et séparé
+
+
+M) POINTS CLÉS À RETENIR
+-------------------------
+
+🎯 VALIDATION = Vérifier que les données RESPECTENT les règles
+🎯 SANITIZATION = NETTOYER les données pour les rendre sûres
+
+TOUJOURS:
+✓ Valider côté serveur (back-end)
+✓ Sanitizer avant affichage
+✓ Sanitizer avant enregistrement en DB
+✓ Donner du feedback clair à l'utilisateur
+✓ Vérifier longueur avant regex (performance)
+✓ Utiliser filter_var() pour validation/sanitization courante
+✓ Séparer logique et affichage
+
+JAMAIS:
+✗ Faire confiance aux données utilisateur
+✗ Afficher des données sans htmlspecialchars()
+✗ Utiliser seulement validation front-end
+✗ Oublier de valider même si le front est validé
+
+🔒 SÉCURITÉ AVANT TOUT!
+"Une donnée utilisateur = Une donnée dangereuse jusqu'à preuve du contraire"
 
 
 ================================================================================

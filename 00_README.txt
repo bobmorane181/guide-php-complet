@@ -4,14 +4,14 @@
 
 BIENVENUE DANS LE GUIDE PHP COMPLET !
 
-Ce guide a été organisé en 8 modules distincts pour faciliter l'apprentissage
+Ce guide a été organisé en 9 modules distincts pour faciliter l'apprentissage
 progressif de PHP. Chaque fichier couvre un aspect essentiel du langage.
 
 ================================================================================
 STRUCTURE DU GUIDE
 ================================================================================
 
-Le guide original a été divisé en 8 fichiers thématiques, en supprimant les
+Le guide a été organisé en 9 fichiers thématiques, en supprimant les
 doublons et en organisant le contenu de manière logique et pédagogique.
 
 📁 FICHIERS DU GUIDE (dans l'ordre d'apprentissage recommandé):
@@ -89,6 +89,16 @@ doublons et en organisant le contenu de manière logique et pédagogique.
    - Stratégie de validation complète
    - Fonctions de sécurité PHP
 
+9. PHP_09_Classes_et_POO.txt (32 KB)
+   - Qu'est-ce que la POO ?
+   - Classes et Objets - Les Fondamentaux
+   - Propriétés et Méthodes
+   - Modificateurs d'accès (public, private, protected)
+   - Le Constructeur (__construct)
+   - $this - Référencer l'Objet Actuel
+   - L'Héritage (extends)
+   - Exemple pratique complet
+
 
 ================================================================================
 POINTS IMPORTANTS À NOTER
@@ -127,6 +137,7 @@ NIVEAU INTERMÉDIAIRE:
 NIVEAU AVANCÉ:
 7. PHP_07_Formulaires_HTML.txt
 8. PHP_08_Validation_Securite.txt
+9. PHP_09_Classes_et_POO.txt
 
 
 ================================================================================

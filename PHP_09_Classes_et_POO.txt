@@ -1,0 +1,2088 @@
+================================================================================
+         PHP MODULE 9 : CLASSES ET PROGRAMMATION ORIENTÉE OBJET (POO)
+================================================================================
+
+TABLE DES MATIÈRES
+==================
+1. Qu'est-ce que la POO ?
+2. Classes et Objets - Les Fondamentaux
+3. Créer sa Première Classe
+4. Propriétés - Les Données d'un Objet
+5. Méthodes - Les Actions d'un Objet
+6. Modificateurs d'Accès (public, private, protected)
+7. Le Constructeur - Initialiser un Objet
+8. $this - Référencer l'Objet Actuel
+9. L'Héritage - Réutiliser du Code
+10. Exemple Pratique Complet
+11. Points Clés à Retenir
+
+
+================================================================================
+A. QU'EST-CE QUE LA POO ?
+================================================================================
+
+POO = PROGRAMMATION ORIENTÉE OBJET (Object-Oriented Programming)
+
+DÉFINITION :
+La POO est une manière d'organiser et de structurer votre code en utilisant
+des "objets" qui représentent des éléments du monde réel ou des concepts.
+
+Au lieu d'avoir du code éparpillé (approche procédurale), vous regroupez les
+données et les actions qui vont ensemble dans des "objets".
+
+
+ANALOGIE DU MONDE RÉEL :
+------------------------
+Pensez à une VOITURE :
+- Elle a des CARACTÉRISTIQUES : couleur, marque, vitesse maximale, niveau
+  d'essence
+- Elle peut FAIRE DES CHOSES : démarrer, accélérer, freiner, klaxonner
+
+En POO, vous créez un "plan" (une classe) pour construire des voitures
+(des objets).
+
+
+COMPARAISON : CODE PROCÉDURAL vs POO
+-------------------------------------
+
+// ❌ SANS POO (code éparpillé)
+$nom_utilisateur = "Marie";
+$email_utilisateur = "marie@example.com";
+$age_utilisateur = 28;
+
+function envoyer_email_utilisateur($email) {
+    echo "Email envoyé à : $email\n";
+}
+
+function afficher_utilisateur($nom, $email, $age) {
+    echo "Nom: $nom, Email: $email, Age: $age\n";
+}
+
+envoyer_email_utilisateur($email_utilisateur);
+afficher_utilisateur($nom_utilisateur, $email_utilisateur, $age_utilisateur);
+
+
+// ✅ AVEC POO (code organisé)
+class Utilisateur {
+    public $nom;
+    public $email;
+    public $age;
+
+    public function envoyerEmail() {
+        echo "Email envoyé à : $this->email\n";
+    }
+
+    public function afficher() {
+        echo "Nom: $this->nom, Email: $this->email, Age: $this->age\n";
+    }
+}
+
+$utilisateur = new Utilisateur();
+$utilisateur->nom = "Marie";
+$utilisateur->email = "marie@example.com";
+$utilisateur->age = 28;
+
+$utilisateur->envoyerEmail();
+$utilisateur->afficher();
+
+
+VOCABULAIRE DE BASE :
+---------------------
+• CLASSE     : Le plan, le modèle (comme un plan de maison)
+• OBJET      : Une instance créée à partir d'une classe (une maison construite)
+• INSTANCE   : Synonyme d'objet (un exemplaire de la classe)
+• PROPRIÉTÉ  : Variable à l'intérieur d'une classe (les caractéristiques)
+• MÉTHODE    : Fonction à l'intérieur d'une classe (les actions)
+
+
+POURQUOI UTILISER LA POO ?
+---------------------------
+✓ Organisation : Code structuré et facile à maintenir
+✓ Réutilisation : Créer plusieurs objets à partir d'une même classe
+✓ Encapsulation : Protéger les données sensibles
+✓ Héritage : Réutiliser du code existant
+✓ Clarté : Code qui reflète le monde réel
+
+
+================================================================================
+B. CLASSES ET OBJETS - LES FONDAMENTAUX
+================================================================================
+
+CONCEPT CLÉ : CLASSE vs OBJET
+------------------------------
+
+Une CLASSE est comme un PLAN DE MAISON :
+- C'est un modèle, un blueprint
+- Elle définit la structure mais n'existe pas physiquement
+- Elle décrit ce qu'un objet aura et pourra faire
+
+Un OBJET est comme une MAISON CONSTRUITE :
+- C'est une réalisation concrète du plan
+- Il existe en mémoire
+- Vous pouvez créer plusieurs objets (maisons) à partir d'une classe (plan)
+
+
+SCHÉMA VISUEL :
+---------------
+
+    ┌───────────────────────────┐
+    │   Classe: Voiture         │  ← Le PLAN (définition)
+    │   ─────────────────       │
+    │   Propriétés:             │
+    │   - $couleur              │
+    │   - $marque               │
+    │   - $vitesse              │
+    │                           │
+    │   Méthodes:               │
+    │   - demarrer()            │
+    │   - accelerer()           │
+    └───────────┬───────────────┘
+                │
+                │ new Voiture()
+                │
+                ├────────────────────────────────────────────────────┐
+                │                                                    │
+        ┌───────▼────────┐        ┌──────────────┐        ┌────────▼────────┐
+        │ Objet 1        │        │ Objet 2      │        │ Objet 3         │
+        │ ──────         │        │ ──────       │        │ ──────          │
+        │ Voiture rouge  │        │ Voiture      │        │ Voiture noire   │
+        │ Toyota         │        │ bleue Honda  │        │ Ford            │
+        └────────────────┘        └──────────────┘        └─────────────────┘
+
+
+EXEMPLE DE CODE :
+-----------------
+
+<?php
+// Définir une CLASSE (le plan)
+class Voiture {
+    // Le contenu viendra plus tard
+}
+
+// Créer des OBJETS (instances)
+$voiture1 = new Voiture();  // Premier objet
+$voiture2 = new Voiture();  // Deuxième objet (indépendant)
+$voiture3 = new Voiture();  // Troisième objet (indépendant)
+
+// Vérifier que ce sont des objets différents
+var_dump($voiture1 === $voiture2);  // false (objets différents en mémoire)
+?>
+
+
+À RETENIR :
+-----------
+• Une classe se définit UNE SEULE FOIS
+• Vous pouvez créer AUTANT d'objets que vous voulez à partir de cette classe
+• Chaque objet est INDÉPENDANT (modifier l'un n'affecte pas les autres)
+• Le mot-clé "new" crée un nouvel objet
+
+
+================================================================================
+C. CRÉER SA PREMIÈRE CLASSE
+================================================================================
+
+SYNTAXE DE BASE :
+-----------------
+
+    class NomDeLaClasse {
+        // Contenu de la classe
+    }
+
+⚠️ IMPORTANT :
+Les classes sont définies avec le mot-clé "class", un mot-clé réservé de PHP.
+Ce mot-clé indique au moteur PHP que vous définissez une nouvelle classe.
+
+
+CONVENTION DE NOMMAGE :
+-----------------------
+Les classes utilisent la convention PascalCase (aussi appelée UpperCamelCase) :
+- Première lettre en MAJUSCULE
+- Chaque mot commence par une majuscule
+- Pas d'underscore
+
+✅ CORRECT :
+    class Utilisateur
+    class CompteBancaire
+    class VoitureElectrique
+
+❌ INCORRECT :
+    class utilisateur        // Pas de majuscule
+    class compte_bancaire    // Snake_case (pour les fonctions, pas les classes)
+    class voiture-electrique // Tirets non autorisés
+
+
+EXEMPLE 1 : CLASSE VIDE
+------------------------
+
+<?php
+// 1. Définir une classe vide
+class Chien {
+    // Vide pour l'instant
+}
+
+// 2. Créer un objet
+$mon_chien = new Chien();
+
+// 3. Vérifier le type
+var_dump($mon_chien);
+// Affiche : object(Chien)#1 (0) {}
+?>
+
+
+EXEMPLE 2 : CRÉER PLUSIEURS OBJETS
+-----------------------------------
+
+<?php
+class Chat {
+    // Classe vide pour l'instant
+}
+
+// Créer plusieurs chats indépendants
+$chat1 = new Chat();
+$chat2 = new Chat();
+$chat3 = new Chat();
+
+echo "chat1 : ";
+var_dump($chat1);  // object(Chat)#1
+
+echo "chat2 : ";
+var_dump($chat2);  // object(Chat)#2 (numéro différent !)
+
+// Comparer les objets
+var_dump($chat1 === $chat2);  // false - objets différents
+var_dump($chat1 == $chat2);   // true - même structure
+?>
+
+
+LE MOT-CLÉ "new" :
+------------------
+• new crée une NOUVELLE INSTANCE de la classe
+• Chaque appel à new crée un objet DISTINCT en mémoire
+• Sans new, vous avez juste le nom de la classe, pas un objet
+
+
+ERREURS COURANTES :
+-------------------
+
+// ❌ ERREUR : Oublier le mot-clé "new"
+$chien = Chien();
+// Fatal error: Uncaught Error: Call to undefined function Chien()
+
+// ❌ ERREUR : Utiliser une classe qui n'existe pas
+$animal = new Licorne();
+// Fatal error: Uncaught Error: Class 'Licorne' not found
+
+// ✅ CORRECT : Utiliser new avec une classe définie
+$chien = new Chien();
+
+
+POINT CLÉ :
+-----------
+À ce stade, nos classes sont vides, mais elles fonctionnent ! Dans les
+prochaines sections, nous ajouterons des propriétés (données) et des
+méthodes (actions) pour rendre nos objets utiles.
+
+
+================================================================================
+D. PROPRIÉTÉS - LES DONNÉES D'UN OBJET
+================================================================================
+
+QU'EST-CE QU'UNE PROPRIÉTÉ ?
+-----------------------------
+Une propriété est une VARIABLE à l'intérieur d'une classe. Elle stocke les
+données spécifiques à chaque objet.
+
+💡 TRANSFORMATION TERMINOLOGIQUE :
+Lorsqu'une variable est définie à l'intérieur d'une classe, elle devient une
+**propriété**. C'est le même concept, mais le terme change selon le contexte :
+- Hors classe : on parle de "variable"
+- Dans classe : on parle de "propriété"
+
+SYNTAXE :
+    public $nomPropriete;
+
+
+EXEMPLE 1 : DÉFINIR DES PROPRIÉTÉS
+-----------------------------------
+
+<?php
+class Utilisateur {
+    public $nom;      // Propriété pour le nom
+    public $age;      // Propriété pour l'âge
+    public $email;    // Propriété pour l'email
+}
+
+// Créer un objet
+$user1 = new Utilisateur();
+
+// Assigner des valeurs aux propriétés (opérateur ->)
+$user1->nom = "Alice";
+$user1->age = 25;
+$user1->email = "alice@example.com";
+
+// Lire les propriétés
+echo $user1->nom;   // Affiche : Alice
+echo $user1->age;   // Affiche : 25
+echo $user1->email; // Affiche : alice@example.com
+?>
+
+
+L'OPÉRATEUR FLÈCHE (->) :
+--------------------------
+Pour accéder aux propriétés d'un objet, on utilise -> (flèche) :
+
+    $objet->propriete
+
+⚠️ IMPORTANT : Notez qu'on N'utilise PAS le $ devant le nom de la propriété
+après la flèche !
+
+✅ CORRECT :
+    $user->nom
+
+❌ INCORRECT :
+    $user->$nom     // Double $ non nécessaire
+
+
+EXEMPLE 2 : OBJETS INDÉPENDANTS
+--------------------------------
+
+<?php
+class Produit {
+    public $nom;
+    public $prix;
+}
+
+// Créer deux produits différents
+$produit1 = new Produit();
+$produit1->nom = "Laptop";
+$produit1->prix = 1200;
+
+$produit2 = new Produit();
+$produit2->nom = "Souris";
+$produit2->prix = 25;
+
+// Chaque objet a ses propres valeurs
+echo $produit1->nom . " : " . $produit1->prix . "€\n";  // Laptop : 1200€
+echo $produit2->nom . " : " . $produit2->prix . "€\n";  // Souris : 25€
+
+// Modifier un objet n'affecte pas l'autre
+$produit1->prix = 1000;
+echo $produit2->prix;  // Toujours 25 (inchangé)
+?>
+
+
+TABLEAU COMPARATIF : VARIABLE vs PROPRIÉTÉ
+-------------------------------------------
+
+┌──────────────────────┬─────────────────────┬──────────────────────────┐
+│                      │ Variable simple     │ Propriété de classe      │
+├──────────────────────┼─────────────────────┼──────────────────────────┤
+│ Déclaration          │ $nom = "Alice";     │ public $nom;             │
+│                      │                     │                          │
+│ Portée               │ Locale/globale      │ Liée à l'objet           │
+│                      │                     │                          │
+│ Accès                │ echo $nom;          │ echo $objet->nom;        │
+│                      │                     │                          │
+│ Modificateur         │ Aucun               │ public, private,         │
+│                      │                     │ protected                │
+│                      │                     │                          │
+│ Durée de vie         │ Fin du script       │ Tant que l'objet existe  │
+└──────────────────────┴─────────────────────┴──────────────────────────┘
+
+
+VALEURS PAR DÉFAUT :
+--------------------
+
+Vous pouvez assigner des valeurs par défaut aux propriétés :
+
+<?php
+class Compteur {
+    public $valeur = 0;        // Valeur par défaut : 0
+    public $nom = "Compteur";  // Valeur par défaut : "Compteur"
+}
+
+$c1 = new Compteur();
+echo $c1->valeur;  // 0 (valeur par défaut)
+
+$c1->valeur = 10;  // Modifier la valeur
+echo $c1->valeur;  // 10
+?>
+
+
+PROPRIÉTÉS NON INITIALISÉES :
+------------------------------
+
+<?php
+class Personne {
+    public $nom;  // Pas de valeur par défaut
+}
+
+$p = new Personne();
+echo $p->nom;  // ⚠️ Affiche rien (null) - Peut causer un Warning
+?>
+
+💡 BONNE PRATIQUE :
+Toujours initialiser vos propriétés, soit avec une valeur par défaut, soit
+via un constructeur (nous verrons cela dans la section G).
+
+
+ERREURS COURANTES :
+-------------------
+
+// ❌ ERREUR : Oublier la flèche ->
+$user = new Utilisateur();
+echo $user.nom;  // Parse error
+
+// ❌ ERREUR : Accéder à une propriété qui n'existe pas
+$user = new Utilisateur();
+echo $user->telephone;  // Warning: Undefined property
+
+// ❌ ERREUR : Utiliser $ après la flèche
+echo $user->$nom;  // Erreur (sauf cas avancés)
+
+// ✅ CORRECT :
+echo $user->nom;
+
+
+================================================================================
+E. MÉTHODES - LES ACTIONS D'UN OBJET
+================================================================================
+
+QU'EST-CE QU'UNE MÉTHODE ?
+---------------------------
+Une méthode est une FONCTION à l'intérieur d'une classe. Elle définit les
+actions qu'un objet peut effectuer.
+
+💡 TRANSFORMATION TERMINOLOGIQUE :
+Lorsqu'une fonction est définie à l'intérieur d'une classe, elle devient une
+**méthode**. C'est le même concept, mais le terme change selon le contexte :
+- Hors classe : on parle de "fonction"
+- Dans classe : on parle de "méthode"
+
+SYNTAXE :
+    public function nomMethode() {
+        // Code de la méthode
+    }
+
+
+EXEMPLE 1 : MÉTHODE SIMPLE
+---------------------------
+
+<?php
+class Chien {
+    public $nom;
+
+    public function aboyer() {
+        echo "Woof! Woof!\n";
+    }
+}
+
+$chien = new Chien();
+$chien->nom = "Rex";
+$chien->aboyer();  // Affiche : Woof! Woof!
+?>
+
+
+APPELER UNE MÉTHODE :
+---------------------
+Comme pour les propriétés, on utilise la flèche -> :
+
+    $objet->methode();
+
+⚠️ ATTENTION : N'oubliez pas les parenthèses () même si la méthode n'a pas
+de paramètres !
+
+
+EXEMPLE 2 : MÉTHODE AVEC PARAMÈTRES
+------------------------------------
+
+<?php
+class Calculatrice {
+    public function additionner($a, $b) {
+        return $a + $b;
+    }
+
+    public function multiplier($a, $b) {
+        return $a * $b;
+    }
+}
+
+$calc = new Calculatrice();
+
+$resultat1 = $calc->additionner(5, 3);
+echo $resultat1;  // 8
+
+$resultat2 = $calc->multiplier(4, 7);
+echo $resultat2;  // 28
+?>
+
+
+EXEMPLE 3 : MÉTHODE AVEC RETURN
+--------------------------------
+
+<?php
+class Rectangle {
+    public $largeur;
+    public $hauteur;
+
+    public function calculerAire() {
+        return $this->largeur * $this->hauteur;
+    }
+
+    public function calculerPerimetre() {
+        return 2 * ($this->largeur + $this->hauteur);
+    }
+}
+
+$rect = new Rectangle();
+$rect->largeur = 10;
+$rect->hauteur = 5;
+
+echo "Aire : " . $rect->calculerAire() . "\n";        // 50
+echo "Périmètre : " . $rect->calculerPerimetre() . "\n";  // 30
+?>
+
+Note : Nous utilisons $this dans cet exemple - nous l'expliquerons en détail
+dans la section H.
+
+
+TABLEAU COMPARATIF : FONCTION vs MÉTHODE
+-----------------------------------------
+
+┌────────────────────┬──────────────────────┬────────────────────────┐
+│                    │ Fonction             │ Méthode                │
+├────────────────────┼──────────────────────┼────────────────────────┤
+│ Où ?               │ Hors d'une classe    │ À l'intérieur d'une    │
+│                    │                      │ classe                 │
+│                    │                      │                        │
+│ Déclaration        │ function test() {}   │ public function        │
+│                    │                      │ test() {}              │
+│                    │                      │                        │
+│ Appel              │ test();              │ $objet->test();        │
+│                    │                      │                        │
+│ Accès aux          │ Non (sauf si passées │ Oui (via $this)        │
+│ propriétés         │ en paramètre)        │                        │
+│                    │                      │                        │
+│ Modificateur       │ Aucun                │ public, private,       │
+│                    │                      │ protected              │
+└────────────────────┴──────────────────────┴────────────────────────┘
+
+
+EXEMPLE 4 : MÉTHODE UTILISANT LES PROPRIÉTÉS
+---------------------------------------------
+
+<?php
+class CompteBancaire {
+    public $solde = 0;
+
+    public function deposer($montant) {
+        $this->solde = $this->solde + $montant;
+        echo "Dépôt de $montant€. Nouveau solde : $this->solde€\n";
+    }
+
+    public function retirer($montant) {
+        $this->solde = $this->solde - $montant;
+        echo "Retrait de $montant€. Nouveau solde : $this->solde€\n";
+    }
+
+    public function afficherSolde() {
+        echo "Solde actuel : $this->solde€\n";
+    }
+}
+
+$compte = new CompteBancaire();
+$compte->afficherSolde();   // Solde actuel : 0€
+$compte->deposer(100);      // Dépôt de 100€. Nouveau solde : 100€
+$compte->retirer(30);       // Retrait de 30€. Nouveau solde : 70€
+$compte->afficherSolde();   // Solde actuel : 70€
+?>
+
+
+ERREURS COURANTES :
+-------------------
+
+// ❌ ERREUR : Oublier les parenthèses
+$chien->aboyer;  // Ne fait rien, accède à une propriété inexistante
+
+// ❌ ERREUR : Appeler une méthode qui n'existe pas
+$chien->miauler();  // Fatal error: Call to undefined method
+
+// ❌ ERREUR : Confondre fonction et méthode
+class Test {
+    function maMethode() {}  // ❌ Manque le modificateur public
+}
+
+// ✅ CORRECT :
+class Test {
+    public function maMethode() {}  // ✅ Avec modificateur
+}
+
+
+💡 BONNE PRATIQUE :
+Toujours utiliser le modificateur public (ou private/protected) devant vos
+méthodes, même si PHP l'accepte sans.
+
+
+================================================================================
+F. MODIFICATEURS D'ACCÈS (public, private, protected)
+================================================================================
+
+⭐ SECTION IMPORTANTE : C'est ici que nous répondons à votre question !
+
+
+F.1 - INTRODUCTION AUX MODIFICATEURS D'ACCÈS
+---------------------------------------------
+
+QU'EST-CE QU'UN MODIFICATEUR D'ACCÈS ?
+Les modificateurs d'accès contrôlent QUI peut accéder aux propriétés et
+méthodes d'une classe.
+
+LES 3 NIVEAUX D'ACCÈS :
+1. public    : Accessible PARTOUT (de l'intérieur, de l'extérieur, des enfants)
+2. private   : Accessible UNIQUEMENT dans la classe où c'est défini
+3. protected : Accessible dans la classe ET dans les classes enfants (héritage)
+
+⚠️ NOTE IMPORTANTE :
+Si vous ne spécifiez aucun modificateur, PHP utilise "public" par défaut.
+CEPENDANT, il est fortement recommandé de TOUJOURS spécifier explicitement le
+modificateur (public, private ou protected) pour rendre votre code clair et
+professionnel.
+
+
+POURQUOI C'EST IMPORTANT ?
+---------------------------
+✓ SÉCURITÉ : Protéger les données sensibles
+✓ ENCAPSULATION : Cacher les détails d'implémentation
+✓ CONTRÔLE : Forcer l'utilisation de méthodes pour valider les données
+✓ MAINTENANCE : Modifier l'interne sans casser le code externe
+
+
+F.2 - PUBLIC : ACCESSIBLE PARTOUT
+----------------------------------
+
+DÉFINITION :
+Une propriété ou méthode "public" est accessible :
+- ✅ De l'intérieur de la classe
+- ✅ De l'extérieur de la classe (via $objet->)
+- ✅ Depuis les classes enfants (héritage)
+
+SYNTAXE :
+    public $propriete;
+    public function methode() {}
+
+
+EXEMPLE :
+
+<?php
+class Personne {
+    public $nom = "Alice";        // ✅ Propriété publique
+    public $prenom = "Dupont";    // ✅ Propriété publique
+
+    public function sePresenter() {  // ✅ Méthode publique
+        echo "Je m'appelle $this->nom $this->prenom\n";
+    }
+}
+
+// Utilisation
+$personne = new Personne();
+
+// ✅ Accès DIRECT depuis l'extérieur (fonctionne)
+echo $personne->nom;  // Alice
+$personne->nom = "Bob";  // Modifier directement
+
+// ✅ Appel de méthode publique (fonctionne)
+$personne->sePresenter();  // Je m'appelle Bob Dupont
+?>
+
+
+QUAND UTILISER "public" ?
+--------------------------
+• Pour les méthodes que vous voulez rendre accessibles de l'extérieur
+• Pour les propriétés simples sans validation nécessaire
+• Par défaut, si vous n'avez pas besoin de protection
+
+
+⚠️ ATTENTION :
+Utiliser "public" pour toutes les propriétés peut être dangereux ! Quelqu'un
+peut modifier vos données sans validation. C'est là que "private" intervient.
+
+
+F.3 - PRIVATE : UNIQUEMENT DANS LA CLASSE
+------------------------------------------
+
+DÉFINITION :
+Une propriété ou méthode "private" est accessible :
+- ✅ Uniquement de l'intérieur de la classe
+- ❌ PAS de l'extérieur de la classe
+- ❌ PAS depuis les classes enfants
+
+SYNTAXE :
+    private $propriete;
+    private function methode() {}
+
+
+EXEMPLE : COMPTE BANCAIRE (Protection du solde)
+
+<?php
+class CompteBancaire {
+    private $solde = 0;  // ❌ Pas accessible de l'extérieur = PROTECTION
+
+    // ✅ Méthodes publiques pour accéder au solde de manière contrôlée
+    public function deposer($montant) {
+        if ($montant > 0) {  // ✅ Validation
+            $this->solde += $montant;
+            echo "Dépôt de $montant€ effectué.\n";
+        } else {
+            echo "❌ Montant invalide.\n";
+        }
+    }
+
+    public function retirer($montant) {
+        if ($montant > 0 && $montant <= $this->solde) {  // ✅ Validation
+            $this->solde -= $montant;
+            echo "Retrait de $montant€ effectué.\n";
+        } else {
+            echo "❌ Retrait impossible (solde insuffisant ou montant invalide).\n";
+        }
+    }
+
+    public function getSolde() {  // ✅ Getter (lecture seulement)
+        return $this->solde;
+    }
+}
+
+// Utilisation
+$compte = new CompteBancaire();
+
+// ❌ ERREUR : Impossible d'accéder directement à $solde
+// echo $compte->solde;
+// Fatal error: Cannot access private property CompteBancaire::$solde
+
+// ❌ ERREUR : Impossible de modifier directement
+// $compte->solde = 1000000;
+// Fatal error: Cannot access private property
+
+// ✅ CORRECT : Utiliser les méthodes publiques
+$compte->deposer(500);     // Dépôt de 500€
+$compte->retirer(200);     // Retrait de 200€
+echo $compte->getSolde();  // 300 (accès via getter)
+
+// ✅ La validation fonctionne :
+$compte->retirer(5000);    // ❌ Retrait impossible (solde insuffisant)
+?>
+
+
+PRINCIPE D'ENCAPSULATION :
+--------------------------
+L'encapsulation consiste à :
+1. Rendre les propriétés PRIVATE (protéger)
+2. Créer des méthodes PUBLIC pour y accéder (contrôler)
+
+Avantages :
+• Empêche les modifications non autorisées
+• Permet de valider les données avant de les stocker
+• Permet de changer l'implémentation interne sans casser le code externe
+
+
+GETTERS ET SETTERS :
+--------------------
+Conventions pour accéder aux propriétés privées :
+
+<?php
+class Utilisateur {
+    private $age;
+
+    // GETTER : Obtenir la valeur (lecture)
+    public function getAge() {
+        return $this->age;
+    }
+
+    // SETTER : Définir la valeur (écriture avec validation)
+    public function setAge($nouvelAge) {
+        if ($nouvelAge >= 0 && $nouvelAge <= 150) {  // ✅ Validation
+            $this->age = $nouvelAge;
+        } else {
+            echo "❌ Âge invalide.\n";
+        }
+    }
+}
+
+$user = new Utilisateur();
+$user->setAge(25);        // ✅ Passe la validation
+echo $user->getAge();     // 25
+
+$user->setAge(-5);        // ❌ Âge invalide
+$user->setAge(200);       // ❌ Âge invalide
+?>
+
+
+MÉTHODES PRIVÉES :
+------------------
+Les méthodes peuvent aussi être privées (utilisées en interne seulement) :
+
+<?php
+class Robot {
+    private function demarrerMoteur() {  // ✅ Méthode privée
+        echo "Moteur démarré (interne)\n";
+    }
+
+    public function activer() {  // ✅ Méthode publique
+        echo "Activation du robot...\n";
+        $this->demarrerMoteur();  // ✅ Appel interne OK
+        echo "Robot activé !\n";
+    }
+}
+
+$robot = new Robot();
+$robot->activer();  // ✅ Fonctionne
+// Affiche :
+// Activation du robot...
+// Moteur démarré (interne)
+// Robot activé !
+
+// ❌ ERREUR : Impossible d'appeler la méthode privée
+// $robot->demarrerMoteur();
+// Fatal error: Call to private method Robot::demarrerMoteur()
+?>
+
+
+QUAND UTILISER "private" ?
+---------------------------
+• Pour les propriétés contenant des données sensibles (mot de passe, solde...)
+• Pour les propriétés nécessitant une validation avant modification
+• Pour les méthodes internes (helpers) utilisées uniquement dans la classe
+• Par défaut, protégez tout avec "private" et rendez "public" si nécessaire
+
+
+F.4 - PROTECTED : CLASSE ET ENFANTS
+------------------------------------
+
+DÉFINITION :
+Une propriété ou méthode "protected" est accessible :
+- ✅ De l'intérieur de la classe
+- ✅ Depuis les classes enfants (via héritage)
+- ❌ PAS de l'extérieur de la classe
+
+SYNTAXE :
+    protected $propriete;
+    protected function methode() {}
+
+
+EXEMPLE : HÉRITAGE AVEC PROTECTED
+
+<?php
+// Classe PARENT
+class Animal {
+    protected $energie = 100;  // ✅ Protected (accessible aux enfants)
+
+    public function afficherEnergie() {
+        echo "Énergie : $this->energie\n";
+    }
+}
+
+// Classe ENFANT (hérite de Animal)
+class Chien extends Animal {
+    public function courir() {
+        // ✅ ACCÈS POSSIBLE : protected est accessible dans la classe enfant
+        $this->energie -= 10;
+        echo "Le chien court ! ";
+        $this->afficherEnergie();
+    }
+
+    public function manger() {
+        // ✅ ACCÈS POSSIBLE
+        $this->energie += 20;
+        echo "Le chien mange ! ";
+        $this->afficherEnergie();
+    }
+}
+
+// Utilisation
+$chien = new Chien();
+$chien->afficherEnergie();  // Énergie : 100
+
+$chien->courir();  // Le chien court ! Énergie : 90
+$chien->manger();  // Le chien mange ! Énergie : 110
+
+// ❌ ERREUR : Impossible d'accéder directement de l'extérieur
+// echo $chien->energie;
+// Fatal error: Cannot access protected property Chien::$energie
+?>
+
+
+COMPARAISON : PRIVATE vs PROTECTED
+-----------------------------------
+
+<?php
+class Parent {
+    private $secret = "privé";       // ❌ Enfants n'y ont PAS accès
+    protected $partage = "protégé";  // ✅ Enfants y ont accès
+}
+
+class Enfant extends Parent {
+    public function tester() {
+        // ❌ ERREUR : private n'est pas accessible
+        // echo $this->secret;
+        // Fatal error: Cannot access private property
+
+        // ✅ OK : protected est accessible
+        echo $this->partage;  // Fonctionne
+    }
+}
+?>
+
+
+QUAND UTILISER "protected" ?
+-----------------------------
+• Quand vous voulez partager des propriétés/méthodes avec les classes enfants
+• Pour créer une "API interne" pour vos classes dérivées
+• Quand vous prévoyez que votre classe sera étendue (héritage)
+• Pour les méthodes "helper" utilisées par la classe et ses enfants
+
+
+F.5 - TABLEAU COMPARATIF VISUEL
+--------------------------------
+
+┌──────────────┬────────────────────┬────────────────────┬─────────────────┐
+│ Modificateur │ Dans la classe     │ Classes enfants    │ Dehors          │
+│              │ elle-même          │ (extends)          │ (partout)       │
+├──────────────┼────────────────────┼────────────────────┼─────────────────┤
+│ public       │ ✅ OUI             │ ✅ OUI             │ ✅ OUI          │
+│              │                    │                    │                 │
+│ protected    │ ✅ OUI             │ ✅ OUI             │ ❌ NON          │
+│              │                    │                    │                 │
+│ private      │ ✅ OUI             │ ❌ NON             │ ❌ NON          │
+└──────────────┴────────────────────┴────────────────────┴─────────────────┘
+
+
+F.6 - SCHÉMA DES ZONES D'ACCÈS
+-------------------------------
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                  DEHORS (reste du code)                             │
+│                                                                     │
+│  public = ✅ Accessible ici                                         │
+│  protected = ❌ Pas accessible                                      │
+│  private = ❌ Pas accessible                                        │
+│                                                                     │
+│  ┌────────────────────────────────────────────────────────────┐    │
+│  │        CLASSE ENFANT (extends Parent)                      │    │
+│  │                                                            │    │
+│  │  public = ✅ Accessible ici                                │    │
+│  │  protected = ✅ Accessible ici (hérité du parent)          │    │
+│  │  private = ❌ Pas accessible (reste dans le parent)        │    │
+│  │                                                            │    │
+│  │  ┌──────────────────────────────────────────────────────┐ │    │
+│  │  │     CLASSE PARENT (classe de base)                   │ │    │
+│  │  │                                                      │ │    │
+│  │  │  public $x      ← Accessible PARTOUT               │ │    │
+│  │  │  protected $y   ← Accessible ICI + enfants          │ │    │
+│  │  │  private $z     ← Accessible UNIQUEMENT ICI         │ │    │
+│  │  │                                                      │ │    │
+│  │  └──────────────────────────────────────────────────────┘ │    │
+│  └────────────────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────────────────┘
+
+
+ANALOGIE DU MONDE RÉEL :
+------------------------
+Pensez à des informations personnelles :
+
+class Personne {
+    public $nom = "Alice";               // ✅ Nom : visible par TOUT LE MONDE
+    protected $adresse = "123 rue";      // ⚠️ Adresse : famille uniquement
+    private $motDePasse = "secret123";   // 🔒 Mot de passe : VOUS SEUL
+}
+
+• Tout le monde peut connaître votre NOM (public)
+• Votre famille peut connaître votre ADRESSE (protected)
+• PERSONNE ne doit connaître votre MOT DE PASSE sauf vous (private)
+
+
+RÉCAPITULATIF : QUEL MODIFICATEUR CHOISIR ?
+--------------------------------------------
+
+RÈGLE D'OR : "Principe du moindre privilège"
+Commencez toujours par "private" et rendez "public" seulement si nécessaire.
+
+1. Utilisez "private" PAR DÉFAUT pour :
+   - Propriétés contenant des données sensibles
+   - Méthodes internes (helpers)
+
+2. Utilisez "protected" si :
+   - Vous prévoyez que la classe sera étendue (héritage)
+   - Vous voulez partager avec les classes enfants
+
+3. Utilisez "public" seulement pour :
+   - Méthodes formant l'interface publique de votre classe
+   - Propriétés simples sans besoin de validation (rare)
+
+
+EXEMPLE COMPLET - MISE EN PRATIQUE :
+-------------------------------------
+
+<?php
+class Voiture {
+    // Propriétés PRIVATE (protection)
+    private $vitesse = 0;
+    private $moteurDemarre = false;
+
+    // Méthodes PUBLIC (interface)
+    public function demarrer() {
+        if (!$this->moteurDemarre) {
+            $this->moteurDemarre = true;
+            echo "Moteur démarré.\n";
+        } else {
+            echo "Le moteur est déjà démarré.\n";
+        }
+    }
+
+    public function accelerer($augmentation) {
+        if ($this->moteurDemarre) {
+            $this->vitesse += $augmentation;
+            echo "Vitesse : $this->vitesse km/h\n";
+        } else {
+            echo "❌ Démarrez le moteur d'abord !\n";
+        }
+    }
+
+    public function freiner($diminution) {
+        $this->vitesse -= $diminution;
+        if ($this->vitesse < 0) {
+            $this->vitesse = 0;
+        }
+        echo "Vitesse : $this->vitesse km/h\n";
+    }
+
+    public function afficherVitesse() {
+        echo "Vitesse actuelle : $this->vitesse km/h\n";
+    }
+}
+
+// Utilisation
+$voiture = new Voiture();
+
+// ❌ Impossible de tricher sur la vitesse :
+// $voiture->vitesse = 300;  // Fatal error
+
+// ✅ Utiliser l'interface publique (méthodes) :
+$voiture->accelerer(50);   // ❌ Démarrez le moteur d'abord !
+$voiture->demarrer();      // Moteur démarré
+$voiture->accelerer(50);   // Vitesse : 50 km/h
+$voiture->accelerer(30);   // Vitesse : 80 km/h
+$voiture->freiner(20);     // Vitesse : 60 km/h
+?>
+
+Grâce à "private", on FORCE l'utilisateur à passer par nos méthodes, ce qui
+garantit que les règles sont respectées (impossible d'accélérer sans démarrer).
+
+
+================================================================================
+G. LE CONSTRUCTEUR - INITIALISER UN OBJET
+================================================================================
+
+QU'EST-CE QU'UN CONSTRUCTEUR ?
+-------------------------------
+Le constructeur est une méthode spéciale qui est appelée AUTOMATIQUEMENT
+lorsque vous créez un nouvel objet avec "new".
+
+Il sert à INITIALISER les propriétés de l'objet.
+
+SYNTAXE :
+    public function __construct($param1, $param2) {
+        // Code d'initialisation
+    }
+
+⚠️ ATTENTION : Le nom de la méthode est "__construct" avec DEUX underscores.
+
+
+POURQUOI UTILISER UN CONSTRUCTEUR ?
+------------------------------------
+SANS constructeur, vous devez assigner les propriétés manuellement (fastidieux) :
+
+<?php
+// ❌ FASTIDIEUX (sans constructeur)
+class Personne {
+    public $nom;
+    public $age;
+}
+
+$p1 = new Personne();
+$p1->nom = "Alice";
+$p1->age = 25;
+
+$p2 = new Personne();
+$p2->nom = "Bob";
+$p2->age = 30;
+?>
+
+
+AVEC constructeur, tout se fait en UNE LIGNE (élégant) :
+
+<?php
+// ✅ ÉLÉGANT (avec constructeur)
+class Personne {
+    public $nom;
+    public $age;
+
+    public function __construct($nom, $age) {
+        $this->nom = $nom;
+        $this->age = $age;
+    }
+}
+
+// Tout en une ligne !
+$p1 = new Personne("Alice", 25);
+$p2 = new Personne("Bob", 30);
+
+echo $p1->nom;  // Alice
+echo $p2->age;  // 30
+?>
+
+
+TABLEAU COMPARATIF :
+--------------------
+
+┌───────────────────────┬──────────────────────┬────────────────────────┐
+│                       │ Sans constructeur    │ Avec constructeur      │
+├───────────────────────┼──────────────────────┼────────────────────────┤
+│ Lignes de code        │ 4 lignes par objet   │ 1 ligne par objet      │
+│                       │                      │                        │
+│ Risque d'oubli        │ Élevé (oublier une   │ Aucun (tout en une     │
+│                       │ propriété)           │ fois)                  │
+│                       │                      │                        │
+│ Lisibilité            │ Moyenne              │ Excellente             │
+│                       │                      │                        │
+│ Validation possible   │ Non                  │ Oui (dans le           │
+│                       │                      │ constructeur)          │
+└───────────────────────┴──────────────────────┴────────────────────────┘
+
+
+EXEMPLE AVEC VALIDATION :
+--------------------------
+
+<?php
+class Utilisateur {
+    private $age;
+    private $email;
+
+    public function __construct($age, $email) {
+        // ✅ Validation dans le constructeur
+        if ($age < 0) {
+            $age = 0;  // Correction automatique
+        }
+
+        $this->age = $age;
+        $this->email = $email;
+    }
+
+    public function getAge() {
+        return $this->age;
+    }
+}
+
+$user = new Utilisateur(-5, "test@example.com");
+echo $user->getAge();  // 0 (corrigé automatiquement)
+?>
+
+
+CONSTRUCTEUR AVEC VALEURS PAR DÉFAUT :
+---------------------------------------
+
+<?php
+class Produit {
+    private $nom;
+    private $prix;
+    private $enStock;
+
+    // Paramètre avec valeur par défaut
+    public function __construct($nom, $prix, $enStock = true) {
+        $this->nom = $nom;
+        $this->prix = $prix;
+        $this->enStock = $enStock;
+    }
+}
+
+// Avec 3 arguments
+$p1 = new Produit("Laptop", 1000, false);
+
+// Avec 2 arguments (enStock = true par défaut)
+$p2 = new Produit("Souris", 25);
+?>
+
+
+EXEMPLE PRATIQUE : LIVRE
+-------------------------
+
+<?php
+class Livre {
+    private $titre;
+    private $auteur;
+    private $annee;
+
+    public function __construct($titre, $auteur, $annee) {
+        $this->titre = $titre;
+        $this->auteur = $auteur;
+        $this->annee = $annee;
+    }
+
+    public function afficherInfos() {
+        echo "$this->titre par $this->auteur ($this->annee)\n";
+    }
+}
+
+// Créer plusieurs livres facilement
+$livre1 = new Livre("1984", "George Orwell", 1949);
+$livre2 = new Livre("Le Petit Prince", "Saint-Exupéry", 1943);
+$livre3 = new Livre("Harry Potter", "J.K. Rowling", 1997);
+
+$livre1->afficherInfos();  // 1984 par George Orwell (1949)
+$livre2->afficherInfos();  // Le Petit Prince par Saint-Exupéry (1943)
+?>
+
+
+ERREURS COURANTES :
+-------------------
+
+// ❌ ERREUR : Faute dans le nom
+class Test {
+    public function construct() {}  // ❌ Manque les deux underscores
+}
+
+// ❌ ERREUR : Mauvais nombre d'arguments
+class Personne {
+    public function __construct($nom, $age) {}
+}
+$p = new Personne("Alice");  // Fatal error: Too few arguments
+
+// ✅ CORRECT :
+class Personne {
+    public function __construct($nom, $age) {
+        $this->nom = $nom;
+        $this->age = $age;
+    }
+}
+
+
+💡 BONNE PRATIQUE :
+Utilisez TOUJOURS un constructeur si votre classe a des propriétés qui doivent
+être initialisées. Cela rend votre code plus propre et évite les oublis.
+
+
+================================================================================
+H. $this - RÉFÉRENCER L'OBJET ACTUEL
+================================================================================
+
+QU'EST-CE QUE $this ?
+---------------------
+$this est un mot-clé spécial qui représente "L'OBJET ACTUEL".
+
+À l'intérieur d'une méthode, $this fait référence à l'objet qui a appelé
+cette méthode.
+
+Pensez à $this comme "MOI-MÊME" ou "CET OBJET-CI".
+
+
+SYNTAXE :
+---------
+    $this->propriete     // Accéder à une propriété
+    $this->methode()     // Appeler une méthode
+
+
+EXEMPLE 1 : COMPRENDRE $this
+-----------------------------
+
+<?php
+class Compteur {
+    public $valeur = 0;
+
+    public function incrementer() {
+        $this->valeur++;  // $this = cet objet-ci
+        //   ↑
+        // "dans MOI-MÊME, incrémenter ma propriété valeur"
+    }
+
+    public function afficher() {
+        echo "Valeur : $this->valeur\n";
+    }
+}
+
+$c1 = new Compteur();
+$c1->incrementer();  // Ici, $this = $c1
+$c1->afficher();     // Valeur : 1
+
+$c2 = new Compteur();
+$c2->incrementer();  // Ici, $this = $c2 (différent de $c1 !)
+$c2->incrementer();
+$c2->afficher();     // Valeur : 2
+
+// Les deux compteurs sont indépendants
+$c1->afficher();     // Valeur : 1 (inchangé)
+?>
+
+
+SCHÉMA VISUEL :
+---------------
+
+┌─────────────────────────────────────┐
+│  Objet $c1                          │
+│  ┌────────────────────────────────┐ │
+│  │ $valeur = 1                    │ │
+│  │                                │ │
+│  │ incrementer() {                │ │
+│  │   $this->valeur++              │ │
+│  │     ↑                          │ │
+│  │     └─ Fait référence à        │ │
+│  │        la propriété de CE $c1  │ │
+│  │ }                              │ │
+│  └────────────────────────────────┘ │
+└─────────────────────────────────────┘
+
+
+EXEMPLE 2 : DIFFÉRENCE ENTRE $this-> et $
+------------------------------------------
+
+<?php
+class User {
+    public $nom = "Alice";
+
+    public function afficher() {
+        // ❌ ERREUR : $nom n'existe pas dans cette portée
+        // echo $nom;  // Warning: Undefined variable $nom
+
+        // ✅ CORRECT : Accéder à la propriété de l'objet
+        echo $this->nom;  // Alice
+    }
+
+    public function tester($nom) {  // Paramètre local
+        echo $nom;         // Affiche le PARAMÈTRE
+        echo $this->nom;   // Affiche la PROPRIÉTÉ de l'objet
+    }
+}
+
+$user = new User();
+$user->afficher();    // Alice
+$user->tester("Bob"); // Bob (paramètre) puis Alice (propriété)
+?>
+
+
+EXEMPLE 3 : APPELER UNE MÉTHODE DEPUIS UNE AUTRE
+-------------------------------------------------
+
+<?php
+class Robot {
+    private $batterie = 100;
+
+    private function verifierBatterie() {
+        if ($this->batterie < 20) {
+            echo "⚠️ Batterie faible !\n";
+        }
+    }
+
+    public function travailler() {
+        echo "Le robot travaille...\n";
+        $this->batterie -= 10;
+
+        // ✅ Appeler une autre méthode de l'objet
+        $this->verifierBatterie();
+    }
+
+    public function recharger() {
+        echo "Recharge en cours...\n";
+        $this->batterie = 100;
+    }
+}
+
+$robot = new Robot();
+$robot->travailler();  // Le robot travaille...
+$robot->travailler();  // Le robot travaille... ⚠️ Batterie faible !
+?>
+
+
+EXEMPLE 4 : CHAÎNAGE DE MÉTHODES
+---------------------------------
+
+Vous pouvez retourner $this pour permettre le chaînage :
+
+<?php
+class Texte {
+    private $contenu = "";
+
+    public function ajouter($texte) {
+        $this->contenu .= $texte;
+        return $this;  // ✅ Retourner l'objet lui-même
+    }
+
+    public function afficher() {
+        echo $this->contenu . "\n";
+        return $this;
+    }
+}
+
+$texte = new Texte();
+
+// ✅ Chaînage de méthodes (méthode fluente)
+$texte->ajouter("Bonjour ")
+      ->ajouter("le ")
+      ->ajouter("monde !")
+      ->afficher();  // Bonjour le monde !
+?>
+
+
+ERREURS COURANTES :
+-------------------
+
+// ❌ ERREUR : Oublier $this->
+class User {
+    public $nom = "Alice";
+
+    public function afficher() {
+        echo $nom;  // ❌ Undefined variable $nom
+    }
+}
+
+// ❌ ERREUR : Utiliser $this hors d'une classe
+$this->nom = "Test";  // ❌ Fatal error: Using $this when not in object context
+
+// ❌ ERREUR : Confondre propriété et variable locale
+class Test {
+    public $valeur = 10;
+
+    public function calculer() {
+        $valeur = 5;  // Variable locale (n'affecte PAS $this->valeur)
+        echo $this->valeur;  // 10 (propriété inchangée)
+    }
+}
+
+// ✅ CORRECT : Toujours utiliser $this-> pour les propriétés
+class Test {
+    public $valeur = 10;
+
+    public function calculer() {
+        $this->valeur = 5;  // ✅ Modifie la propriété
+        echo $this->valeur;  // 5
+    }
+}
+
+
+POINT CLÉ :
+-----------
+Pensez à $this comme à dire "MON propre..." ou "MA propre..." en français :
+
+$this->nom         →  "MON nom"
+$this->calculer()  →  "MA méthode calculer()"
+
+
+================================================================================
+I. L'HÉRITAGE - RÉUTILISER DU CODE
+================================================================================
+
+QU'EST-CE QUE L'HÉRITAGE ?
+---------------------------
+L'héritage permet à une classe (ENFANT) de réutiliser les propriétés et
+méthodes d'une autre classe (PARENT).
+
+C'est comme dire : "Un Chien EST UN Animal" → le Chien hérite des
+caractéristiques d'Animal.
+
+SYNTAXE :
+    class ClasseEnfant extends ClasseParent {
+        // Code supplémentaire
+    }
+
+MOT-CLÉ : "extends"
+
+
+EXEMPLE 1 : HÉRITAGE DE BASE
+-----------------------------
+
+<?php
+// Classe PARENT (classe de base)
+class Animal {
+    public $nom;
+    public $age;
+
+    public function manger() {
+        echo "$this->nom mange.\n";
+    }
+
+    public function dormir() {
+        echo "$this->nom dort.\n";
+    }
+}
+
+// Classe ENFANT (hérite de Animal)
+class Chien extends Animal {
+    public function aboyer() {
+        echo "$this->nom dit : Woof!\n";
+    }
+}
+
+// Utilisation
+$chien = new Chien();
+$chien->nom = "Rex";
+
+// ✅ Méthodes héritées du parent (Animal)
+$chien->manger();   // Rex mange.
+$chien->dormir();   // Rex dort.
+
+// ✅ Méthode propre au Chien
+$chien->aboyer();   // Rex dit : Woof!
+?>
+
+
+HIÉRARCHIE VISUELLE :
+---------------------
+
+        ┌─────────────────────┐
+        │      Animal         │  ← Classe PARENT (base)
+        │  ───────────────    │
+        │  + $nom             │
+        │  + $age             │
+        │  + manger()         │
+        │  + dormir()         │
+        └──────────┬──────────┘
+                   │ extends
+                   │
+        ┌──────────▼──────────┐
+        │       Chien         │  ← Classe ENFANT
+        │  ───────────────    │     (hérite TOUT de Animal)
+        │  + aboyer()         │     + ajoute ses propres méthodes
+        └─────────────────────┘
+
+
+EXEMPLE 2 : PLUSIEURS CLASSES ENFANTS
+--------------------------------------
+
+<?php
+class Animal {
+    public $nom;
+
+    public function manger() {
+        echo "$this->nom mange.\n";
+    }
+}
+
+// Premier enfant
+class Chien extends Animal {
+    public function aboyer() {
+        echo "Woof!\n";
+    }
+}
+
+// Deuxième enfant
+class Chat extends Animal {
+    public function miauler() {
+        echo "Miaou!\n";
+    }
+}
+
+// Troisième enfant
+class Oiseau extends Animal {
+    public function voler() {
+        echo "$this->nom vole.\n";
+    }
+}
+
+// Utilisation
+$chien = new Chien();
+$chien->nom = "Rex";
+$chien->manger();  // ✅ Hérité
+$chien->aboyer();  // ✅ Propre
+
+$chat = new Chat();
+$chat->nom = "Mimi";
+$chat->manger();   // ✅ Hérité
+$chat->miauler();  // ✅ Propre
+?>
+
+
+SURCHARGE DE MÉTHODE (Override) :
+----------------------------------
+Une classe enfant peut REDÉFINIR (override) une méthode héritée :
+
+<?php
+class Animal {
+    public function sePresenter() {
+        echo "Je suis un animal.\n";
+    }
+}
+
+class Chat extends Animal {
+    // ✅ Redéfinir (override) la méthode du parent
+    public function sePresenter() {
+        echo "Je suis un chat (miaou!).\n";
+    }
+}
+
+class Chien extends Animal {
+    public function sePresenter() {
+        echo "Je suis un chien (woof!).\n";
+    }
+}
+
+$animal = new Animal();
+$animal->sePresenter();  // Je suis un animal.
+
+$chat = new Chat();
+$chat->sePresenter();    // Je suis un chat (miaou!).
+
+$chien = new Chien();
+$chien->sePresenter();   // Je suis un chien (woof!).
+?>
+
+
+APPELER LA MÉTHODE PARENT AVEC parent::
+----------------------------------------
+
+Si vous voulez utiliser la méthode du parent ET ajouter du code :
+
+<?php
+class Animal {
+    public function sePresenter() {
+        echo "Je suis un animal.\n";
+    }
+}
+
+class Chien extends Animal {
+    public function sePresenter() {
+        parent::sePresenter();  // ✅ Appeler la version du parent
+        echo "Plus précisément, un chien.\n";
+    }
+}
+
+$chien = new Chien();
+$chien->sePresenter();
+// Affiche :
+// Je suis un animal.
+// Plus précisément, un chien.
+?>
+
+
+HÉRITAGE ET PROTECTED (Rappel) :
+---------------------------------
+
+<?php
+class Animal {
+    protected $energie = 100;  // ✅ Accessible dans les enfants
+
+    public function afficherEnergie() {
+        echo "Énergie : $this->energie\n";
+    }
+}
+
+class Chien extends Animal {
+    public function courir() {
+        // ✅ Accès possible car protected
+        $this->energie -= 10;
+        echo "Le chien court !\n";
+    }
+}
+
+$chien = new Chien();
+$chien->afficherEnergie();  // Énergie : 100
+$chien->courir();           // Le chien court !
+$chien->afficherEnergie();  // Énergie : 90
+
+// ❌ Impossible de l'extérieur (protected)
+// echo $chien->energie;  // Fatal error
+?>
+
+
+CONSTRUCTEUR ET HÉRITAGE :
+--------------------------
+
+<?php
+class Animal {
+    protected $nom;
+
+    public function __construct($nom) {
+        $this->nom = $nom;
+        echo "Animal créé : $nom\n";
+    }
+}
+
+class Chien extends Animal {
+    private $race;
+
+    public function __construct($nom, $race) {
+        parent::__construct($nom);  // ✅ Appeler le constructeur parent
+        $this->race = $race;
+        echo "Chien de race : $race\n";
+    }
+}
+
+$chien = new Chien("Rex", "Berger Allemand");
+// Affiche :
+// Animal créé : Rex
+// Chien de race : Berger Allemand
+?>
+
+
+RELATION "EST UN" (is-a) :
+--------------------------
+L'héritage représente une relation "EST UN" :
+
+✅ Un Chien EST UN Animal       → Héritage logique
+✅ Une Voiture EST UN Véhicule  → Héritage logique
+✅ Un Carré EST UN Rectangle    → Héritage logique
+
+❌ Un Chien A UNE Queue         → Pas d'héritage (composition)
+❌ Une Voiture A UN Moteur      → Pas d'héritage (composition)
+
+
+EXEMPLE PRATIQUE : VÉHICULES
+-----------------------------
+
+<?php
+class Vehicule {
+    protected $marque;
+    protected $vitesse = 0;
+
+    public function __construct($marque) {
+        $this->marque = $marque;
+    }
+
+    public function accelerer($augmentation) {
+        $this->vitesse += $augmentation;
+        echo "$this->marque accélère à $this->vitesse km/h\n";
+    }
+}
+
+class Voiture extends Vehicule {
+    private $nombrePortes;
+
+    public function __construct($marque, $nombrePortes) {
+        parent::__construct($marque);
+        $this->nombrePortes = $nombrePortes;
+    }
+
+    public function klaxonner() {
+        echo "Beep beep !\n";
+    }
+}
+
+class Moto extends Vehicule {
+    public function faireCavalier() {
+        echo "Vroooom !\n";
+    }
+}
+
+$voiture = new Voiture("Toyota", 4);
+$voiture->accelerer(50);  // Toyota accélère à 50 km/h
+$voiture->klaxonner();    // Beep beep !
+
+$moto = new Moto("Harley");
+$moto->accelerer(80);     // Harley accélère à 80 km/h
+$moto->faireCavalier();   // Vroooom !
+?>
+
+
+LIMITES DE L'HÉRITAGE :
+-----------------------
+• PHP ne supporte que l'héritage SIMPLE (un seul parent direct)
+• ❌ class Chien extends Animal, Mammifere  // Impossible en PHP
+• ✅ Utiliser les interfaces pour l'héritage multiple (sujet avancé)
+
+
+QUAND UTILISER L'HÉRITAGE ?
+----------------------------
+✓ Quand il y a une relation "EST UN"
+✓ Pour réutiliser du code commun
+✓ Pour créer des hiérarchies logiques (Animal → Chien, Chat, Oiseau)
+✓ Quand les classes partagent des comportements similaires
+
+
+================================================================================
+J. EXEMPLE PRATIQUE COMPLET - SYSTÈME DE BIBLIOTHÈQUE
+================================================================================
+
+CET EXEMPLE INTÈGRE TOUS LES CONCEPTS VUS :
+✓ Classe et objet
+✓ Propriétés private (encapsulation)
+✓ Méthodes public
+✓ Constructeur
+✓ $this
+✓ Validation dans les méthodes
+✓ Getters
+
+
+CODE COMPLET :
+--------------
+
+<?php
+class Livre {
+    // Propriétés PRIVATE (protection)
+    private $titre;
+    private $auteur;
+    private $annee;
+    private $disponible = true;  // Par défaut, le livre est disponible
+
+    // Constructeur : initialiser le livre
+    public function __construct($titre, $auteur, $annee) {
+        $this->titre = $titre;
+        $this->auteur = $auteur;
+        $this->annee = $annee;
+    }
+
+    // Méthode pour emprunter le livre
+    public function emprunter() {
+        if ($this->disponible) {
+            $this->disponible = false;
+            echo "✅ Livre '$this->titre' emprunté avec succès.\n";
+            return true;
+        } else {
+            echo "❌ Désolé, '$this->titre' est déjà emprunté.\n";
+            return false;
+        }
+    }
+
+    // Méthode pour retourner le livre
+    public function retourner() {
+        if (!$this->disponible) {
+            $this->disponible = true;
+            echo "✅ Livre '$this->titre' retourné avec succès.\n";
+        } else {
+            echo "⚠️ Ce livre n'était pas emprunté.\n";
+        }
+    }
+
+    // Getter : obtenir les informations du livre
+    public function getInfo() {
+        $statut = $this->disponible ? "disponible" : "emprunté";
+        return "\"$this->titre\" par $this->auteur ($this->annee) - $statut";
+    }
+
+    // Getter : vérifier la disponibilité
+    public function estDisponible() {
+        return $this->disponible;
+    }
+}
+
+
+// ==================== UTILISATION ====================
+
+echo "=== SYSTÈME DE BIBLIOTHÈQUE ===\n\n";
+
+// Créer plusieurs livres
+$livre1 = new Livre("1984", "George Orwell", 1949);
+$livre2 = new Livre("Le Petit Prince", "Antoine de Saint-Exupéry", 1943);
+$livre3 = new Livre("Harry Potter", "J.K. Rowling", 1997);
+
+// Afficher les informations
+echo $livre1->getInfo() . "\n";
+echo $livre2->getInfo() . "\n";
+echo $livre3->getInfo() . "\n";
+echo "\n";
+
+// Emprunter des livres
+$livre1->emprunter();  // ✅ Succès
+$livre1->emprunter();  // ❌ Déjà emprunté
+echo "\n";
+
+// Afficher l'état après emprunt
+echo $livre1->getInfo() . "\n\n";
+
+// Retourner le livre
+$livre1->retourner();  // ✅ Retour réussi
+$livre1->retourner();  // ⚠️ N'était pas emprunté
+echo "\n";
+
+// Vérifier la disponibilité
+if ($livre2->estDisponible()) {
+    echo "Le livre 2 est disponible !\n";
+    $livre2->emprunter();
+}
+?>
+
+
+RÉSULTAT D'EXÉCUTION :
+----------------------
+
+=== SYSTÈME DE BIBLIOTHÈQUE ===
+
+"1984" par George Orwell (1949) - disponible
+"Le Petit Prince" par Antoine de Saint-Exupéry (1943) - disponible
+"Harry Potter" par J.K. Rowling (1997) - disponible
+
+✅ Livre '1984' emprunté avec succès.
+❌ Désolé, '1984' est déjà emprunté.
+
+"1984" par George Orwell (1949) - emprunté
+
+✅ Livre '1984' retourné avec succès.
+⚠️ Ce livre n'était pas emprunté.
+
+Le livre 2 est disponible !
+✅ Livre 'Le Petit Prince' emprunté avec succès.
+
+
+CE QUI EST BIEN DANS CET EXEMPLE :
+-----------------------------------
+✅ Encapsulation : Les propriétés sont private (on ne peut pas tricher)
+✅ Constructeur : Initialisation simple et claire
+✅ Validation : Impossible d'emprunter un livre déjà emprunté
+✅ Getters : Accès contrôlé aux informations
+✅ $this : Utilisé correctement pour accéder aux propriétés
+✅ Logique métier : Le code reflète la réalité (bibliothèque)
+
+
+SANS POO, CE CODE SERAIT BEAUCOUP PLUS COMPLIQUÉ :
+---------------------------------------------------
+Avec POO, tout est organisé et logique. Sans POO, vous auriez besoin de
+multiples variables et fonctions éparpillées, difficiles à maintenir.
+
+
+================================================================================
+K. POINTS CLÉS À RETENIR
+================================================================================
+
+RÉCAPITULATIF DES CONCEPTS ESSENTIELS :
+----------------------------------------
+
+1. POO = Programmation Orientée Objet
+   → Organiser le code autour d'objets représentant des éléments réels
+
+2. CLASSE = Plan, modèle, blueprint
+   → Définit la structure (propriétés et méthodes)
+
+3. OBJET = Instance de classe
+   → Créé avec "new", existe en mémoire
+
+4. PROPRIÉTÉ = Variable dans une classe
+   → Stocke les données de l'objet
+
+5. MÉTHODE = Fonction dans une classe
+   → Définit les actions de l'objet
+
+6. public = Accessible PARTOUT
+   → De l'intérieur, de l'extérieur, des enfants
+   → Utilisé pour l'interface publique
+
+7. private = Accessible UNIQUEMENT dans la classe
+   → Pas accessible de l'extérieur ni des enfants
+   → Utilisé pour protéger les données sensibles
+
+8. protected = Accessible dans la classe ET les enfants
+   → Pas accessible de l'extérieur
+   → Utilisé pour partager avec les classes dérivées
+
+9. CONSTRUCTEUR __construct() = Initialisation automatique
+   → Appelé automatiquement lors de "new"
+   → Permet d'initialiser les propriétés en une ligne
+
+10. $this = Référence à l'objet actuel
+    → "MOI-MÊME", "CET OBJET-CI"
+    → Utilisé pour accéder aux propriétés/méthodes internes
+
+11. extends = Héritage
+    → Réutiliser du code d'une classe parent
+    → Relation "EST UN" (Un Chien EST UN Animal)
+
+12. ENCAPSULATION = Protéger les données
+    → Propriétés private + méthodes public
+    → Getters/Setters pour contrôler l'accès
+
+13. FLÈCHE (->) = Accéder aux membres d'un objet
+    → $objet->propriete
+    → $objet->methode()
+
+14. CONVENTION : Classes en PascalCase
+    → class Utilisateur, class CompteBancaire, class VoitureElectrique
+
+15. PRINCIPE DU MOINDRE PRIVILÈGE
+    → Commencer par private, rendre public si nécessaire
+    → Protéger par défaut, exposer uniquement ce qui est utile
+
+16. MOT-CLÉ "class" = Définir une classe
+    → Les classes sont définies avec le mot-clé réservé "class"
+    → Indique au moteur PHP que vous créez une nouvelle classe
+
+17. TRANSFORMATION TERMINOLOGIQUE
+    → Variables deviennent PROPRIÉTÉS dans une classe
+    → Fonctions deviennent MÉTHODES dans une classe
+
+18. OPÉRATEUR -> (Object Operator)
+    → Utilisé pour accéder aux membres (propriétés et méthodes) d'un objet
+    → Syntaxe : $objet->membre
+
+19. MOT-CLÉ "new" = Instancier un objet
+    → Crée une nouvelle instance (objet) à partir d'une classe
+    → Syntaxe : $objet = new NomClasse();
+
+
+TABLEAU RÉCAPITULATIF DES MODIFICATEURS :
+------------------------------------------
+
+┌──────────────┬────────────┬─────────────┬─────────────┬────────────────┐
+│ Modificateur │ Dans       │ Classe      │ Extérieur   │ Utilisation    │
+│              │ la classe  │ enfant      │             │ typique        │
+├──────────────┼────────────┼─────────────┼─────────────┼────────────────┤
+│ public       │ ✅ Oui     │ ✅ Oui      │ ✅ Oui      │ Interface      │
+│              │            │             │             │ publique       │
+│              │            │             │             │                │
+│ protected    │ ✅ Oui     │ ✅ Oui      │ ❌ Non      │ Partage avec   │
+│              │            │             │             │ les enfants    │
+│              │            │             │             │                │
+│ private      │ ✅ Oui     │ ❌ Non      │ ❌ Non      │ Protection     │
+│              │            │             │             │ totale         │
+└──────────────┴────────────┴─────────────┴─────────────┴────────────────┘
+
+
+SYNTAXE ESSENTIELLE :
+---------------------
+
+// Définir une classe
+class NomClasse {
+    private $propriete;
+
+    public function __construct($valeur) {
+        $this->propriete = $valeur;
+    }
+
+    public function methode() {
+        return $this->propriete;
+    }
+}
+
+// Créer un objet
+$objet = new NomClasse("valeur");
+
+// Utiliser l'objet
+$objet->methode();
+
+
+ERREURS À ÉVITER :
+------------------
+❌ Oublier "new" pour créer un objet
+❌ Oublier la flèche -> pour accéder aux membres
+❌ Oublier $this-> pour accéder aux propriétés dans les méthodes
+❌ Rendre tout public (manque de protection)
+❌ Confondre propriété et variable locale
+
+
+BONNES PRATIQUES :
+------------------
+✅ Toujours utiliser un constructeur pour initialiser
+✅ Commencer par "private" et rendre "public" si nécessaire
+✅ Utiliser des noms de classe en PascalCase
+✅ Créer des getters/setters pour les propriétés privées
+✅ Valider les données dans les setters et le constructeur
+✅ Utiliser l'héritage pour les relations "EST UN"
+✅ Commenter votre code pour expliquer la logique métier
+
+
+POUR ALLER PLUS LOIN :
+-----------------------
+Maintenant que vous maîtrisez les bases de la POO, vous pouvez explorer :
+• Classes abstraites (classes qui ne peuvent pas être instanciées)
+• Interfaces (contrats que les classes doivent respecter)
+• Traits (réutilisation de code sans héritage)
+• Méthodes et propriétés statiques
+• Namespaces (organisation du code en espaces de noms)
+• Autoloading (chargement automatique des classes)
+
+
+================================================================================
+                        Fichier 9/9 - Guide PHP Complet
+================================================================================

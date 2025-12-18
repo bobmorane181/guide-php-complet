@@ -15,6 +15,7 @@ TABLE DES MATIÈRES
 9. L'Héritage - Réutiliser du Code
 10. Exemple Pratique Complet
 11. Points Clés à Retenir
+12. Concepts Avancés - Membres Static
 
 
 ================================================================================
@@ -2010,6 +2011,18 @@ RÉCAPITULATIF DES CONCEPTS ESSENTIELS :
     → Crée une nouvelle instance (objet) à partir d'une classe
     → Syntaxe : $objet = new NomClasse();
 
+20. static = Membres appartenant à la classe
+    → Propriétés et méthodes static appartiennent à la classe, pas aux instances
+    → Pas besoin de créer un objet pour les utiliser
+
+21. OPÉRATEUR :: (Scope Resolution Operator)
+    → Utilisé pour accéder aux membres static d'une classe
+    → Syntaxe : NomClasse::membreStatic
+
+22. self:: = Référencer la classe actuelle
+    → Utilisé à l'intérieur d'une classe pour accéder à ses propres membres static
+    → Syntaxe : self::$proprieteStatic ou self::methodeStatic()
+
 
 TABLEAU RÉCAPITULATIF DES MODIFICATEURS :
 ------------------------------------------
@@ -2078,9 +2091,590 @@ Maintenant que vous maîtrisez les bases de la POO, vous pouvez explorer :
 • Classes abstraites (classes qui ne peuvent pas être instanciées)
 • Interfaces (contrats que les classes doivent respecter)
 • Traits (réutilisation de code sans héritage)
-• Méthodes et propriétés statiques
 • Namespaces (organisation du code en espaces de noms)
 • Autoloading (chargement automatique des classes)
+
+⚠️ NOTE : Les méthodes et propriétés static sont maintenant expliquées dans la
+Section L ci-dessous !
+
+
+================================================================================
+L. CONCEPTS AVANCÉS - MEMBRES STATIC
+================================================================================
+
+⚠️ CONCEPT AVANCÉ :
+Cette section couvre un concept plus avancé de la POO. Si vous débutez, vous
+pouvez revenir à cette section plus tard. Les sections précédentes couvrent
+tous les concepts essentiels dont vous avez besoin pour commencer.
+
+
+QU'EST-CE QU'UN MEMBRE STATIC ?
+--------------------------------
+Un membre static (propriété ou méthode) appartient à la CLASSE elle-même,
+plutôt qu'à une INSTANCE (objet) spécifique de cette classe.
+
+DIFFÉRENCE FONDAMENTALE :
+• Membre NORMAL : appartient à un objet (instance)
+• Membre STATIC : appartient à la classe (partagé par tous les objets)
+
+
+ANALOGIE DU MONDE RÉEL :
+------------------------
+Pensez à une ÉCOLE :
+• Le nombre d'élèves (propriété static) : partagé par toute l'école
+• Le nom d'un élève (propriété normale) : propre à chaque élève
+
+L'école n'a qu'UN SEUL compteur d'élèves (static), mais chaque élève a
+son propre nom (normal).
+
+
+================================================================================
+L.1 - MÉTHODES STATIC
+================================================================================
+
+DÉFINITION :
+Une méthode static peut être appelée SANS créer d'objet (sans utiliser "new").
+
+SYNTAXE :
+    public static function nomMethode() {
+        // Code de la méthode
+    }
+
+
+APPEL AVEC L'OPÉRATEUR :: (Scope Resolution Operator)
+------------------------------------------------------
+Pour appeler une méthode static, on utilise :: au lieu de ->
+
+    NomClasse::methodeStatic();
+
+
+EXEMPLE 1 : FONCTION UTILITAIRE (MathUtils)
+--------------------------------------------
+
+<?php
+class MathUtils {
+    public static function additionner($a, $b) {
+        return $a + $b;
+    }
+
+    public static function multiplier($a, $b) {
+        return $a * $b;
+    }
+
+    public static function aire_rectangle($largeur, $hauteur) {
+        return $largeur * $hauteur;
+    }
+}
+
+// ✅ Appel SANS créer d'objet
+echo MathUtils::additionner(5, 3);        // 8
+echo MathUtils::multiplier(4, 7);         // 28
+echo MathUtils::aire_rectangle(10, 5);    // 50
+
+// ❌ Pas besoin de faire :
+// $math = new MathUtils();  // Inutile !
+?>
+
+
+EXEMPLE 2 : COMPARAISON MÉTHODE NORMALE vs STATIC
+--------------------------------------------------
+
+<?php
+class Demo {
+    // Méthode NORMALE (besoin d'un objet)
+    public function methodeNormale() {
+        echo "Je suis une méthode normale\n";
+    }
+
+    // Méthode STATIC (pas besoin d'objet)
+    public static function methodeStatic() {
+        echo "Je suis une méthode static\n";
+    }
+}
+
+// Méthode NORMALE : besoin de new
+$objet = new Demo();
+$objet->methodeNormale();  // ✅ Fonctionne
+
+// Méthode STATIC : pas besoin de new
+Demo::methodeStatic();     // ✅ Fonctionne directement
+
+// ❌ ERREUR : Impossible d'appeler une méthode normale sans objet
+// Demo::methodeNormale();  // Fatal error
+?>
+
+
+LIMITE IMPORTANTE : PAS D'ACCÈS À $this
+----------------------------------------
+Une méthode static ne peut PAS utiliser $this car elle n'est pas liée à un
+objet spécifique.
+
+<?php
+class Exemple {
+    public $nom = "Alice";  // Propriété normale
+
+    public function afficherNormal() {
+        echo $this->nom;  // ✅ Fonctionne ($this existe)
+    }
+
+    public static function afficherStatic() {
+        // ❌ ERREUR : $this n'existe pas dans une méthode static
+        // echo $this->nom;
+        // Fatal error: Using $this when not in object context
+
+        echo "Pas d'accès à \$this ici !";
+    }
+}
+?>
+
+
+================================================================================
+L.2 - PROPRIÉTÉS STATIC
+================================================================================
+
+DÉFINITION :
+Une propriété static est PARTAGÉE par toutes les instances de la classe.
+Il n'existe qu'UNE SEULE copie de cette propriété, commune à tous les objets.
+
+SYNTAXE :
+    public static $nomPropriete;
+
+
+ACCÈS AVEC self:: OU NomClasse::
+---------------------------------
+Pour accéder à une propriété static DEPUIS la classe, on utilise self::
+Pour accéder DEPUIS l'extérieur, on utilise NomClasse::
+
+
+EXEMPLE 1 : COMPTEUR D'INSTANCES
+---------------------------------
+
+<?php
+class Utilisateur {
+    // Propriété STATIC (partagée par tous les objets)
+    private static $compteur = 0;
+
+    // Propriété NORMALE (propre à chaque objet)
+    public $nom;
+
+    public function __construct($nom) {
+        $this->nom = $nom;
+        self::$compteur++;  // ✅ Incrémenter le compteur partagé
+    }
+
+    public static function getNombreUtilisateurs() {
+        return self::$compteur;  // ✅ Accès avec self::
+    }
+}
+
+// Créer plusieurs utilisateurs
+$u1 = new Utilisateur("Alice");
+$u2 = new Utilisateur("Bob");
+$u3 = new Utilisateur("Charlie");
+
+// Chaque objet a son propre nom (propriété normale)
+echo $u1->nom;  // Alice
+echo $u2->nom;  // Bob
+
+// Mais ils partagent le même compteur (propriété static)
+echo Utilisateur::getNombreUtilisateurs();  // 3
+?>
+
+
+SCHÉMA VISUEL : PROPRIÉTÉ NORMALE vs STATIC
+--------------------------------------------
+
+    ┌─────────────────────────────────────────────────────┐
+    │  Classe: Utilisateur                                │
+    │                                                     │
+    │  static $compteur = 3  ← UNE SEULE copie (partagée)│
+    └─────────────────────────────────────────────────────┘
+                    │
+                    ├────────────────────────┬────────────────────┐
+                    │                        │                    │
+        ┌───────────▼──────────┐  ┌──────────▼────────┐  ┌───────▼──────────┐
+        │ Objet $u1            │  │ Objet $u2         │  │ Objet $u3        │
+        │ $nom = "Alice"       │  │ $nom = "Bob"      │  │ $nom = "Charlie" │
+        │ (copie individuelle) │  │ (copie individuelle)  │ (copie individuelle)
+        └──────────────────────┘  └───────────────────┘  └──────────────────┘
+
+
+EXEMPLE 2 : CONFIGURATION GLOBALE
+----------------------------------
+
+<?php
+class Config {
+    private static $langue = "fr";
+    private static $debug = false;
+
+    public static function setLangue($langue) {
+        self::$langue = $langue;
+    }
+
+    public static function getLangue() {
+        return self::$langue;
+    }
+
+    public static function activerDebug() {
+        self::$debug = true;
+    }
+
+    public static function estDebugActif() {
+        return self::$debug;
+    }
+}
+
+// Configuration globale accessible partout
+Config::setLangue("en");
+echo Config::getLangue();  // en
+
+Config::activerDebug();
+if (Config::estDebugActif()) {
+    echo "Mode debug activé\n";
+}
+?>
+
+
+================================================================================
+L.3 - TABLEAU COMPARATIF : NORMAL vs STATIC
+================================================================================
+
+┌──────────────────────┬─────────────────────┬──────────────────────┐
+│                      │ Membre NORMAL       │ Membre STATIC        │
+├──────────────────────┼─────────────────────┼──────────────────────┤
+│ Appartient à         │ L'instance (objet)  │ La classe            │
+│                      │                     │                      │
+│ Déclaration          │ public $prop        │ public static $prop  │
+│                      │ public function()   │ public static        │
+│                      │                     │ function()           │
+│                      │                     │                      │
+│ Appel                │ $objet->membre      │ Classe::membre       │
+│                      │                     │                      │
+│ Besoin de "new"      │ ✅ OUI              │ ❌ NON               │
+│                      │                     │                      │
+│ Accès à $this        │ ✅ OUI              │ ❌ NON               │
+│                      │                     │                      │
+│ Accès interne        │ $this->membre       │ self::$membre        │
+│                      │                     │                      │
+│ Nombre de copies     │ Une par objet       │ Une seule (partagée) │
+│                      │                     │                      │
+│ Opérateur            │ ->                  │ ::                   │
+└──────────────────────┴─────────────────────┴──────────────────────┘
+
+
+RÉSUMÉ VISUEL DES OPÉRATEURS :
+-------------------------------
+
+    $objet->propriete       ← Propriété normale
+    $objet->methode()       ← Méthode normale
+
+    Classe::$propriete      ← Propriété static
+    Classe::methode()       ← Méthode static
+
+    self::$propriete        ← Accès static depuis l'intérieur de la classe
+    self::methode()         ← Appel static depuis l'intérieur de la classe
+
+
+================================================================================
+L.4 - CAS D'USAGE : QUAND UTILISER STATIC ?
+================================================================================
+
+✅ UTILISER STATIC POUR :
+-------------------------
+
+1. FONCTIONS UTILITAIRES (sans état)
+   Exemple : MathUtils, StringHelper, DateHelper
+   → Fonctions qui ne dépendent pas d'une instance
+
+<?php
+class StringHelper {
+    public static function majuscules($texte) {
+        return strtoupper($texte);
+    }
+
+    public static function minuscules($texte) {
+        return strtolower($texte);
+    }
+}
+
+echo StringHelper::majuscules("bonjour");  // BONJOUR
+?>
+
+
+2. COMPTEURS GLOBAUX
+   Exemple : Compter le nombre d'instances créées
+   → Information partagée entre tous les objets
+
+<?php
+class Produit {
+    private static $totalProduits = 0;
+
+    public function __construct() {
+        self::$totalProduits++;
+    }
+
+    public static function getTotal() {
+        return self::$totalProduits;
+    }
+}
+?>
+
+
+3. CONFIGURATION GLOBALE
+   Exemple : Paramètres d'application
+   → Valeurs partagées dans toute l'application
+
+<?php
+class App {
+    private static $config = [];
+
+    public static function setConfig($cle, $valeur) {
+        self::$config[$cle] = $valeur;
+    }
+
+    public static function getConfig($cle) {
+        return self::$config[$cle] ?? null;
+    }
+}
+?>
+
+
+4. FACTORY METHODS (Patterns de création)
+   Exemple : Créer des objets de manière contrôlée
+
+<?php
+class Database {
+    private static $instance = null;
+
+    private function __construct() {
+        // Construction privée (Singleton pattern)
+    }
+
+    public static function getInstance() {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+}
+?>
+
+
+❌ NE PAS UTILISER STATIC POUR :
+--------------------------------
+
+1. Logique métier dépendant d'une instance spécifique
+   Si vous avez besoin de $this, utilisez une méthode normale
+
+2. Propriétés spécifiques à chaque objet
+   Exemple : le nom d'un utilisateur (différent pour chaque utilisateur)
+
+3. Si vous n'êtes pas sûr
+   Par défaut, privilégiez les méthodes normales
+   N'utilisez static que si c'est vraiment nécessaire
+
+
+================================================================================
+L.5 - ERREURS COURANTES
+================================================================================
+
+ERREUR 1 : ESSAYER D'UTILISER $this DANS UNE MÉTHODE STATIC
+------------------------------------------------------------
+
+<?php
+class Erreur {
+    public $nom = "Test";
+
+    public static function afficher() {
+        // ❌ ERREUR FATALE
+        echo $this->nom;
+        // Fatal error: Using $this when not in object context
+    }
+}
+?>
+
+✅ SOLUTION : Utiliser une propriété static ou une méthode normale
+
+
+ERREUR 2 : OUBLIER self:: POUR ACCÉDER AUX PROPRIÉTÉS STATIC
+-------------------------------------------------------------
+
+<?php
+class Erreur {
+    private static $compteur = 0;
+
+    public static function incrementer() {
+        // ❌ ERREUR : Variable non définie
+        $compteur++;
+
+        // ✅ CORRECT : Utiliser self::
+        self::$compteur++;
+    }
+}
+?>
+
+
+ERREUR 3 : CONFUSION ENTRE -> ET ::
+------------------------------------
+
+<?php
+class Demo {
+    public static $valeur = 10;
+}
+
+// ❌ ERREUR : Utiliser -> pour static
+// $obj = new Demo();
+// echo $obj->valeur;  // Undefined property
+
+// ✅ CORRECT : Utiliser ::
+echo Demo::$valeur;  // 10
+?>
+
+
+ERREUR 4 : APPELER UNE MÉTHODE NORMALE COMME SI ELLE ÉTAIT STATIC
+------------------------------------------------------------------
+
+<?php
+class Demo {
+    public function methode() {  // Méthode NORMALE (pas static)
+        echo "Bonjour";
+    }
+}
+
+// ❌ ERREUR : Appel non-static d'une méthode non-static
+// Demo::methode();  // Deprecated ou Fatal error
+
+// ✅ CORRECT : Créer un objet
+$obj = new Demo();
+$obj->methode();  // Bonjour
+?>
+
+
+================================================================================
+L.6 - EXEMPLE PRATIQUE COMPLET : GESTION DE SESSIONS
+================================================================================
+
+Voici un exemple réel combinant méthodes et propriétés static :
+
+<?php
+class Session {
+    private static $donnees = [];
+    private static $demarree = false;
+
+    // Démarrer la session (static car unique)
+    public static function demarrer() {
+        if (!self::$demarree) {
+            self::$demarree = true;
+            echo "Session démarrée\n";
+        }
+    }
+
+    // Stocker une valeur dans la session
+    public static function set($cle, $valeur) {
+        self::$donnees[$cle] = $valeur;
+    }
+
+    // Récupérer une valeur de la session
+    public static function get($cle) {
+        return self::$donnees[$cle] ?? null;
+    }
+
+    // Vérifier si une clé existe
+    public static function has($cle) {
+        return isset(self::$donnees[$cle]);
+    }
+
+    // Supprimer une valeur
+    public static function delete($cle) {
+        unset(self::$donnees[$cle]);
+    }
+
+    // Afficher toutes les données (debug)
+    public static function debug() {
+        print_r(self::$donnees);
+    }
+}
+
+// ==================== UTILISATION ====================
+
+// Démarrer la session
+Session::demarrer();
+
+// Stocker des données
+Session::set('utilisateur', 'Alice');
+Session::set('role', 'admin');
+Session::set('connecte', true);
+
+// Récupérer des données
+echo Session::get('utilisateur');  // Alice
+echo Session::get('role');         // admin
+
+// Vérifier l'existence
+if (Session::has('connecte')) {
+    echo "Utilisateur connecté\n";
+}
+
+// Supprimer une donnée
+Session::delete('connecte');
+
+// Debug (afficher tout)
+Session::debug();
+?>
+
+
+CE QUI EST BIEN DANS CET EXEMPLE :
+-----------------------------------
+✅ Méthodes static : pas besoin de créer un objet Session
+✅ Propriété static : les données sont partagées dans toute l'application
+✅ Encapsulation : les données sont private (protection)
+✅ Interface simple : méthodes claires (set, get, has, delete)
+✅ Utilisation pratique : accessible partout via Session::
+
+
+================================================================================
+L.7 - RÉCAPITULATIF : STATIC EN BREF
+================================================================================
+
+POINTS ESSENTIELS :
+-------------------
+
+1. static = Appartient à la CLASSE, pas aux INSTANCES
+
+2. Opérateur :: pour accéder aux membres static
+   NomClasse::membre
+
+3. self:: pour accéder depuis l'intérieur de la classe
+   self::$propriete ou self::methode()
+
+4. PAS d'accès à $this dans les méthodes static
+
+5. Une SEULE copie des propriétés static (partagée)
+
+6. Appel SANS créer d'objet (sans new)
+
+7. Utiliser pour : utilitaires, compteurs, configuration
+
+8. Éviter si : vous avez besoin de $this ou de données spécifiques à l'objet
+
+
+SYNTAXE À RETENIR :
+-------------------
+
+<?php
+class Exemple {
+    // Propriété static
+    public static $compteur = 0;
+
+    // Méthode static
+    public static function incrementer() {
+        self::$compteur++;  // Accès avec self::
+    }
+}
+
+// Appel depuis l'extérieur
+Exemple::incrementer();
+echo Exemple::$compteur;  // 1
+?>
 
 
 ================================================================================

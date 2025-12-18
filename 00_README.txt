@@ -4,14 +4,15 @@
 
 BIENVENUE DANS LE GUIDE PHP COMPLET !
 
-Ce guide a été organisé en 9 modules distincts pour faciliter l'apprentissage
-progressif de PHP. Chaque fichier couvre un aspect essentiel du langage.
+Ce guide a été organisé en 10 modules distincts pour faciliter l'apprentissage
+progressif de PHP et du développement web. Chaque fichier couvre un aspect
+essentiel du langage et des technologies web associées.
 
 ================================================================================
 STRUCTURE DU GUIDE
 ================================================================================
 
-Le guide a été organisé en 9 fichiers thématiques, en supprimant les
+Le guide a été organisé en 10 fichiers thématiques, en supprimant les
 doublons et en organisant le contenu de manière logique et pédagogique.
 
 📁 FICHIERS DU GUIDE (dans l'ordre d'apprentissage recommandé):
@@ -99,6 +100,22 @@ doublons et en organisant le contenu de manière logique et pédagogique.
    - L'Héritage (extends)
    - Exemple pratique complet
 
+10. HTML_10_Guide_Complet.txt (78 KB)
+    - Introduction à HTML et ses versions (HTML5)
+    - Structure de base d'une page HTML
+    - Balises essentielles (titres, paragraphes, texte)
+    - Attributs HTML (id, class, data-*, title, etc.)
+    - Texte et formatage (entités, balises sémantiques)
+    - Listes (ordonnées, non-ordonnées, définitions)
+    - Liens et navigation (href, target, rel, download)
+    - Images et médias (img, audio, vidéo, iframe)
+    - Tableaux (structure, colspan, rowspan, thead/tbody/tfoot)
+    - Formulaires et inputs complets (types, validation)
+    - HTML sémantique (header, nav, main, article, section, aside, footer)
+    - Balises de mise en page (div, span, block vs inline)
+    - Métadonnées et SEO (meta tags, Open Graph, Twitter Cards)
+    - Bonnes pratiques (accessibilité, performance, validation, sécurité)
+
 
 ================================================================================
 POINTS IMPORTANTS À NOTER
@@ -138,6 +155,7 @@ NIVEAU AVANCÉ:
 7. PHP_07_Formulaires_HTML.txt
 8. PHP_08_Validation_Securite.txt
 9. PHP_09_Classes_et_POO.txt
+10. HTML_10_Guide_Complet.txt
 
 
 ================================================================================

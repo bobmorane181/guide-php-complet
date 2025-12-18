@@ -1,0 +1,1823 @@
+================================================================================
+                     HTML MODULE 10 : GUIDE COMPLET HTML
+================================================================================
+
+TABLE DES MATIÈRES
+==================
+1. Introduction à HTML
+2. Structure de Base d'une Page HTML
+3. Les Balises Essentielles
+4. Les Attributs HTML
+5. Texte et Formatage
+6. Listes
+7. Liens et Navigation
+8. Images et Médias
+9. Tableaux
+10. Formulaires et Inputs
+11. HTML Sémantique
+12. Balises de Mise en Page (Layout)
+13. Métadonnées et SEO
+14. Bonnes Pratiques
+
+
+================================================================================
+1. INTRODUCTION À HTML
+================================================================================
+
+QU'EST-CE QUE HTML ?
+--------------------
+
+HTML = HyperText Markup Language (Langage de Balisage HyperTexte)
+
+DÉFINITION:
+HTML est le langage standard pour créer des pages web. Ce n'est PAS un
+langage de programmation, mais un langage de BALISAGE qui structure le
+contenu d'une page web.
+
+RÔLE:
+- Définir la STRUCTURE du contenu (titres, paragraphes, listes, etc.)
+- Créer des LIENS entre les pages
+- Intégrer des MÉDIAS (images, vidéos, audio)
+- Créer des FORMULAIRES pour collecter des données
+
+HTML + CSS + JavaScript:
+┌────────────┬────────────────────────────────────────────┐
+│ Langage    │ Rôle                                       │
+├────────────┼────────────────────────────────────────────┤
+│ HTML       │ STRUCTURE et CONTENU (squelette)           │
+│ CSS        │ PRÉSENTATION et STYLE (apparence)          │
+│ JavaScript │ COMPORTEMENT et INTERACTIVITÉ (dynamisme)  │
+└────────────┴────────────────────────────────────────────┘
+
+
+VERSIONS HTML:
+--------------
+
+HTML5 = Version actuelle et recommandée (depuis 2014)
+
+Avantages de HTML5:
+✅ Support natif audio/vidéo (sans plugins)
+✅ Balises sémantiques (<header>, <nav>, <article>, etc.)
+✅ Formulaires améliorés (nouveaux types d'input)
+✅ API JavaScript puissantes (Canvas, Geolocation, etc.)
+✅ Meilleure accessibilité
+
+
+SYNTAXE DE BASE:
+----------------
+
+HTML utilise des BALISES (tags) pour structurer le contenu.
+
+ANATOMIE D'UNE BALISE:
+
+    <balise attribut="valeur">Contenu</balise>
+    ↑      ↑                   ↑       ↑
+    |      |                   |       |
+    Ouverture  Attribut    Contenu  Fermeture
+
+EXEMPLE:
+
+    <p class="intro">Ceci est un paragraphe.</p>
+
+
+BALISES AUTO-FERMANTES:
+-----------------------
+
+Certaines balises n'ont PAS de contenu et se ferment d'elles-mêmes:
+
+    <img src="photo.jpg" alt="Description">
+    <br>
+    <hr>
+    <input type="text" name="nom">
+
+Note: En HTML5, la barre oblique finale (/) est optionnelle.
+
+
+================================================================================
+2. STRUCTURE DE BASE D'UNE PAGE HTML
+================================================================================
+
+TEMPLATE MINIMAL HTML5:
+-----------------------
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titre de la Page</title>
+</head>
+<body>
+    <!-- Contenu visible de la page -->
+    <h1>Bienvenue</h1>
+    <p>Contenu de la page...</p>
+</body>
+</html>
+
+
+EXPLICATION DES ÉLÉMENTS:
+--------------------------
+
+1. <!DOCTYPE html>
+   - DÉCLARATION de type de document
+   - Indique au navigateur qu'il s'agit de HTML5
+   - OBLIGATOIRE en première ligne
+
+2. <html lang="fr">
+   - Élément RACINE de la page
+   - Attribut 'lang' spécifie la langue (important pour SEO et accessibilité)
+
+3. <head>
+   - Contient les MÉTADONNÉES (informations sur la page)
+   - PAS visible par l'utilisateur
+   - Inclut: titre, encodage, CSS, scripts, etc.
+
+4. <meta charset="UTF-8">
+   - Définit l'ENCODAGE des caractères (UTF-8 = standard universel)
+   - Permet d'afficher correctement les accents et caractères spéciaux
+
+5. <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   - Configuration pour le RESPONSIVE design
+   - Essentiel pour les appareils mobiles
+
+6. <title>
+   - TITRE de la page (affiché dans l'onglet du navigateur)
+   - Important pour le SEO
+   - Maximum 60 caractères recommandé
+
+7. <body>
+   - Contient le CONTENU VISIBLE de la page
+   - Tout ce que l'utilisateur voit
+
+
+================================================================================
+POINTS CLÉS SUR LA STRUCTURE HTML:
+----------------------------------
+
+1. DÉCLARATION <!DOCTYPE html>
+   - Doit TOUJOURS être la PREMIÈRE ligne de code dans vos fichiers HTML
+   - Indique au navigateur quelle version de HTML utiliser (HTML5)
+
+2. ÉLÉMENT <html>
+   - Contiendra TOUT votre code HTML
+   - C'est l'élément racine qui englobe toute la page
+
+3. EN-TÊTE <head>
+   - Contient les informations MÉTADONNÉES sur la page web
+   - Inclut notamment le TITRE de la page
+
+4. TITRE <title>
+   - Permet d'ajouter un titre à votre page web
+   - Se place à l'INTÉRIEUR de l'élément <head>
+   - Le titre d'une page web apparaît dans l'ONGLET du navigateur
+
+5. LIENS AVEC BALISES <a> (ANCRES)
+   - Utilisés pour créer des liens vers:
+     * Pages internes (même site)
+     * Pages externes (autres sites)
+     * Contenu sur la même page (navigation interne)
+
+6. NAVIGATION INTERNE AVEC IDS
+   - Vous pouvez créer des SECTIONS dans votre page web
+   - Ajoutez des IDs aux éléments vers lesquels vous voulez naviguer
+   - Utilisez les balises <a> pour créer des liens vers ces sections
+
+   EXEMPLE:
+   <a href="#section-contact">Aller au contact</a>
+   ...
+   <section id="section-contact">
+       <h2>Contactez-nous</h2>
+   </section>
+
+7. ESPACES BLANCS (WHITESPACE)
+   - Les espaces entre les éléments HTML facilitent la LECTURE du code
+   - N'affectent PAS l'apparence des éléments dans le navigateur
+   - Important pour la maintenabilité du code
+
+8. INDENTATION
+   - Facilite également la lecture du code
+   - Rend les relations PARENT-ENFANT visibles
+   - Améliore la compréhension de la structure
+
+   EXEMPLE:
+   <div>
+       <p>Paragraphe enfant</p>
+       <ul>
+           <li>Élément de liste</li>
+       </ul>
+   </div>
+
+9. COMMENTAIRES HTML
+   - Syntaxe: <!-- commentaire -->
+   - Permettent d'annoter le code sans affecter l'affichage
+   - Utiles pour documenter et organiser le code
+   - Restent visibles dans le code source de la page
+
+   EXEMPLE:
+   <!-- Ceci est un commentaire qui ne s'affiche pas -->
+   <p>Ce paragraphe s'affiche</p>
+
+
+COMMENTAIRES HTML:
+------------------
+
+<!-- Ceci est un commentaire -->
+<!--
+    Commentaire
+    sur plusieurs
+    lignes
+-->
+
+⚠️ IMPORTANT: Les commentaires sont VISIBLES dans le code source de la page!
+
+
+================================================================================
+3. LES BALISES ESSENTIELLES
+================================================================================
+
+A. TITRES (HEADINGS)
+--------------------
+
+HTML propose 6 niveaux de titres: <h1> à <h6>
+
+<h1>Titre Principal</h1>          <!-- Le plus important -->
+<h2>Sous-titre</h2>
+<h3>Sous-sous-titre</h3>
+<h4>Titre de niveau 4</h4>
+<h5>Titre de niveau 5</h5>
+<h6>Titre de niveau 6</h6>        <!-- Le moins important -->
+
+RÈGLES IMPORTANTES:
+✅ UN SEUL <h1> par page (pour le SEO)
+✅ Respecter la HIÉRARCHIE (ne pas sauter de niveaux)
+✅ Utiliser pour la STRUCTURE, pas pour la taille
+
+❌ MAUVAIS:
+<h1>Titre</h1>
+<h3>Sous-titre</h3>  <!-- Saute h2 ! -->
+
+✅ BON:
+<h1>Titre</h1>
+<h2>Sous-titre</h2>
+<h3>Sous-sous-titre</h3>
+
+
+B. PARAGRAPHES
+--------------
+
+<p>Ceci est un paragraphe de texte.</p>
+<p>Ceci est un autre paragraphe.</p>
+
+CARACTÉRISTIQUES:
+- Crée automatiquement un SAUT DE LIGNE avant et après
+- Élément de type BLOCK (prend toute la largeur disponible)
+
+
+C. SAUTS DE LIGNE ET LIGNES HORIZONTALES
+-----------------------------------------
+
+<!-- Saut de ligne simple -->
+Ligne 1<br>
+Ligne 2
+
+<!-- Ligne horizontale (séparateur) -->
+<hr>
+
+⚠️ IMPORTANT: <br> et <hr> sont des balises AUTO-FERMANTES
+
+
+D. EMPHASE ET IMPORTANCE
+-------------------------
+
+<!-- Texte en italique (emphase) -->
+<em>Texte important</em>          <!-- Sémantique: emphase -->
+<i>Texte en italique</i>          <!-- Visuel seulement -->
+
+<!-- Texte en gras (fort) -->
+<strong>Texte très important</strong>  <!-- Sémantique: importance -->
+<b>Texte en gras</b>                   <!-- Visuel seulement -->
+
+💡 BONNE PRATIQUE: Préférez <em> et <strong> pour la SIGNIFICATION
+                   Utilisez <i> et <b> uniquement pour le STYLE
+
+
+E. AUTRES BALISES DE TEXTE
+---------------------------
+
+<!-- Texte souligné -->
+<u>Texte souligné</u>
+
+<!-- Texte barré -->
+<s>Texte barré</s>
+<del>Texte supprimé</del>
+
+<!-- Texte inséré -->
+<ins>Texte ajouté</ins>
+
+<!-- Texte surligné -->
+<mark>Texte surligné</mark>
+
+<!-- Texte petit -->
+<small>Texte en petits caractères</small>
+
+<!-- Indice et exposant -->
+H<sub>2</sub>O           <!-- Indice: H₂O -->
+E = mc<sup>2</sup>       <!-- Exposant: E = mc² -->
+
+<!-- Citation -->
+<q>Citation courte</q>
+<blockquote>
+    Citation longue sur plusieurs lignes
+</blockquote>
+
+<!-- Code informatique -->
+<code>console.log('Hello');</code>
+<pre><code>
+function bonjour() {
+    return "Bonjour!";
+}
+</code></pre>
+
+<!-- Texte préformaté (conserve espaces et retours à la ligne) -->
+<pre>
+    Texte    avec
+    espaces   multiples
+    conservés
+</pre>
+
+
+================================================================================
+4. LES ATTRIBUTS HTML
+================================================================================
+
+DÉFINITION:
+-----------
+
+Les attributs fournissent des INFORMATIONS SUPPLÉMENTAIRES sur les éléments.
+
+SYNTAXE:
+
+    <balise attribut="valeur">Contenu</balise>
+
+
+ATTRIBUTS UNIVERSELS (GLOBAUX):
+--------------------------------
+
+Ces attributs peuvent être utilisés sur TOUTES les balises HTML.
+
+1. id
+   - Identifiant UNIQUE dans la page
+   - Utilisé pour cibler un élément spécifique (CSS, JavaScript, ancres)
+
+   <div id="en-tete">...</div>
+
+   ⚠️ IMPORTANT: Un ID doit être UNIQUE dans toute la page!
+
+
+2. class
+   - Classe CSS pour appliquer des styles
+   - PLUSIEURS éléments peuvent avoir la même classe
+
+   <p class="important">...</p>
+   <p class="important highlight">...</p>  <!-- Plusieurs classes -->
+
+
+3. style
+   - Styles CSS en ligne (à éviter, préférer fichier CSS externe)
+
+   <p style="color: red; font-size: 16px;">Texte rouge</p>
+
+
+4. title
+   - Infobulle affichée au survol de la souris
+
+   <abbr title="HyperText Markup Language">HTML</abbr>
+
+
+5. data-*
+   - Attributs personnalisés pour stocker des données
+
+   <div data-user-id="123" data-role="admin">...</div>
+
+
+6. hidden
+   - Cache l'élément (invisible et non interactif)
+
+   <div hidden>Contenu masqué</div>
+
+
+7. lang
+   - Spécifie la langue du contenu
+
+   <p lang="en">This is English</p>
+
+
+ATTRIBUTS SPÉCIFIQUES:
+----------------------
+
+Certains attributs sont spécifiques à certaines balises.
+
+EXEMPLES:
+
+<!-- Liens -->
+<a href="https://example.com" target="_blank" rel="noopener">Lien</a>
+
+<!-- Images -->
+<img src="photo.jpg" alt="Description" width="300" height="200">
+
+<!-- Inputs -->
+<input type="text" name="nom" placeholder="Entrez votre nom" required>
+
+
+================================================================================
+5. TEXTE ET FORMATAGE
+================================================================================
+
+STRUCTURE SÉMANTIQUE DU TEXTE:
+-------------------------------
+
+<!-- Division générique (bloc) -->
+<div>Conteneur de bloc</div>
+
+<!-- Span générique (en ligne) -->
+<span>Conteneur en ligne</span>
+
+<!-- Abbréviation -->
+<abbr title="Cascading Style Sheets">CSS</abbr>
+
+<!-- Adresse de contact -->
+<address>
+    123 Rue Exemple<br>
+    75001 Paris, France<br>
+    <a href="mailto:contact@example.com">contact@example.com</a>
+</address>
+
+<!-- Citation avec source -->
+<blockquote cite="https://example.com">
+    <p>Citation longue...</p>
+    <footer>— <cite>Auteur de la citation</cite></footer>
+</blockquote>
+
+<!-- Définition -->
+<p><dfn>HTML</dfn> est un langage de balisage.</p>
+
+<!-- Variable (programmation) -->
+<var>x</var> = 10
+
+<!-- Entrée clavier -->
+Appuyez sur <kbd>Ctrl</kbd> + <kbd>C</kbd>
+
+<!-- Sortie de programme -->
+<samp>Erreur 404: Page non trouvée</samp>
+
+<!-- Date et heure -->
+<time datetime="2025-11-15">15 novembre 2025</time>
+
+
+ENTITÉS HTML (CARACTÈRES SPÉCIAUX):
+------------------------------------
+
+Certains caractères doivent être échappés en HTML:
+
+┌──────────────────┬──────────────┬─────────────┐
+│ Caractère        │ Entité       │ Rendu       │
+├──────────────────┼──────────────┼─────────────┤
+│ Inférieur à      │ &lt;         │ <           │
+│ Supérieur à      │ &gt;         │ >           │
+│ Esperluette      │ &amp;        │ &           │
+│ Guillemet        │ &quot;       │ "           │
+│ Apostrophe       │ &apos;       │ '           │
+│ Espace insécable │ &nbsp;       │ (espace)    │
+│ Copyright        │ &copy;       │ ©           │
+│ Marque déposée   │ &reg;        │ ®           │
+│ Euro             │ &euro;       │ €           │
+└──────────────────┴──────────────┴─────────────┘
+
+EXEMPLES:
+
+<p>Le code HTML utilise des balises comme &lt;p&gt; et &lt;div&gt;.</p>
+<!-- Affiche: Le code HTML utilise des balises comme <p> et <div>. -->
+
+
+================================================================================
+6. LISTES
+================================================================================
+
+A. LISTE NON ORDONNÉE (À PUCES)
+--------------------------------
+
+<ul>
+    <li>Premier élément</li>
+    <li>Deuxième élément</li>
+    <li>Troisième élément</li>
+</ul>
+
+RÉSULTAT:
+• Premier élément
+• Deuxième élément
+• Troisième élément
+
+
+B. LISTE ORDONNÉE (NUMÉROTÉE)
+------------------------------
+
+<ol>
+    <li>Premier élément</li>
+    <li>Deuxième élément</li>
+    <li>Troisième élément</li>
+</ol>
+
+RÉSULTAT:
+1. Premier élément
+2. Deuxième élément
+3. Troisième élément
+
+
+ATTRIBUTS DES LISTES ORDONNÉES:
+
+<!-- Commencer à un numéro spécifique -->
+<ol start="5">
+    <li>Cinquième</li>
+    <li>Sixième</li>
+</ol>
+
+<!-- Type de numérotation -->
+<ol type="A">          <!-- A, B, C... -->
+<ol type="a">          <!-- a, b, c... -->
+<ol type="I">          <!-- I, II, III... -->
+<ol type="i">          <!-- i, ii, iii... -->
+<ol type="1">          <!-- 1, 2, 3... (défaut) -->
+
+<!-- Ordre inversé -->
+<ol reversed>
+    <li>Trois</li>
+    <li>Deux</li>
+    <li>Un</li>
+</ol>
+
+
+C. LISTES IMBRIQUÉES
+---------------------
+
+<ul>
+    <li>Élément 1</li>
+    <li>Élément 2
+        <ul>
+            <li>Sous-élément 2.1</li>
+            <li>Sous-élément 2.2</li>
+        </ul>
+    </li>
+    <li>Élément 3</li>
+</ul>
+
+
+D. LISTE DE DÉFINITIONS
+------------------------
+
+<dl>
+    <dt>HTML</dt>
+    <dd>HyperText Markup Language</dd>
+
+    <dt>CSS</dt>
+    <dd>Cascading Style Sheets</dd>
+
+    <dt>JavaScript</dt>
+    <dd>Langage de programmation pour le web</dd>
+</dl>
+
+Où:
+- <dl> = Definition List (liste de définitions)
+- <dt> = Definition Term (terme à définir)
+- <dd> = Definition Description (description du terme)
+
+
+================================================================================
+7. LIENS ET NAVIGATION
+================================================================================
+
+A. BALISE <a> (ANCRE/LIEN)
+--------------------------
+
+<!-- Lien externe -->
+<a href="https://www.example.com">Visiter Example</a>
+
+<!-- Lien interne (vers une autre page du site) -->
+<a href="contact.html">Contactez-nous</a>
+<a href="/about/team.html">Notre équipe</a>
+
+<!-- Lien vers une section de la page (ancre) -->
+<a href="#section-1">Aller à la section 1</a>
+<h2 id="section-1">Section 1</h2>
+
+
+ATTRIBUTS IMPORTANTS:
+---------------------
+
+1. href (HyperText REFerence)
+   - URL de destination (OBLIGATOIRE)
+
+2. target
+   - Où ouvrir le lien
+
+   <a href="page.html" target="_self">Même fenêtre (défaut)</a>
+   <a href="page.html" target="_blank">Nouvelle fenêtre/onglet</a>
+   <a href="page.html" target="_parent">Fenêtre parente</a>
+   <a href="page.html" target="_top">Fenêtre principale</a>
+
+   ⚠️ SÉCURITÉ: Toujours ajouter rel="noopener" avec target="_blank"
+   <a href="externe.com" target="_blank" rel="noopener">Lien sûr</a>
+
+3. rel (relationship)
+   - Relation entre la page actuelle et la destination
+
+   <a href="externe.com" rel="nofollow">Lien non suivi par Google</a>
+   <a href="externe.com" rel="noopener noreferrer">Lien sécurisé</a>
+
+4. download
+   - Force le téléchargement du fichier
+
+   <a href="document.pdf" download>Télécharger le PDF</a>
+   <a href="image.jpg" download="photo.jpg">Télécharger</a>
+
+
+TYPES DE LIENS SPÉCIAUX:
+-------------------------
+
+<!-- Lien email -->
+<a href="mailto:contact@example.com">Envoyer un email</a>
+<a href="mailto:contact@example.com?subject=Bonjour&body=Message">Email avec sujet</a>
+
+<!-- Lien téléphone -->
+<a href="tel:+33123456789">Appeler</a>
+
+<!-- Lien SMS -->
+<a href="sms:+33123456789">Envoyer un SMS</a>
+
+
+LIEN SUR UNE IMAGE:
+-------------------
+
+<a href="page.html">
+    <img src="image.jpg" alt="Cliquez ici">
+</a>
+
+
+================================================================================
+8. IMAGES ET MÉDIAS
+================================================================================
+
+A. BALISE <img>
+---------------
+
+<img src="chemin/vers/image.jpg" alt="Description de l'image">
+
+ATTRIBUTS OBLIGATOIRES:
+
+1. src (source)
+   - Chemin vers le fichier image
+   - Peut être relatif ou absolu
+
+   <img src="image.jpg">                    <!-- Même dossier -->
+   <img src="images/photo.jpg">             <!-- Sous-dossier -->
+   <img src="../photo.jpg">                 <!-- Dossier parent -->
+   <img src="https://example.com/img.jpg">  <!-- URL absolue -->
+
+2. alt (texte alternatif)
+   - Description de l'image (TRÈS IMPORTANT!)
+   - Affiché si l'image ne charge pas
+   - Utilisé par les lecteurs d'écran (accessibilité)
+   - Important pour le SEO
+
+   <img src="logo.png" alt="Logo de l'entreprise ABC">
+   <img src="decoratif.png" alt="">  <!-- Image décorative = alt vide -->
+
+
+ATTRIBUTS OPTIONNELS:
+
+<!-- Dimensions -->
+<img src="photo.jpg" alt="Photo" width="300" height="200">
+
+<!-- Title (infobulle au survol) -->
+<img src="photo.jpg" alt="Photo" title="Ma belle photo">
+
+<!-- Loading lazy (chargement différé pour performance) -->
+<img src="photo.jpg" alt="Photo" loading="lazy">
+
+
+FORMATS D'IMAGE RECOMMANDÉS:
+-----------------------------
+
+┌──────────┬────────────────────────────────────────┐
+│ Format   │ Usage recommandé                       │
+├──────────┼────────────────────────────────────────┤
+│ JPEG/JPG │ Photos, images complexes               │
+│ PNG      │ Images avec transparence, logos        │
+│ SVG      │ Icônes, logos vectoriels (évolutifs)   │
+│ WebP     │ Format moderne (meilleure compression) │
+│ GIF      │ Animations simples (à éviter)          │
+└──────────┴────────────────────────────────────────┘
+
+
+B. BALISE <picture> (IMAGE RESPONSIVE)
+---------------------------------------
+
+<picture>
+    <source media="(min-width: 800px)" srcset="grande-image.jpg">
+    <source media="(min-width: 400px)" srcset="moyenne-image.jpg">
+    <img src="petite-image.jpg" alt="Description">
+</picture>
+
+
+C. BALISE <figure> ET <figcaption>
+-----------------------------------
+
+Associe une image avec sa légende de manière sémantique:
+
+<figure>
+    <img src="graph.png" alt="Graphique des ventes 2025">
+    <figcaption>Figure 1: Évolution des ventes en 2025</figcaption>
+</figure>
+
+
+D. AUDIO
+--------
+
+<audio controls>
+    <source src="musique.mp3" type="audio/mpeg">
+    <source src="musique.ogg" type="audio/ogg">
+    Votre navigateur ne supporte pas l'audio HTML5.
+</audio>
+
+ATTRIBUTS:
+- controls: Affiche les contrôles (lecture, pause, volume)
+- autoplay: Lecture automatique (⚠️ à éviter, mauvaise UX)
+- loop: Lecture en boucle
+- muted: Son coupé par défaut
+
+
+E. VIDÉO
+--------
+
+<video controls width="640" height="360">
+    <source src="video.mp4" type="video/mp4">
+    <source src="video.webm" type="video/webm">
+    Votre navigateur ne supporte pas la vidéo HTML5.
+</video>
+
+ATTRIBUTS:
+- controls: Affiche les contrôles
+- autoplay: Lecture automatique (⚠️ généralement bloqué par navigateurs)
+- loop: Lecture en boucle
+- muted: Son coupé (requis pour autoplay dans la plupart des navigateurs)
+- poster: Image affichée avant la lecture
+
+<video controls poster="miniature.jpg">
+    <source src="video.mp4" type="video/mp4">
+</video>
+
+
+F. IFRAME (INTÉGRATION DE CONTENU EXTERNE)
+-------------------------------------------
+
+<iframe
+    src="https://www.youtube.com/embed/VIDEO_ID"
+    width="560"
+    height="315"
+    title="Titre de la vidéo"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen>
+</iframe>
+
+USAGES COURANTS:
+- Vidéos YouTube/Vimeo
+- Cartes Google Maps
+- Contenu de sites externes
+
+
+G. RESSOURCES VIDÉO ADDITIONNELLES
+-----------------------------------
+
+TUTORIEL VIDÉO HTML:
+
+Pour un apprentissage visuel complet sur HTML, consultez cette ressource:
+
+📺 Tutoriel HTML complet:
+   https://www.youtube.com/watch?v=B4tCt6elrU0
+
+INTÉGRATION DE CETTE VIDÉO DANS VOTRE PAGE:
+
+<iframe
+    width="560"
+    height="315"
+    src="https://www.youtube.com/embed/B4tCt6elrU0"
+    title="Tutoriel HTML"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen>
+</iframe>
+
+
+================================================================================
+9. TABLEAUX
+================================================================================
+
+STRUCTURE DE BASE:
+------------------
+
+<table>
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Âge</th>
+            <th>Ville</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Alice</td>
+            <td>25</td>
+            <td>Paris</td>
+        </tr>
+        <tr>
+            <td>Bob</td>
+            <td>30</td>
+            <td>Lyon</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3">Total: 2 personnes</td>
+        </tr>
+    </tfoot>
+</table>
+
+
+BALISES DES TABLEAUX:
+---------------------
+
+┌──────────┬──────────────────────────────────────────┐
+│ Balise   │ Rôle                                     │
+├──────────┼──────────────────────────────────────────┤
+│ <table>  │ Conteneur principal du tableau           │
+│ <thead>  │ En-tête du tableau                       │
+│ <tbody>  │ Corps du tableau (contenu principal)     │
+│ <tfoot>  │ Pied du tableau (totaux, résumés)        │
+│ <tr>     │ Table Row (ligne)                        │
+│ <th>     │ Table Header (cellule d'en-tête)         │
+│ <td>     │ Table Data (cellule de données)          │
+│ <caption>│ Légende/titre du tableau                 │
+└──────────┴──────────────────────────────────────────┘
+
+
+ATTRIBUTS IMPORTANTS:
+---------------------
+
+<!-- Fusionner des colonnes -->
+<td colspan="2">Cellule sur 2 colonnes</td>
+
+<!-- Fusionner des lignes -->
+<td rowspan="2">Cellule sur 2 lignes</td>
+
+<!-- Associer en-têtes et données (accessibilité) -->
+<th id="nom">Nom</th>
+<td headers="nom">Alice</td>
+
+
+EXEMPLE COMPLET:
+
+<table>
+    <caption>Liste des Employés</caption>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Poste</th>
+            <th>Salaire</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>001</td>
+            <td>Alice Dupont</td>
+            <td>Développeuse</td>
+            <td>45 000€</td>
+        </tr>
+        <tr>
+            <td>002</td>
+            <td>Bob Martin</td>
+            <td>Designer</td>
+            <td>40 000€</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3">Total Salaires</td>
+            <td>85 000€</td>
+        </tr>
+    </tfoot>
+</table>
+
+⚠️ IMPORTANT: Les tableaux sont pour DONNÉES TABULAIRES uniquement!
+                Ne PAS utiliser pour la mise en page (utiliser CSS Grid/Flexbox)
+
+
+================================================================================
+POINTS CLÉS SUR LES TABLEAUX HTML:
+----------------------------------
+
+1. CRÉATION D'UN TABLEAU
+   - L'élément <table> crée un tableau
+   - Structure de base: <table>...</table>
+   - Utilisé pour afficher des données tabulaires (grilles de données)
+
+2. AJOUT DE LIGNES
+   - L'élément <tr> (Table Row) ajoute des lignes au tableau
+   - Chaque ligne contient des cellules (<td> ou <th>)
+   - Syntaxe: <tr>...</tr>
+
+3. AJOUT DE DONNÉES
+   - L'élément <td> (Table Data) ajoute des données dans une ligne
+   - Contient le contenu des cellules ordinaires
+   - Chaque <td> représente une cellule de données
+
+4. EN-TÊTES DE TABLEAU
+   - L'élément <th> (Table Header) clarifie la signification des données
+   - Généralement en gras et centré par défaut
+   - Améliore l'accessibilité et la structure sémantique
+   - Utilisé dans <thead> pour identifier les colonnes
+
+5. FUSION DE COLONNES (COLSPAN)
+   - L'attribut colspan permet aux données de s'étendre sur plusieurs colonnes
+   - Syntaxe: <td colspan="2">
+   - Exemple: <td colspan="3"> fusionne 3 colonnes horizontalement
+   - Utile pour créer des cellules qui occupent plusieurs colonnes
+
+6. FUSION DE LIGNES (ROWSPAN)
+   - L'attribut rowspan permet aux données de s'étendre sur plusieurs lignes
+   - Syntaxe: <td rowspan="2">
+   - Exemple: <td rowspan="3"> fusionne 3 lignes verticalement
+   - Utile pour créer des cellules qui occupent plusieurs lignes
+
+7. SECTIONS DU TABLEAU
+   - Les tableaux peuvent être divisés en trois sections principales:
+     * <thead>: En-tête du tableau (titres des colonnes)
+     * <tbody>: Corps du tableau (données principales)
+     * <tfoot>: Pied du tableau (totaux, résumés, notes)
+   - Cette division améliore la sémantique et l'accessibilité
+   - Permet également un meilleur contrôle du style CSS
+
+8. STYLE CSS ET TABLEAUX
+   - Toutes les propriétés CSS peuvent être appliquées aux tableaux et leurs données
+   - Propriétés courantes:
+     * border: bordures des cellules
+     * padding: espacement intérieur des cellules
+     * background-color: couleur de fond
+     * text-align: alignement du texte
+     * border-collapse: collapse; pour fusionner les bordures
+     * width et height: dimensions du tableau
+   - Exemple CSS:
+     table { border-collapse: collapse; width: 100%; }
+     th, td { border: 1px solid black; padding: 8px; }
+
+⚠️ RAPPEL IMPORTANT: Les tableaux sont destinés aux DONNÉES TABULAIRES uniquement!
+                      NE PAS utiliser pour la mise en page (utiliser CSS Grid/Flexbox)
+
+
+================================================================================
+10. FORMULAIRES ET INPUTS
+================================================================================
+
+A. STRUCTURE DE BASE D'UN FORMULAIRE
+-------------------------------------
+
+<form action="/traitement.php" method="POST">
+    <label for="nom">Nom:</label>
+    <input type="text" id="nom" name="nom" required>
+
+    <button type="submit">Envoyer</button>
+</form>
+
+
+ATTRIBUTS DE <form>:
+--------------------
+
+1. action
+   - URL où envoyer les données du formulaire
+
+2. method
+   - GET: Données dans l'URL (visible, limité)
+   - POST: Données dans le corps de la requête (invisible, illimité)
+
+3. enctype (pour upload de fichiers)
+   - application/x-www-form-urlencoded (défaut)
+   - multipart/form-data (OBLIGATOIRE pour fichiers)
+   - text/plain (rarement utilisé)
+
+
+B. BALISE <label>
+-----------------
+
+Associe un label à un champ de formulaire (TRÈS IMPORTANT pour accessibilité)
+
+<!-- Méthode 1: avec attribut 'for' -->
+<label for="email">Email:</label>
+<input type="email" id="email" name="email">
+
+<!-- Méthode 2: imbrication -->
+<label>
+    Email:
+    <input type="email" name="email">
+</label>
+
+💡 AVANTAGE: Cliquer sur le label active le champ!
+
+
+C. TYPES D'INPUT
+----------------
+
+<!-- Texte simple -->
+<input type="text" name="nom" placeholder="Votre nom">
+
+<!-- Email (validation automatique) -->
+<input type="email" name="email" placeholder="vous@example.com">
+
+<!-- Mot de passe (masqué) -->
+<input type="password" name="mdp">
+
+<!-- Nombre -->
+<input type="number" name="age" min="0" max="120" step="1">
+
+<!-- Date -->
+<input type="date" name="naissance">
+
+<!-- Heure -->
+<input type="time" name="heure">
+
+<!-- Couleur -->
+<input type="color" name="couleur">
+
+<!-- Téléphone -->
+<input type="tel" name="telephone" pattern="[0-9]{10}">
+
+<!-- URL -->
+<input type="url" name="site">
+
+<!-- Recherche -->
+<input type="search" name="recherche">
+
+<!-- Fichier -->
+<input type="file" name="document" accept=".pdf,.doc,.docx">
+<input type="file" name="images" accept="image/*" multiple>
+
+<!-- Caché (invisible pour l'utilisateur) -->
+<input type="hidden" name="token" value="abc123">
+
+<!-- Range (curseur) -->
+<input type="range" name="volume" min="0" max="100" value="50">
+
+
+D. CASES À COCHER ET BOUTONS RADIO
+-----------------------------------
+
+<!-- Checkbox (plusieurs choix possibles) -->
+<label>
+    <input type="checkbox" name="newsletter" value="oui">
+    S'abonner à la newsletter
+</label>
+
+<label>
+    <input type="checkbox" name="conditions" required>
+    J'accepte les conditions
+</label>
+
+<!-- Radio (un seul choix possible dans un groupe) -->
+<fieldset>
+    <legend>Civilité:</legend>
+
+    <label>
+        <input type="radio" name="civilite" value="mr" checked>
+        Monsieur
+    </label>
+
+    <label>
+        <input type="radio" name="civilite" value="mme">
+        Madame
+    </label>
+</fieldset>
+
+⚠️ IMPORTANT: Les radio avec le même 'name' forment un groupe!
+
+
+E. ZONES DE TEXTE
+------------------
+
+<!-- Textarea (texte multi-lignes) -->
+<label for="message">Message:</label>
+<textarea
+    id="message"
+    name="message"
+    rows="5"
+    cols="40"
+    placeholder="Votre message..."
+    maxlength="500">
+</textarea>
+
+
+F. LISTES DÉROULANTES
+---------------------
+
+<!-- Select simple -->
+<label for="pays">Pays:</label>
+<select id="pays" name="pays">
+    <option value="">-- Sélectionner --</option>
+    <option value="fr">France</option>
+    <option value="be">Belgique</option>
+    <option value="ch" selected>Suisse</option>
+</select>
+
+<!-- Select multiple -->
+<select name="langues" multiple size="4">
+    <option value="fr">Français</option>
+    <option value="en">Anglais</option>
+    <option value="es">Espagnol</option>
+    <option value="de">Allemand</option>
+</select>
+
+<!-- Select avec groupes -->
+<select name="voiture">
+    <optgroup label="Françaises">
+        <option value="peugeot">Peugeot</option>
+        <option value="renault">Renault</option>
+    </optgroup>
+    <optgroup label="Allemandes">
+        <option value="bmw">BMW</option>
+        <option value="audi">Audi</option>
+    </optgroup>
+</select>
+
+
+G. BOUTONS
+----------
+
+<!-- Bouton de soumission -->
+<button type="submit">Envoyer</button>
+<input type="submit" value="Envoyer">
+
+<!-- Bouton de réinitialisation -->
+<button type="reset">Réinitialiser</button>
+<input type="reset" value="Réinitialiser">
+
+<!-- Bouton générique (JavaScript) -->
+<button type="button" onclick="alert('Clic!')">Cliquez-moi</button>
+
+💡 BONNE PRATIQUE: Préférez <button> à <input type="submit">
+                   (plus flexible pour le style et contenu)
+
+
+H. ATTRIBUTS DE VALIDATION
+---------------------------
+
+<!-- Champ obligatoire -->
+<input type="text" name="nom" required>
+
+<!-- Longueur minimale/maximale -->
+<input type="text" name="username" minlength="3" maxlength="20">
+
+<!-- Pattern (expression régulière) -->
+<input type="text" name="code" pattern="[A-Z]{3}[0-9]{3}"
+       title="3 lettres majuscules suivies de 3 chiffres">
+
+<!-- Valeur min/max (pour nombres et dates) -->
+<input type="number" name="age" min="18" max="99">
+
+<!-- Désactivé -->
+<input type="text" name="nom" disabled>
+
+<!-- Lecture seule -->
+<input type="text" name="id" value="123" readonly>
+
+<!-- Saisie automatique -->
+<input type="email" name="email" autocomplete="email">
+
+
+I. FIELDSET ET LEGEND
+---------------------
+
+Groupe logique de champs de formulaire:
+
+<fieldset>
+    <legend>Informations personnelles</legend>
+
+    <label for="prenom">Prénom:</label>
+    <input type="text" id="prenom" name="prenom">
+
+    <label for="nom">Nom:</label>
+    <input type="text" id="nom" name="nom">
+</fieldset>
+
+
+J. DATALIST (AUTO-COMPLÉTION)
+------------------------------
+
+<label for="navigateur">Navigateur préféré:</label>
+<input list="navigateurs" id="navigateur" name="navigateur">
+
+<datalist id="navigateurs">
+    <option value="Chrome">
+    <option value="Firefox">
+    <option value="Safari">
+    <option value="Edge">
+</datalist>
+
+
+K. EXEMPLE DE FORMULAIRE COMPLET
+---------------------------------
+
+<form action="/inscription" method="POST" enctype="multipart/form-data">
+    <h2>Inscription</h2>
+
+    <fieldset>
+        <legend>Informations personnelles</legend>
+
+        <label for="nom">Nom*:</label>
+        <input type="text" id="nom" name="nom" required>
+
+        <label for="email">Email*:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="telephone">Téléphone:</label>
+        <input type="tel" id="telephone" name="telephone" pattern="[0-9]{10}">
+
+        <label for="naissance">Date de naissance*:</label>
+        <input type="date" id="naissance" name="naissance" required>
+    </fieldset>
+
+    <fieldset>
+        <legend>Préférences</legend>
+
+        <label>
+            <input type="checkbox" name="newsletter" value="oui">
+            Recevoir la newsletter
+        </label>
+
+        <label for="pays">Pays:</label>
+        <select id="pays" name="pays">
+            <option value="fr">France</option>
+            <option value="be">Belgique</option>
+            <option value="ch">Suisse</option>
+        </select>
+    </fieldset>
+
+    <fieldset>
+        <legend>Documents</legend>
+
+        <label for="cv">CV (PDF):</label>
+        <input type="file" id="cv" name="cv" accept=".pdf">
+    </fieldset>
+
+    <label>
+        <input type="checkbox" name="conditions" required>
+        J'accepte les conditions d'utilisation*
+    </label>
+
+    <button type="submit">S'inscrire</button>
+    <button type="reset">Réinitialiser</button>
+</form>
+
+
+================================================================================
+11. HTML SÉMANTIQUE
+================================================================================
+
+DÉFINITION:
+-----------
+
+Le HTML sémantique utilise des balises qui DÉCRIVENT LA SIGNIFICATION
+du contenu plutôt que sa présentation visuelle.
+
+AVANTAGES:
+✅ Meilleur SEO (Google comprend mieux la structure)
+✅ Accessibilité améliorée (lecteurs d'écran)
+✅ Code plus maintenable et lisible
+✅ Meilleure structure de document
+
+
+BALISES SÉMANTIQUES HTML5:
+---------------------------
+
+<header>
+    En-tête de la page ou d'une section
+    (logo, navigation, titre principal)
+</header>
+
+<nav>
+    Bloc de navigation principale
+    <ul>
+        <li><a href="/">Accueil</a></li>
+        <li><a href="/about">À propos</a></li>
+        <li><a href="/contact">Contact</a></li>
+    </ul>
+</nav>
+
+<main>
+    Contenu principal UNIQUE de la page
+    (un seul <main> par page!)
+    <article>
+        Contenu autonome et réutilisable
+        (article de blog, produit, tweet)
+        <h2>Titre de l'article</h2>
+        <p>Contenu de l'article...</p>
+    </article>
+</main>
+
+<aside>
+    Contenu complémentaire/annexe
+    (sidebar, publicités, liens connexes)
+</aside>
+
+<footer>
+    Pied de page
+    (copyright, liens légaux, réseaux sociaux)
+</footer>
+
+<section>
+    Section thématique d'un document
+    (généralement avec un titre <h2>-<h6>)
+</section>
+
+
+AUTRES BALISES SÉMANTIQUES:
+----------------------------
+
+<article>
+    Contenu indépendant et autonome
+    (peut être extrait et réutilisé ailleurs)
+</article>
+
+<summary>
+    Titre d'un élément <details>
+    (cliquable pour afficher/masquer)
+</summary>
+
+<details>
+    <summary>Cliquez pour plus d'infos</summary>
+    <p>Contenu masqué par défaut</p>
+</details>
+
+<mark>
+    Texte surligné/marqué
+</mark>
+
+<time datetime="2025-11-15">
+    15 novembre 2025
+</time>
+
+<progress value="70" max="100">
+    70%
+</progress>
+
+<meter value="7" min="0" max="10">
+    7 sur 10
+</meter>
+
+
+COMPARAISON: SÉMANTIQUE vs NON-SÉMANTIQUE:
+-------------------------------------------
+
+❌ NON-SÉMANTIQUE (à éviter):
+
+<div id="header">
+    <div id="nav">
+        <div class="menu-item">Accueil</div>
+    </div>
+</div>
+<div id="content">
+    <div class="post">Article...</div>
+</div>
+<div id="footer">Copyright 2025</div>
+
+
+✅ SÉMANTIQUE (recommandé):
+
+<header>
+    <nav>
+        <a href="/">Accueil</a>
+    </nav>
+</header>
+<main>
+    <article>Article...</article>
+</main>
+<footer>Copyright 2025</footer>
+
+
+STRUCTURE DE PAGE COMPLÈTE:
+----------------------------
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Site Web</title>
+</head>
+<body>
+    <header>
+        <h1>Mon Site</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/blog">Blog</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <article>
+            <header>
+                <h2>Titre de l'article</h2>
+                <time datetime="2025-11-15">15 novembre 2025</time>
+            </header>
+            <p>Contenu de l'article...</p>
+            <footer>
+                <p>Par <a href="/auteur">Jean Dupont</a></p>
+            </footer>
+        </article>
+
+        <aside>
+            <h3>Articles similaires</h3>
+            <ul>
+                <li><a href="/article-1">Article 1</a></li>
+                <li><a href="/article-2">Article 2</a></li>
+            </ul>
+        </aside>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Mon Site. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>
+
+
+================================================================================
+12. BALISES DE MISE EN PAGE (LAYOUT)
+================================================================================
+
+A. <div> - CONTENEUR GÉNÉRIQUE (BLOC)
+--------------------------------------
+
+Conteneur sans signification sémantique, utilisé pour regrouper et styliser.
+
+<div class="container">
+    <div class="row">
+        <div class="col">Colonne 1</div>
+        <div class="col">Colonne 2</div>
+    </div>
+</div>
+
+CARACTÉRISTIQUES:
+- Élément de type BLOCK (prend toute la largeur)
+- Crée un saut de ligne avant et après
+- À utiliser quand aucune balise sémantique ne convient
+
+
+B. <span> - CONTENEUR GÉNÉRIQUE (EN LIGNE)
+-------------------------------------------
+
+Conteneur en ligne pour styliser une partie de texte.
+
+<p>Ce texte contient un <span class="highlight">mot important</span>.</p>
+
+CARACTÉRISTIQUES:
+- Élément de type INLINE (ne crée pas de saut de ligne)
+- Ne prend que l'espace nécessaire
+- Idéal pour styliser une portion de texte
+
+
+C. DIFFÉRENCE BLOCK vs INLINE:
+-------------------------------
+
+┌────────────┬──────────────────────────────────────────┐
+│ Type       │ Caractéristiques                         │
+├────────────┼──────────────────────────────────────────┤
+│ BLOCK      │ - Prend toute la largeur disponible      │
+│            │ - Crée des sauts de ligne                │
+│            │ - Hauteur/largeur modifiables (CSS)      │
+│            │ - Ex: <div>, <p>, <h1>, <section>        │
+├────────────┼──────────────────────────────────────────┤
+│ INLINE     │ - Prend uniquement l'espace nécessaire   │
+│            │ - Pas de saut de ligne                   │
+│            │ - Hauteur/largeur NON modifiables        │
+│            │ - Ex: <span>, <a>, <strong>, <em>        │
+└────────────┴──────────────────────────────────────────┘
+
+
+================================================================================
+13. MÉTADONNÉES ET SEO
+================================================================================
+
+A. BALISES <meta> IMPORTANTES
+------------------------------
+
+<!-- Encodage (OBLIGATOIRE) -->
+<meta charset="UTF-8">
+
+<!-- Viewport (OBLIGATOIRE pour responsive) -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Description de la page (SEO) -->
+<meta name="description" content="Description concise de la page (max 160 caractères)">
+
+<!-- Mots-clés (obsolète pour SEO, mais peut être utile) -->
+<meta name="keywords" content="html, css, javascript, tutoriel">
+
+<!-- Auteur -->
+<meta name="author" content="Jean Dupont">
+
+<!-- Robots (contrôle indexation par moteurs de recherche) -->
+<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
+
+<!-- Actualisation automatique (à éviter) -->
+<meta http-equiv="refresh" content="30">
+
+<!-- Redirection -->
+<meta http-equiv="refresh" content="0; url=https://example.com">
+
+
+B. OPEN GRAPH (RÉSEAUX SOCIAUX)
+--------------------------------
+
+Métadonnées pour le partage sur Facebook, LinkedIn, etc.
+
+<meta property="og:title" content="Titre de la page">
+<meta property="og:description" content="Description de la page">
+<meta property="og:image" content="https://example.com/image.jpg">
+<meta property="og:url" content="https://example.com/page.html">
+<meta property="og:type" content="website">
+
+
+C. TWITTER CARDS
+----------------
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Titre de la page">
+<meta name="twitter:description" content="Description">
+<meta name="twitter:image" content="https://example.com/image.jpg">
+
+
+D. FAVICON
+----------
+
+Icône affichée dans l'onglet du navigateur:
+
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+<!-- Apple Touch Icon (pour iOS) -->
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+E. FEUILLES DE STYLE ET SCRIPTS
+--------------------------------
+
+<!-- CSS externe (recommandé) -->
+<link rel="stylesheet" href="styles.css">
+
+<!-- JavaScript externe -->
+<script src="script.js"></script>
+
+<!-- JavaScript en fin de <body> pour performance -->
+<script src="script.js" defer></script>
+<script src="script.js" async></script>
+
+
+================================================================================
+14. BONNES PRATIQUES
+================================================================================
+
+A. STRUCTURE ET ORGANISATION
+-----------------------------
+
+✅ FAIRE:
+- Utiliser HTML5 (DOCTYPE html)
+- Un seul <h1> par page
+- Respecter la hiérarchie des titres (h1 → h2 → h3)
+- Utiliser des balises sémantiques (<header>, <nav>, <main>, etc.)
+- Indenter correctement le code (lisibilité)
+- Utiliser des noms de classe/ID descriptifs
+- Séparer structure (HTML), présentation (CSS) et comportement (JS)
+
+❌ ÉVITER:
+- Sauter des niveaux de titres (h1 → h3)
+- Utiliser <br> pour espacer (utiliser CSS margin/padding)
+- Tableaux pour la mise en page (utiliser CSS Grid/Flexbox)
+- Styles en ligne (utiliser fichier CSS externe)
+- <div> partout (utiliser balises sémantiques quand possible)
+
+
+B. ACCESSIBILITÉ
+----------------
+
+✅ FAIRE:
+- Ajouter attribut 'alt' à TOUTES les images
+- Utiliser <label> pour TOUS les champs de formulaire
+- Respecter contraste des couleurs (ratio 4.5:1 minimum)
+- Rendre le site navigable au clavier (Tab, Enter)
+- Utiliser attribut 'lang' sur <html>
+- Structurer avec balises sémantiques
+- Utiliser ARIA quand nécessaire (role, aria-label, etc.)
+
+❌ ÉVITER:
+- Images sans 'alt'
+- Formulaires sans <label>
+- Contenu accessible uniquement à la souris
+- Couleurs comme seul indicateur (daltonisme)
+
+
+C. SEO (RÉFÉRENCEMENT)
+----------------------
+
+✅ FAIRE:
+- Un <h1> unique et descriptif par page
+- Balise <title> unique par page (50-60 caractères)
+- Meta description unique (150-160 caractères)
+- URLs descriptives (/blog/html-guide vs /page?id=123)
+- Images avec 'alt' descriptif
+- Utiliser balises sémantiques
+- Structure de titres logique (h1 → h2 → h3)
+- Liens internes et externes pertinents
+
+❌ ÉVITER:
+- Titre générique ("Accueil", "Page 1")
+- Meta description dupliquée
+- Texte caché (même couleur que fond)
+- Sur-optimisation de mots-clés (spam)
+
+
+D. PERFORMANCE
+--------------
+
+✅ FAIRE:
+- Optimiser les images (compression, format WebP)
+- Utiliser 'loading="lazy"' pour images hors écran
+- Minifier HTML/CSS/JS en production
+- Mettre scripts en fin de <body> ou avec 'defer'
+- Utiliser CDN pour librairies externes
+- Activer la compression GZIP/Brotli (serveur)
+
+❌ ÉVITER:
+- Images non optimisées (trop lourdes)
+- Scripts bloquants en <head>
+- Trop de requêtes HTTP
+- Code non minifié en production
+
+
+E. VALIDATION
+-------------
+
+✅ FAIRE:
+- Valider HTML: https://validator.w3.org/
+- Tester accessibilité: https://wave.webaim.org/
+- Tester responsive sur différents appareils
+- Tester dans différents navigateurs
+- Vérifier console pour erreurs
+
+❌ ÉVITER:
+- Balises non fermées
+- Attributs en double
+- IDs dupliqués
+- HTML invalide
+
+
+F. SÉCURITÉ
+-----------
+
+✅ FAIRE:
+- Utiliser rel="noopener" avec target="_blank"
+- Échapper caractères spéciaux (&lt;, &gt;, &amp;)
+- Valider les entrées utilisateur (côté serveur!)
+- Utiliser HTTPS
+- Définir Content Security Policy (CSP)
+
+❌ ÉVITER:
+- Inclure données sensibles dans HTML
+- Liens externes sans rel="noopener noreferrer"
+- Faire confiance aux données utilisateur
+
+
+G. CONVENTIONS DE NOMMAGE
+--------------------------
+
+✅ RECOMMANDATIONS:
+
+<!-- Classes et IDs en minuscules avec tirets -->
+<div class="header-container"></div>
+<div id="main-content"></div>
+
+<!-- Noms descriptifs et significatifs -->
+<button class="btn-primary-submit">Envoyer</button>  <!-- Bon -->
+<button class="b1">Envoyer</button>                  <!-- Mauvais -->
+
+<!-- Éviter les noms génériques -->
+<div class="content-article">...</div>  <!-- Bon -->
+<div class="box">...</div>              <!-- Mauvais -->
+
+
+================================================================================
+RÉCAPITULATIF FINAL
+================================================================================
+
+BALISES ESSENTIELLES À RETENIR:
+--------------------------------
+
+STRUCTURE:
+- <!DOCTYPE html> - Déclaration HTML5
+- <html> - Racine du document
+- <head> - Métadonnées
+- <body> - Contenu visible
+
+TEXTE:
+- <h1> à <h6> - Titres
+- <p> - Paragraphe
+- <strong> - Important
+- <em> - Emphase
+- <br> - Saut de ligne
+- <hr> - Ligne horizontale
+
+LISTES:
+- <ul> + <li> - Liste non ordonnée
+- <ol> + <li> - Liste ordonnée
+- <dl>, <dt>, <dd> - Liste de définitions
+
+LIENS ET MÉDIAS:
+- <a href=""> - Lien
+- <img src="" alt=""> - Image
+- <audio> - Audio
+- <video> - Vidéo
+
+TABLEAUX:
+- <table>, <thead>, <tbody>, <tfoot>
+- <tr>, <th>, <td>
+
+FORMULAIRES:
+- <form> - Formulaire
+- <input> - Champ de saisie
+- <label> - Étiquette
+- <textarea> - Zone de texte
+- <select>, <option> - Liste déroulante
+- <button> - Bouton
+
+SÉMANTIQUE HTML5:
+- <header> - En-tête
+- <nav> - Navigation
+- <main> - Contenu principal
+- <article> - Article autonome
+- <section> - Section thématique
+- <aside> - Contenu annexe
+- <footer> - Pied de page
+
+MISE EN PAGE:
+- <div> - Conteneur bloc
+- <span> - Conteneur en ligne
+
+
+POINTS CLÉS À RETENIR:
+----------------------
+
+1. HTML5 est la version actuelle (<!DOCTYPE html>)
+
+2. Toujours utiliser UTF-8 (<meta charset="UTF-8">)
+
+3. Un seul <h1> par page (SEO)
+
+4. Attribut 'alt' OBLIGATOIRE pour images (accessibilité)
+
+5. Toujours associer <label> aux champs de formulaire
+
+6. Préférer balises sémantiques à <div> (SEO et accessibilité)
+
+7. Séparer HTML (structure), CSS (style), JavaScript (comportement)
+
+8. Valider votre code: https://validator.w3.org/
+
+9. Tester l'accessibilité: lecteurs d'écran, navigation clavier
+
+10. HTML décrit la STRUCTURE, pas l'apparence (utiliser CSS)
+
+
+RESSOURCES UTILES:
+------------------
+
+- Documentation officielle: https://developer.mozilla.org/fr/docs/Web/HTML
+- Validateur W3C: https://validator.w3.org/
+- Can I Use (compatibilité): https://caniuse.com/
+- HTML5 Doctor: http://html5doctor.com/
+- WebAIM (accessibilité): https://webaim.org/
+
+
+================================================================================
+                    FIN DU GUIDE - Bon apprentissage HTML !
+================================================================================

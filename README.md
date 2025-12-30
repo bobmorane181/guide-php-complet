@@ -2,13 +2,34 @@
 
 Un guide complet et structuré pour apprendre PHP de manière progressive, depuis les bases jusqu'aux concepts avancés de validation et sécurité.
 
+> 📚 **Nouveau**: Pour des instructions détaillées d'installation et de configuration, consultez le [Module 00: Installation et Environnement de Développement](PHP_00_Installation_Environnement.txt) avant de commencer les autres modules!
+
 ## 🎯 À Propos
 
 Ce guide est conçu pour vous accompagner dans votre apprentissage de PHP, que vous soyez débutant complet ou développeur cherchant à approfondir vos connaissances. Chaque module est autonome mais suit une progression logique pour construire vos compétences étape par étape.
 
 ## 📖 Structure du Guide
 
-Le guide est divisé en **8 modules thématiques** :
+Le guide est divisé en **11 modules thématiques** :
+
+### ⚙️ Module 0️⃣ : [Installation et Environnement de Développement](PHP_00_Installation_Environnement.txt)
+**~4500 lignes | Niveau: Prérequis | COMMENCEZ ICI!**
+- Qu'est-ce que PHP et pourquoi l'apprendre
+- Installation de PHP sur Windows (XAMPP + standalone)
+- Vérification de l'installation
+- Installation et configuration de VSCode
+- Extensions VSCode essentielles pour PHP
+- Créer et organiser vos fichiers PHP
+- Exécuter du code PHP (ligne de commande + serveur web)
+- Débogage et résolution de problèmes
+
+**Ce que vous apprendrez:**
+- Installer PHP et XAMPP sur Windows
+- Configurer VSCode comme IDE professionnel
+- Exécuter du code PHP en ligne de commande et via serveur web
+- Résoudre les problèmes courants d'installation
+
+---
 
 ### Module 1️⃣ : [Bases et Variables](PHP_01_Bases_et_Variables.txt)
 **~300 lignes | Niveau: Débutant**

@@ -4,7 +4,7 @@
 
 BIENVENUE DANS LE GUIDE PHP COMPLET !
 
-Ce guide a été organisé en 10 modules distincts pour faciliter l'apprentissage
+Ce guide a été organisé en 11 modules distincts pour faciliter l'apprentissage
 progressif de PHP et du développement web. Chaque fichier couvre un aspect
 essentiel du langage et des technologies web associées.
 
@@ -12,10 +12,24 @@ essentiel du langage et des technologies web associées.
 STRUCTURE DU GUIDE
 ================================================================================
 
-Le guide a été organisé en 10 fichiers thématiques, en supprimant les
+Le guide a été organisé en 11 fichiers thématiques, en supprimant les
 doublons et en organisant le contenu de manière logique et pédagogique.
 
+⚠️ IMPORTANT: Commencez impérativement par le Module 00 pour installer et
+              configurer votre environnement de développement PHP!
+
 📁 FICHIERS DU GUIDE (dans l'ordre d'apprentissage recommandé):
+
+0. PHP_00_Installation_Environnement.txt (280 KB)
+   - Qu'est-ce que PHP et pourquoi l'apprendre
+   - Installation de PHP sur Windows (XAMPP + standalone)
+   - Vérification de l'installation (php -v, php -m)
+   - Installation et configuration de VSCode
+   - Extensions VSCode essentielles pour PHP
+   - Créer et organiser vos fichiers PHP
+   - Exécuter du code PHP (ligne de commande)
+   - Exécuter du code PHP (serveur web intégré + XAMPP/Apache)
+   - Débogage et résolution de problèmes
 
 1. PHP_01_Bases_et_Variables.txt (7.9 KB)
    - Terminologie (CMS, CRUD)
@@ -141,6 +155,19 @@ ORDRE D'APPRENTISSAGE RECOMMANDÉ
 
 Pour une progression optimale, suivez l'ordre des fichiers:
 
+PRÉREQUIS (À FAIRE EN PREMIER):
+0. PHP_00_Installation_Environnement.txt
+   ⚠️ IMPORTANT: Commencez par ce module pour installer et configurer
+      votre environnement de développement PHP. Sans cela, vous ne
+      pourrez pas exécuter les exemples des autres modules.
+
+   Ce module vous apprendra à:
+   - Installer PHP et XAMPP sur Windows
+   - Configurer VSCode comme IDE professionnel
+   - Exécuter du code PHP en ligne de commande
+   - Lancer un serveur web local
+   - Déboguer vos programmes
+
 NIVEAU DÉBUTANT:
 1. PHP_01_Bases_et_Variables.txt
 2. PHP_02_Operateurs.txt
@@ -161,6 +188,10 @@ NIVEAU AVANCÉ:
 ================================================================================
 CONSEILS D'UTILISATION
 ================================================================================
+
+✓ COMMENCEZ PAR LE MODULE 00 pour configurer votre environnement.
+  Sans installation et configuration correctes, vous ne pourrez pas
+  pratiquer les exemples des modules suivants.
 
 ✓ Lisez chaque fichier dans l'ordre pour une progression logique
 

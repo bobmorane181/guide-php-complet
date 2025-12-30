@@ -1,0 +1,2781 @@
+================================================================================
+           PHP MODULE 0 : INSTALLATION ET ENVIRONNEMENT DE DÉVELOPPEMENT
+================================================================================
+
+TABLE DES MATIÈRES
+==================
+1. Introduction et Prérequis
+2. Installation de PHP sur Windows
+3. Vérification de l'Installation
+4. Installation et Configuration de VSCode
+5. Créer et Organiser vos Fichiers PHP
+6. Exécuter du Code PHP - Méthode 1 (Ligne de Commande)
+7. Exécuter du Code PHP - Méthode 2 (Serveur Web)
+8. Débogage et Résolution de Problèmes
+
+
+================================================================================
+1. INTRODUCTION ET PRÉREQUIS
+================================================================================
+
+QU'EST-CE QUE PHP ?
+-------------------
+
+PHP (PHP: Hypertext Preprocessor) est un langage de programmation:
+- **Côté serveur**: Le code s'exécute sur le serveur, pas dans le navigateur
+- **Open source**: Gratuit et utilisé par millions de sites web
+- **Polyvalent**: Sites web dynamiques, applications web, APIs
+- **Facile à apprendre**: Syntaxe accessible pour les débutants
+- **Puissant**: Utilisé par WordPress, Facebook, Wikipedia, etc.
+
+POURQUOI APPRENDRE PHP ?
+-------------------------
+
+✓ Très demandé sur le marché du travail
+✓ Grande communauté et ressources d'apprentissage
+✓ Parfait pour créer des sites web dynamiques
+✓ Fonctionne avec les bases de données (MySQL, PostgreSQL)
+✓ Intégration facile avec HTML, CSS, JavaScript
+✓ Écosystème riche (frameworks comme Laravel, Symfony)
+
+CE DONT VOUS AUREZ BESOIN
+--------------------------
+
+MATÉRIEL:
+- Ordinateur Windows (7, 8, 10, ou 11)
+- Au moins 4 GB de RAM
+- 2 GB d'espace disque libre
+- Connexion Internet (pour téléchargements)
+
+LOGICIELS (nous allons les installer ensemble):
+- PHP 8.x
+- XAMPP (serveur Apache + MySQL + PHP) OU PHP standalone
+- Visual Studio Code (éditeur de code)
+- Un navigateur web moderne (Chrome, Firefox, Edge)
+
+TEMPS NÉCESSAIRE:
+- Installation: 30-45 minutes
+- Configuration: 15-30 minutes
+- Tests: 15 minutes
+
+VUE D'ENSEMBLE DU PROCESSUS
+----------------------------
+
+Voici les étapes que nous allons suivre:
+
+ÉTAPE 1: Installer PHP
+    ↓
+ÉTAPE 2: Vérifier l'installation
+    ↓
+ÉTAPE 3: Installer VSCode
+    ↓
+ÉTAPE 4: Configurer VSCode pour PHP
+    ↓
+ÉTAPE 5: Créer votre premier fichier PHP
+    ↓
+ÉTAPE 6: Exécuter du code en ligne de commande
+    ↓
+ÉTAPE 7: Exécuter du code avec un serveur web
+    ↓
+ÉTAPE 8: Apprendre à déboguer
+
+⚠️ IMPORTANT: Ne sautez aucune étape! Chaque étape est essentielle.
+
+
+================================================================================
+2. INSTALLATION DE PHP SUR WINDOWS
+================================================================================
+
+Vous avez 2 options pour installer PHP sur Windows:
+- Option A: XAMPP (RECOMMANDÉ) - Tout-en-un, simple
+- Option B: PHP Standalone - Plus flexible, plus complexe
+
+Nous recommandons XAMPP pour les débutants.
+
+--------------------------------------------------------------------------------
+OPTION A: INSTALLATION DE XAMPP (RECOMMANDÉ)
+--------------------------------------------------------------------------------
+
+XAMPP inclut:
+- PHP (dernière version)
+- Apache (serveur web)
+- MySQL (base de données)
+- phpMyAdmin (interface de gestion MySQL)
+
+ÉTAPE 1: TÉLÉCHARGER XAMPP
+---------------------------
+
+1. Ouvrez votre navigateur web
+2. Allez sur: https://www.apachefriends.org/
+3. Cliquez sur "XAMPP for Windows"
+4. Téléchargez la version la plus récente (PHP 8.x recommandé)
+5. Taille du téléchargement: ~150 MB
+6. Enregistrez le fichier (ex: xampp-windows-x64-8.2.12-0-VS16-installer.exe)
+
+ÉTAPE 2: LANCER L'INSTALLATION
+--------------------------------
+
+1. Localisez le fichier téléchargé dans votre dossier Téléchargements
+2. Double-cliquez sur le fichier .exe
+3. Si Windows affiche un avertissement de sécurité:
+   - Cliquez sur "Oui" ou "Exécuter quand même"
+4. L'assistant d'installation s'ouvre
+
+ÉTAPE 3: SUIVRE L'ASSISTANT D'INSTALLATION
+-------------------------------------------
+
+Écran 1: AVERTISSEMENT ANTIVIRUS
+Si vous voyez un message concernant l'UAC (User Account Control):
+→ Cliquez simplement sur "OK" et continuez
+
+Écran 2: BIENVENUE
+→ Cliquez sur "Next"
+
+Écran 3: SÉLECTION DES COMPOSANTS
+Composants recommandés à cocher:
+    ☑ Apache
+    ☑ MySQL
+    ☑ PHP
+    ☑ phpMyAdmin
+    ☐ FileZilla (optionnel - serveur FTP)
+    ☐ Mercury (optionnel - serveur mail)
+    ☐ Tomcat (optionnel - serveur Java)
+    ☐ Perl (optionnel)
+    ☐ Webalizer (optionnel)
+
+→ Cliquez sur "Next"
+
+Écran 4: DOSSIER D'INSTALLATION
+Chemin par défaut: C:\xampp
+⚠️ IMPORTANT: Notez bien ce chemin, vous en aurez besoin!
+→ Laissez le chemin par défaut (recommandé)
+→ Cliquez sur "Next"
+
+Écran 5: LANGUE
+→ Sélectionnez votre langue
+→ Cliquez sur "Next"
+
+Écran 6: PRÊT À INSTALLER
+→ Décochez "Learn more about Bitnami" (optionnel)
+→ Cliquez sur "Next"
+
+L'installation commence (peut prendre 3-5 minutes)
+
+Écran 7: FIN D'INSTALLATION
+→ Cochez "Do you want to start the Control Panel now?"
+→ Cliquez sur "Finish"
+
+ÉTAPE 4: PREMIER LANCEMENT DE XAMPP
+-------------------------------------
+
+Le XAMPP Control Panel s'ouvre. Vous verrez:
+
+┌─────────────────────────────────────────────────────────────┐
+│ XAMPP Control Panel v3.3.0                                  │
+├─────────────────────────────────────────────────────────────┤
+│ Module    │ Status  │ PID(s) │ Port(s)  │ Actions          │
+├───────────┼─────────┼────────┼──────────┼──────────────────┤
+│ Apache    │ Stopped │        │ 80, 443  │ [Start] [Config] │
+│ MySQL     │ Stopped │        │ 3306     │ [Start] [Config] │
+│ FileZilla │ Stopped │        │ 21       │ [Start] [Config] │
+│ Mercury   │ Stopped │        │ 25, 110  │ [Start] [Config] │
+│ Tomcat    │ Stopped │        │ 8080     │ [Start] [Config] │
+└───────────┴─────────┴────────┴──────────┴──────────────────┘
+
+POUR L'INSTANT, NE DÉMARREZ RIEN.
+Nous reviendrons au Control Panel plus tard.
+
+ÉTAPE 5: CONFIGURATION DU PATH WINDOWS (IMPORTANT)
+---------------------------------------------------
+
+Pour utiliser PHP en ligne de commande, nous devons ajouter PHP au PATH.
+
+1. Appuyez sur les touches: Windows + Pause/Break
+   (OU faites clic droit sur "Ce PC" → Propriétés)
+
+2. Cliquez sur "Paramètres système avancés" (à gauche)
+
+3. Cliquez sur "Variables d'environnement" (en bas)
+
+4. Dans "Variables système", trouvez la ligne "Path"
+
+5. Sélectionnez "Path" et cliquez sur "Modifier"
+
+6. Cliquez sur "Nouveau"
+
+7. Ajoutez exactement ce chemin:
+   C:\xampp\php
+
+8. Cliquez sur "OK" sur toutes les fenêtres
+
+⚠️ IMPORTANT: Fermez TOUS vos terminaux/invites de commande ouverts
+               et redémarrez-les pour que le PATH soit pris en compte.
+
+VÉRIFICATION RAPIDE:
+Ouvrez un nouveau terminal (CMD ou PowerShell):
+1. Appuyez sur Windows + R
+2. Tapez: cmd
+3. Tapez: php -v
+4. Vous devriez voir la version de PHP s'afficher
+
+Si vous voyez "php n'est pas reconnu...", le PATH n'est pas configuré.
+→ Recommencez l'étape 5 en vérifiant bien le chemin.
+
+--------------------------------------------------------------------------------
+OPTION B: INSTALLATION DE PHP STANDALONE (AVANCÉ)
+--------------------------------------------------------------------------------
+
+Cette méthode installe uniquement PHP, sans serveur web intégré.
+Recommandée si vous voulez plus de contrôle ou avez déjà un serveur.
+
+ÉTAPE 1: TÉLÉCHARGER PHP
+--------------------------
+
+1. Allez sur: https://windows.php.net/download/
+2. Trouvez la section "PHP 8.x" (version stable la plus récente)
+3. Téléchargez: "VS16 x64 Thread Safe" (format .zip)
+   Exemple: php-8.2.12-Win32-vs16-x64.zip
+4. Taille: ~30 MB
+
+ÉTAPE 2: EXTRAIRE PHP
+----------------------
+
+1. Créez un dossier: C:\php
+2. Extrayez le contenu du .zip dans C:\php
+3. Vous devriez avoir: C:\php\php.exe
+
+ÉTAPE 3: CONFIGURER LE PATH
+-----------------------------
+
+Même procédure que pour XAMPP (voir OPTION A, ÉTAPE 5):
+- Ajoutez au PATH: C:\php
+
+ÉTAPE 4: CRÉER php.ini
+-----------------------
+
+1. Dans C:\php, trouvez le fichier: php.ini-development
+2. Faites une copie de ce fichier
+3. Renommez la copie en: php.ini
+
+ÉTAPE 5: ACTIVER LES EXTENSIONS ESSENTIELLES
+----------------------------------------------
+
+1. Ouvrez php.ini avec un éditeur de texte (Notepad++)
+2. Trouvez les lignes suivantes et retirez le ; au début:
+
+   ;extension=curl
+   ;extension=mbstring
+   ;extension=openssl
+   ;extension=pdo_mysql
+
+   Deviendra:
+
+   extension=curl
+   extension=mbstring
+   extension=openssl
+   extension=pdo_mysql
+
+3. Sauvegardez le fichier
+
+VÉRIFICATION:
+Ouvrez un nouveau terminal et tapez: php -v
+
+
+================================================================================
+3. VÉRIFICATION DE L'INSTALLATION
+================================================================================
+
+Maintenant que PHP est installé, vérifions que tout fonctionne correctement.
+
+COMMANDE 1: VÉRIFIER LA VERSION DE PHP
+---------------------------------------
+
+Ouvrez un terminal (CMD ou PowerShell):
+
+Commande:
+    php -v
+
+Résultat attendu:
+    PHP 8.2.12 (cli) (built: Oct 25 2023 18:15:12) (ZTS Visual C++ 2019 x64)
+    Copyright (c) The PHP Group
+    Zend Engine v4.2.12, Copyright (c) Zend Technologies
+
+Que vérifier:
+✓ Numéro de version (8.x ou supérieur recommandé)
+✓ Type: (cli) = Command Line Interface
+✓ Date de compilation
+✓ Architecture: x64
+
+❌ SI VOUS VOYEZ UNE ERREUR:
+"php n'est pas reconnu en tant que commande interne..."
+→ Le PATH n'est pas configuré (voir Section 2, étape 5)
+→ Redémarrez votre terminal après avoir modifié le PATH
+
+COMMANDE 2: LISTER LES MODULES PHP
+------------------------------------
+
+Commande:
+    php -m
+
+Résultat attendu (liste partielle):
+    [PHP Modules]
+    Core
+    curl
+    date
+    dom
+    fileinfo
+    filter
+    hash
+    json
+    mbstring
+    mysqli
+    openssl
+    pcre
+    PDO
+    pdo_mysql
+    session
+    tokenizer
+    xml
+    zip
+    zlib
+    [Zend Modules]
+
+Modules importants à vérifier:
+✓ mysqli (pour MySQL)
+✓ pdo_mysql (pour bases de données)
+✓ mbstring (pour texte multi-octets)
+✓ openssl (pour sécurité)
+✓ curl (pour requêtes HTTP)
+
+Si des modules essentiels manquent:
+→ Éditez php.ini et décommentez les extensions nécessaires
+→ Redémarrez le terminal
+
+COMMANDE 3: TEST RAPIDE D'EXÉCUTION
+-------------------------------------
+
+Cette commande exécute du code PHP directement:
+
+Commande:
+    php -r "echo 'Hello PHP!';"
+
+Résultat attendu:
+    Hello PHP!
+
+Autre test:
+    php -r "echo 2 + 2;"
+
+Résultat attendu:
+    4
+
+✓ Si ces commandes fonctionnent, PHP est correctement installé!
+
+COMMANDE 4: MODE INTERACTIF PHP
+---------------------------------
+
+PHP a un mode interactif pour tester du code rapidement:
+
+Commande:
+    php -a
+
+Résultat:
+    Interactive shell
+
+    php >
+
+Essayez:
+    php > echo "Bonjour";
+    Bonjour
+    php > $x = 5;
+    php > echo $x * 2;
+    10
+    php > exit
+
+Pour quitter le mode interactif: tapez exit ou Ctrl+C
+
+INTERPRÉTATION DES MESSAGES D'ERREUR COURANTS
+----------------------------------------------
+
+ERREUR 1:
+"'php' is not recognized as an internal or external command"
+
+CAUSE: PHP n'est pas dans le PATH
+SOLUTION:
+1. Vérifiez que PHP est bien installé (C:\xampp\php ou C:\php)
+2. Ajoutez le chemin au PATH (voir Section 2)
+3. Fermez et rouvrez le terminal
+
+ERREUR 2:
+"Warning: PHP Startup: Unable to load dynamic library 'ext\php_curl.dll'"
+
+CAUSE: Extension manquante ou chemin incorrect
+SOLUTION:
+1. Vérifiez que le fichier existe dans C:\xampp\php\ext\ (ou C:\php\ext\)
+2. Éditez php.ini et vérifiez: extension_dir = "ext"
+3. Redémarrez le terminal
+
+ERREUR 3:
+"Parse error: syntax error, unexpected..."
+
+CAUSE: Erreur de syntaxe dans votre code
+SOLUTION: Vérifiez votre code PHP (guillemets, points-virgules, etc.)
+
+✓ RÉCAPITULATIF - VOUS AVEZ RÉUSSI SI:
+----------------------------------------
+
+☑ php -v affiche la version de PHP
+☑ php -m liste les modules
+☑ php -r "echo 'test';" affiche "test"
+☑ php -a ouvre le mode interactif
+
+Si tout fonctionne, passez à la section suivante!
+
+
+================================================================================
+4. INSTALLATION ET CONFIGURATION DE VSCODE
+================================================================================
+
+Visual Studio Code (VSCode) est un éditeur de code gratuit, puissant et
+très populaire pour le développement PHP.
+
+--------------------------------------------------------------------------------
+A. INSTALLATION DE VSCODE
+--------------------------------------------------------------------------------
+
+ÉTAPE 1: TÉLÉCHARGER VSCODE
+-----------------------------
+
+1. Ouvrez votre navigateur
+2. Allez sur: https://code.visualstudio.com/
+3. Cliquez sur "Download for Windows"
+4. Téléchargez la version "User Installer" (recommandée)
+   Fichier: VSCodeUserSetup-x64-1.x.x.exe
+5. Taille: ~100 MB
+
+ÉTAPE 2: INSTALLER VSCODE
+---------------------------
+
+1. Exécutez le fichier téléchargé
+2. Acceptez les termes de licence
+3. Choisissez le dossier d'installation (laissez par défaut)
+
+ÉCRAN "TÂCHES SUPPLÉMENTAIRES" - Cochez ces options:
+    ☑ Créer une icône sur le Bureau
+    ☑ Ajouter l'action "Ouvrir avec Code" au menu contextuel
+    ☑ Ajouter à PATH (important!)
+    ☑ Inscrire Code en tant qu'éditeur pour les types de fichiers supportés
+
+4. Cliquez sur "Installer"
+5. Attendez la fin de l'installation (2-3 minutes)
+6. Cochez "Lancer Visual Studio Code"
+7. Cliquez sur "Terminer"
+
+ÉTAPE 3: PREMIER LANCEMENT
+----------------------------
+
+Au premier lancement, VSCode peut vous demander:
+- Choix du thème (Dark+ recommandé pour les yeux)
+- Synchronisation des paramètres (optionnel)
+- Langue d'interface
+
+Vous verrez l'écran de bienvenue avec:
+- Get Started
+- Open Folder
+- Clone Git Repository
+- Recent (vide pour l'instant)
+
+INTERFACE DE VSCODE:
+┌──────────────────────────────────────────────────────┐
+│ File Edit Selection View Go Run Terminal Help       │ ← Menu
+├──┬───────────────────────────────────────────────────┤
+│E │                                                   │
+│x │                                                   │
+│p │          ÉDITEUR DE CODE                          │
+│l │          (Zone principale)                        │
+│o │                                                   │
+│r │                                                   │
+│e │                                                   │
+│r │                                                   │
+├──┴───────────────────────────────────────────────────┤
+│ TERMINAL                                             │ ← Terminal intégré
+└──────────────────────────────────────────────────────┘
+
+ZONES IMPORTANTES:
+1. Explorer (icône fichiers, à gauche)
+2. Recherche (icône loupe)
+3. Contrôle de code source (icône Git)
+4. Extensions (icône blocs)
+5. Terminal intégré (en bas)
+
+--------------------------------------------------------------------------------
+B. INSTALLER LES EXTENSIONS PHP ESSENTIELLES
+--------------------------------------------------------------------------------
+
+Les extensions ajoutent des fonctionnalités à VSCode.
+
+COMMENT INSTALLER UNE EXTENSION:
+1. Cliquez sur l'icône Extensions (carré 4 blocs) à gauche
+   OU utilisez: Ctrl + Shift + X
+2. Tapez le nom de l'extension dans la barre de recherche
+3. Cliquez sur "Install"
+4. Attendez la fin de l'installation
+5. Certaines extensions nécessitent de recharger VSCode
+
+EXTENSION 1: PHP INTELEPHENSE (ESSENTIELLE)
+--------------------------------------------
+
+📦 Nom: PHP Intelephense
+👤 Auteur: Ben Mewburn
+⭐ Note: 4.5/5 (millions d'utilisateurs)
+
+FONCTIONNALITÉS:
+✓ Autocomplétion intelligente du code PHP
+✓ Analyse de syntaxe en temps réel
+✓ Documentation au survol (hover)
+✓ Aller à la définition (Go to Definition)
+✓ Recherche de références
+✓ Renommage de symboles
+✓ Détection d'erreurs
+
+INSTALLATION:
+1. Dans Extensions, cherchez: "PHP Intelephense"
+2. Installez l'extension de Ben Mewburn
+3. Rechargez VSCode si demandé
+
+EXTENSION 2: PHP DEBUG
+-----------------------
+
+📦 Nom: PHP Debug
+👤 Auteur: Xdebug
+
+FONCTIONNALITÉS:
+✓ Points d'arrêt (breakpoints)
+✓ Exécution pas à pas
+✓ Inspection des variables
+✓ Stack trace
+✓ Console de débogage
+
+INSTALLATION:
+1. Cherchez: "PHP Debug"
+2. Installez
+3. Note: Nécessite Xdebug (configuration avancée, optionnel pour débuter)
+
+EXTENSION 3: PHP DOCBLOCKER
+-----------------------------
+
+📦 Nom: PHP DocBlocker
+👤 Auteur: Neil Brayfield
+
+FONCTIONNALITÉS:
+✓ Génération automatique de documentation
+✓ Raccourci: tapez /** puis Entrée au-dessus d'une fonction
+✓ Documente automatiquement les paramètres et retours
+
+EXEMPLE:
+    /**
+     * [Tapez /** puis Entrée ici]
+     */
+    function additionner($a, $b) {
+        return $a + $b;
+    }
+
+Devient automatiquement:
+    /**
+     * Additionner deux nombres
+     *
+     * @param mixed $a
+     * @param mixed $b
+     * @return mixed
+     */
+    function additionner($a, $b) {
+        return $a + $b;
+    }
+
+INSTALLATION:
+1. Cherchez: "PHP DocBlocker"
+2. Installez
+
+EXTENSION 4: PRETTIER - CODE FORMATTER
+---------------------------------------
+
+📦 Nom: Prettier - Code formatter
+👤 Auteur: Prettier
+
+FONCTIONNALITÉS:
+✓ Formatage automatique du code
+✓ Indentation cohérente
+✓ Espacement uniforme
+✓ Supporte PHP, HTML, CSS, JavaScript
+
+INSTALLATION:
+1. Cherchez: "Prettier"
+2. Installez la version de Prettier (logo arc-en-ciel)
+
+EXTENSION 5: BETTER COMMENTS (OPTIONNEL)
+------------------------------------------
+
+📦 Nom: Better Comments
+👤 Auteur: Aaron Bond
+
+FONCTIONNALITÉS:
+✓ Coloration des commentaires selon leur type
+✓ ! = alerte rouge
+✓ ? = question bleue
+✓ TODO = orange
+✓ * = vert (important)
+
+EXEMPLE:
+    // ! ATTENTION: Ne pas modifier cette fonction
+    // ? Est-ce que cette logique est optimale?
+    // TODO: Ajouter validation
+    // * Point important à retenir
+
+INSTALLATION:
+1. Cherchez: "Better Comments"
+2. Installez
+
+EXTENSION 6: BRACKET PAIR COLORIZER 2 (OPTIONNEL)
+--------------------------------------------------
+
+📦 Nom: Bracket Pair Colorizer 2
+👤 Auteur: CoenraadS
+
+FONCTIONNALITÉS:
+✓ Colore les paires de parenthèses/accolades
+✓ Facilite la lecture du code
+✓ Détecte les erreurs de fermeture
+
+Note: VSCode intègre maintenant cette fonctionnalité nativement!
+Pour l'activer sans extension:
+Settings → "bracket pair colorization" → Cocher
+
+INSTALLATION (si vous voulez l'extension):
+1. Cherchez: "Bracket Pair Colorizer 2"
+2. Installez
+
+RÉCAPITULATIF DES EXTENSIONS:
+┌──────────────────────────────┬────────────┬──────────────┐
+│ Extension                    │ Priorité   │ Utilité      │
+├──────────────────────────────┼────────────┼──────────────┤
+│ PHP Intelephense             │ ESSENTIEL  │ Autocomplétn │
+│ PHP Debug                    │ Important  │ Débogage     │
+│ PHP DocBlocker               │ Utile      │ Documenttn   │
+│ Prettier                     │ Important  │ Formatage    │
+│ Better Comments              │ Optionnel  │ Lisibilité   │
+│ Bracket Pair Colorizer 2     │ Optionnel  │ Visuel       │
+└──────────────────────────────┴────────────┴──────────────┘
+
+--------------------------------------------------------------------------------
+C. CONFIGURATION DE VSCODE POUR PHP
+--------------------------------------------------------------------------------
+
+Nous allons configurer VSCode pour une expérience optimale avec PHP.
+
+ACCÉDER AUX PARAMÈTRES:
+Méthode 1: File → Preferences → Settings
+Méthode 2: Ctrl + , (virgule)
+Méthode 3: Ctrl + Shift + P → "Preferences: Open Settings (JSON)"
+
+Nous allons modifier le fichier settings.json directement.
+
+ÉTAPE 1: OUVRIR settings.json
+-------------------------------
+
+1. Appuyez sur: Ctrl + Shift + P
+2. Tapez: "Preferences: Open User Settings (JSON)"
+3. Appuyez sur Entrée
+4. Un fichier settings.json s'ouvre
+
+ÉTAPE 2: AJOUTER LA CONFIGURATION PHP
+---------------------------------------
+
+Copiez-collez cette configuration dans settings.json:
+
+{
+    // ========================================
+    // CONFIGURATION PHP
+    // ========================================
+
+    // Chemin vers l'exécutable PHP (MODIFIEZ selon votre installation)
+    "php.validate.executablePath": "C:/xampp/php/php.exe",
+
+    // Désactiver les suggestions PHP basiques (Intelephense gère mieux)
+    "php.suggest.basic": false,
+
+    // ========================================
+    // FORMATAGE AUTOMATIQUE
+    // ========================================
+
+    // Formater le code à la sauvegarde
+    "editor.formatOnSave": true,
+
+    // Formater le code en tapant
+    "editor.formatOnType": false,
+
+    // ========================================
+    // SAUVEGARDE AUTOMATIQUE
+    // ========================================
+
+    // Sauvegarder après un délai
+    "files.autoSave": "afterDelay",
+
+    // Délai avant sauvegarde (1000ms = 1 seconde)
+    "files.autoSaveDelay": 1000,
+
+    // ========================================
+    // APPARENCE ET CONFORT
+    // ========================================
+
+    // Taille de police
+    "editor.fontSize": 14,
+
+    // Retour à la ligne automatique
+    "editor.wordWrap": "on",
+
+    // Afficher les espaces et tabulations
+    "editor.renderWhitespace": "selection",
+
+    // Minimap (carte du code à droite)
+    "editor.minimap.enabled": true,
+
+    // Numéros de ligne
+    "editor.lineNumbers": "on",
+
+    // Indentation automatique
+    "editor.autoIndent": "full",
+
+    // Taille de la tabulation
+    "editor.tabSize": 4,
+
+    // ========================================
+    // TERMINAL INTÉGRÉ
+    // ========================================
+
+    // Terminal par défaut (Git Bash, PowerShell, ou CMD)
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+
+    // Taille de police du terminal
+    "terminal.integrated.fontSize": 12,
+
+    // ========================================
+    // INTELEPHENSE (Autocomplétion PHP)
+    // ========================================
+
+    // Activer toutes les fonctionnalités
+    "intelephense.files.maxSize": 5000000,
+
+    // Format des suggestions
+    "intelephense.format.enable": true,
+
+    // ========================================
+    // AUTRES PARAMÈTRES UTILES
+    // ========================================
+
+    // Suggestions lors de la frappe
+    "editor.quickSuggestions": {
+        "other": true,
+        "comments": false,
+        "strings": false
+    },
+
+    // Enregistrer sans confirmation
+    "files.autoSaveDelay": 1000,
+
+    // Encodage des fichiers
+    "files.encoding": "utf8",
+
+    // Fin de ligne (LF pour compatibilité Linux/Mac)
+    "files.eol": "\n",
+
+    // Supprimer les espaces de fin de ligne
+    "files.trimTrailingWhitespace": true,
+
+    // Ajouter une ligne vide à la fin du fichier
+    "files.insertFinalNewline": true
+}
+
+⚠️ IMPORTANT:
+- Modifiez "php.validate.executablePath" selon VOTRE installation:
+  * Si XAMPP: "C:/xampp/php/php.exe"
+  * Si PHP standalone: "C:/php/php.exe"
+  * Utilisez TOUJOURS des slashes / (pas \)
+
+ÉTAPE 3: SAUVEGARDER ET TESTER
+--------------------------------
+
+1. Sauvegardez le fichier settings.json (Ctrl + S)
+2. Fermez et rouvrez VSCode
+3. Vérifiez que tout fonctionne
+
+POUR VÉRIFIER LA CONFIGURATION:
+1. Créez un nouveau fichier: test.php
+2. Tapez: <?php
+3. Tapez: ec
+4. Vous devriez voir des suggestions apparaître (echo, etc.)
+5. ✓ Si l'autocomplétion fonctionne, c'est bon!
+
+--------------------------------------------------------------------------------
+D. RACCOURCIS CLAVIER ESSENTIELS
+--------------------------------------------------------------------------------
+
+Maîtriser ces raccourcis vous fera gagner BEAUCOUP de temps!
+
+FICHIERS ET NAVIGATION:
+┌───────────────────────┬─────────────────────────────────────┐
+│ Raccourci             │ Action                              │
+├───────────────────────┼─────────────────────────────────────┤
+│ Ctrl + N              │ Nouveau fichier                     │
+│ Ctrl + O              │ Ouvrir fichier                      │
+│ Ctrl + S              │ Sauvegarder                         │
+│ Ctrl + Shift + S      │ Sauvegarder sous...                 │
+│ Ctrl + W              │ Fermer fichier actuel               │
+│ Ctrl + K, Ctrl + W    │ Fermer tous les fichiers            │
+│ Ctrl + P              │ Recherche rapide de fichiers        │
+│ Ctrl + Tab            │ Basculer entre fichiers ouverts     │
+│ Ctrl + \              │ Diviser l'éditeur                   │
+└───────────────────────┴─────────────────────────────────────┘
+
+ÉDITION DE CODE:
+┌───────────────────────┬─────────────────────────────────────┐
+│ Raccourci             │ Action                              │
+├───────────────────────┼─────────────────────────────────────┤
+│ Ctrl + /              │ Commenter/Décommenter ligne         │
+│ Shift + Alt + A       │ Commenter/Décommenter bloc          │
+│ Alt + ↑ / ↓           │ Déplacer ligne vers haut/bas        │
+│ Shift + Alt + ↑ / ↓   │ Copier ligne vers haut/bas          │
+│ Ctrl + Shift + K      │ Supprimer ligne                     │
+│ Ctrl + D              │ Sélectionner occurrence suivante    │
+│ Alt + Clic            │ Curseurs multiples                  │
+│ Ctrl + Shift + L      │ Sélectionner toutes les occurrences │
+│ Ctrl + Space          │ Déclencher l'autocomplétion         │
+│ Ctrl + Shift + Space  │ Afficher aide paramètres            │
+└───────────────────────┴─────────────────────────────────────┘
+
+FORMATAGE:
+┌───────────────────────┬─────────────────────────────────────┐
+│ Raccourci             │ Action                              │
+├───────────────────────┼─────────────────────────────────────┤
+│ Alt + Shift + F       │ Formatter le document               │
+│ Ctrl + K, Ctrl + F    │ Formatter la sélection              │
+│ Tab                   │ Indenter                            │
+│ Shift + Tab           │ Désindenter                         │
+└───────────────────────┴─────────────────────────────────────┘
+
+RECHERCHE ET REMPLACEMENT:
+┌───────────────────────┬─────────────────────────────────────┐
+│ Raccourci             │ Action                              │
+├───────────────────────┼─────────────────────────────────────┤
+│ Ctrl + F              │ Rechercher dans le fichier          │
+│ Ctrl + H              │ Rechercher et remplacer             │
+│ Ctrl + Shift + F      │ Rechercher dans tous les fichiers   │
+│ F3                    │ Occurrence suivante                 │
+│ Shift + F3            │ Occurrence précédente               │
+└───────────────────────┴─────────────────────────────────────┘
+
+TERMINAL:
+┌───────────────────────┬─────────────────────────────────────┐
+│ Raccourci             │ Action                              │
+├───────────────────────┼─────────────────────────────────────┤
+│ Ctrl + ù              │ Ouvrir/Fermer terminal              │
+│ Ctrl + Shift + ù      │ Créer nouveau terminal              │
+│ Ctrl + C              │ Arrêter processus dans terminal     │
+└───────────────────────┴─────────────────────────────────────┘
+
+PALETTE DE COMMANDES:
+┌───────────────────────┬─────────────────────────────────────┐
+│ Raccourci             │ Action                              │
+├───────────────────────┼─────────────────────────────────────┤
+│ Ctrl + Shift + P      │ Ouvrir palette de commandes         │
+│ F1                    │ Ouvrir palette de commandes         │
+└───────────────────────┴─────────────────────────────────────┘
+
+La palette de commandes (Ctrl + Shift + P) donne accès à TOUTES les
+fonctionnalités de VSCode. Tapez simplement ce que vous cherchez!
+
+Exemples:
+- "Format Document"
+- "Change Language Mode"
+- "Transform to Uppercase"
+- "Reload Window"
+
+DÉBOGAGE (avec PHP Debug installé):
+┌───────────────────────┬─────────────────────────────────────┐
+│ Raccourci             │ Action                              │
+├───────────────────────┼─────────────────────────────────────┤
+│ F5                    │ Démarrer le débogage                │
+│ F9                    │ Ajouter/Retirer point d'arrêt       │
+│ F10                   │ Passer à l'instruction suivante     │
+│ F11                   │ Entrer dans la fonction             │
+│ Shift + F11           │ Sortir de la fonction               │
+│ Shift + F5            │ Arrêter le débogage                 │
+└───────────────────────┴─────────────────────────────────────┘
+
+CONSEIL: Imprimez cette liste et gardez-la à portée de main pendant
+         que vous apprenez!
+
+
+================================================================================
+5. CRÉER ET ORGANISER VOS FICHIERS PHP
+================================================================================
+
+Maintenant que VSCode est installé et configuré, apprenons à créer et
+organiser nos fichiers PHP correctement.
+
+--------------------------------------------------------------------------------
+A. STRUCTURE DE PROJET RECOMMANDÉE
+--------------------------------------------------------------------------------
+
+Une bonne organisation dès le début facilite la maintenance et l'apprentissage.
+
+STRUCTURE POUR L'APPRENTISSAGE:
+C:/Users/VotreNom/Documents/PHP/
+├── apprentissage/
+│   ├── module01/
+│   │   ├── exercice1_variables.php
+│   │   ├── exercice2_strings.php
+│   │   └── notes.txt
+│   ├── module02/
+│   │   ├── exercice1_operateurs.php
+│   │   ├── exercice2_concatenation.php
+│   │   └── notes.txt
+│   ├── module03/
+│   │   └── (structures de contrôle)
+│   ├── module04/
+│   │   └── (tableaux)
+│   ├── module05/
+│   │   └── (fonctions)
+│   └── ...
+├── projet-quiz/
+│   ├── phase1/
+│   ├── phase2/
+│   └── ...
+├── tests/
+│   ├── test_hello.php
+│   └── test_formulaire.php
+└── README.md
+
+EXPLICATION:
+- apprentissage/ : Exercices organisés par module du guide
+- projet-quiz/ : Projet pratique (cahier des charges fourni séparément)
+- tests/ : Fichiers de test rapides
+- README.md : Notes générales
+
+CRÉER CETTE STRUCTURE:
+
+Méthode 1: Avec l'Explorateur Windows
+1. Ouvrez l'Explorateur Windows
+2. Allez dans Documents
+3. Créez un dossier "PHP"
+4. Dans PHP, créez: apprentissage, projet-quiz, tests
+5. Dans apprentissage, créez: module01, module02, etc.
+
+Méthode 2: Avec le terminal (plus rapide!)
+1. Ouvrez PowerShell ou CMD
+2. Tapez ces commandes:
+
+cd Documents
+mkdir PHP
+cd PHP
+mkdir apprentissage, projet-quiz, tests
+cd apprentissage
+mkdir module01, module02, module03, module04, module05, module06, module07, module08, module09
+
+✓ Structure créée!
+
+--------------------------------------------------------------------------------
+B. OUVRIR UN DOSSIER DANS VSCODE
+--------------------------------------------------------------------------------
+
+VSCode fonctionne mieux quand vous ouvrez un DOSSIER (workspace) plutôt qu'un
+fichier individuel.
+
+MÉTHODE 1: Menu
+1. Ouvrez VSCode
+2. File → Open Folder
+3. Naviguez vers: C:/Users/VotreNom/Documents/PHP
+4. Sélectionnez le dossier "PHP"
+5. Cliquez sur "Sélectionner le dossier"
+
+MÉTHODE 2: Raccourci clavier
+1. Ctrl + K, puis Ctrl + O
+2. Sélectionnez le dossier
+
+MÉTHODE 3: Depuis l'Explorateur Windows
+1. Clic droit sur le dossier "PHP"
+2. "Ouvrir avec Code" (si option activée lors de l'installation)
+
+Une fois ouvert, vous verrez la structure dans l'EXPLORER (panneau de gauche).
+
+--------------------------------------------------------------------------------
+C. CRÉER VOTRE PREMIER FICHIER PHP
+--------------------------------------------------------------------------------
+
+ÉTAPE 1: CRÉER LE FICHIER
+---------------------------
+
+Dans VSCode (avec le dossier PHP ouvert):
+
+Méthode 1: Via l'Explorer
+1. Cliquez sur l'icône "New File" (📄 avec +) à côté de "PHP"
+2. Tapez le nom: tests/hello.php
+3. Appuyez sur Entrée
+
+Méthode 2: Via le menu
+1. File → New File (ou Ctrl + N)
+2. File → Save As (ou Ctrl + Shift + S)
+3. Naviguez vers: PHP/tests/
+4. Nom: hello.php
+5. Sauvegardez
+
+Le fichier hello.php s'ouvre dans l'éditeur.
+
+ÉTAPE 2: ÉCRIRE DU CODE PHP
+-----------------------------
+
+Tapez exactement ceci dans hello.php:
+
+<?php
+// Mon premier script PHP!
+// Ceci est un commentaire - PHP l'ignore
+
+echo "Hello, World!";
+echo "\n"; // Nouvelle ligne
+
+$nom = "Jean";
+echo "Bonjour, $nom!";
+echo "\n";
+
+$age = 25;
+echo "J'ai $age ans.";
+echo "\n";
+
+// Calcul simple
+$a = 10;
+$b = 5;
+$somme = $a + $b;
+echo "$a + $b = $somme";
+echo "\n";
+
+echo "PHP fonctionne correctement!";
+?>
+
+ÉTAPE 3: SAUVEGARDER
+---------------------
+
+1. Ctrl + S (ou File → Save)
+2. Vous devriez voir:
+   - Coloration syntaxique (echo en couleur, chaînes en orange, etc.)
+   - Numéros de ligne à gauche
+   - Nom du fichier dans l'onglet (sans point blanc = sauvegardé)
+
+--------------------------------------------------------------------------------
+D. CONVENTIONS DE NOMMAGE DES FICHIERS
+--------------------------------------------------------------------------------
+
+RÈGLES IMPORTANTES:
+
+1. EXTENSION .php
+   ✓ hello.php
+   ✓ formulaire_contact.php
+   ✗ hello.txt
+   ✗ script.html
+
+2. TOUT EN MINUSCULES
+   ✓ mon_script.php
+   ✗ MonScript.php
+   ✗ monScript.php
+
+3. UNDERSCORES (_) POUR LES ESPACES
+   ✓ exercice_variables.php
+   ✓ formulaire_inscription.php
+   ✗ exercice variables.php (espace)
+   ✗ exercice-variables.php (tiret acceptable mais moins courant)
+
+4. NOMS DESCRIPTIFS
+   ✓ calculer_total.php (on comprend ce que ça fait)
+   ✓ afficher_utilisateurs.php
+   ✗ script1.php (pas clair)
+   ✗ test.php (trop vague)
+
+5. PAS DE CARACTÈRES SPÉCIAUX
+   ✗ formulaire_été.php (é)
+   ✗ script_français.php (ç)
+   ✓ formulaire_ete.php
+   ✓ script_francais.php
+
+EXEMPLES DE BONS NOMS:
+- index.php (page d'accueil)
+- config.php (configuration)
+- traiter_formulaire.php (traitement)
+- afficher_produits.php (affichage)
+- classe_utilisateur.php (définition de classe)
+- fonctions_utiles.php (bibliothèque de fonctions)
+
+--------------------------------------------------------------------------------
+E. STRUCTURE MINIMALE D'UN FICHIER PHP
+--------------------------------------------------------------------------------
+
+FICHIER PHP SIMPLE (uniquement du code PHP):
+
+<?php
+// Commentaire: Description du fichier
+
+// Votre code PHP ici
+echo "Hello!";
+?>
+
+RÈGLES:
+- Toujours commencer par: <?php
+- Toujours finir par: ?>
+- Commentaires avec // ou /* */
+
+FICHIER PHP AVEC HTML (pour pages web):
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Ma Page</title>
+</head>
+<body>
+    <h1>Bienvenue</h1>
+
+    <?php
+    // Code PHP au milieu du HTML
+    echo "<p>Bonjour depuis PHP!</p>";
+
+    $heure = date("H");
+    if ($heure < 12) {
+        echo "<p>Bon matin!</p>";
+    } else {
+        echo "<p>Bon après-midi!</p>";
+    }
+    ?>
+
+    <footer>
+        <p>Pied de page</p>
+    </footer>
+</body>
+</html>
+
+RÈGLES:
+- On peut mélanger HTML et PHP
+- Ouvrir <?php pour du code PHP
+- Fermer ?> pour revenir au HTML
+- HTML AVANT le premier <?php ne nécessite pas de balise spéciale
+
+FICHIER PHP SANS FERMETURE (recommandé pour fichiers 100% PHP):
+
+<?php
+// Uniquement du PHP dans ce fichier
+
+function calculer($x, $y) {
+    return $x + $y;
+}
+
+class MaClasse {
+    // Code de classe
+}
+
+// PAS DE ?> à la fin!
+
+POURQUOI?
+- Évite les espaces/sauts de ligne accidentels après ?>
+- Recommandation officielle PHP pour les fichiers purement PHP
+- Obligatoire si vous utilisez header() ou session_start()
+
+RÈGLE SIMPLE:
+┌────────────────────────────────┬────────────────────────┐
+│ Type de fichier                │ Fermeture ?>           │
+├────────────────────────────────┼────────────────────────┤
+│ Uniquement PHP                 │ NON (omettez ?>)       │
+│ Mélange PHP et HTML            │ OUI (gardez ?>)        │
+│ Fichier inclus (config, etc.)  │ NON                    │
+│ Classe PHP                     │ NON                    │
+└────────────────────────────────┴────────────────────────┘
+
+--------------------------------------------------------------------------------
+F. BONNES PRATIQUES D'ORGANISATION
+--------------------------------------------------------------------------------
+
+1. UN FICHIER = UNE RESPONSABILITÉ
+   ✓ config.php (uniquement la configuration)
+   ✓ fonctions_utilisateur.php (fonctions liées aux utilisateurs)
+   ✗ tout.php (tout mélangé)
+
+2. COMMENTER VOTRE CODE
+   <?php
+   // Description du fichier
+   // Auteur: Votre Nom
+   // Date: 2025-12-19
+
+   // Cette fonction calcule le total TTC
+   function calculer_ttc($ht, $tva) {
+       return $ht * (1 + $tva);
+   }
+   ?>
+
+3. GROUPER PAR FONCTIONNALITÉ
+   projet/
+   ├── config/
+   │   └── database.php
+   ├── models/
+   │   ├── user.php
+   │   └── product.php
+   ├── views/
+   │   ├── header.php
+   │   └── footer.php
+   └── controllers/
+       └── user_controller.php
+
+4. UTILISER UN README.md
+   Créez un fichier README.md dans chaque projet pour expliquer:
+   - Ce que fait le projet
+   - Comment l'installer
+   - Comment l'utiliser
+   - Liste des fichiers importants
+
+5. VERSIONNER VOTRE CODE
+   Plus tard, utilisez Git pour:
+   - Sauvegarder l'historique
+   - Revenir en arrière si problème
+   - Collaborer avec d'autres
+
+   (Nous verrons Git dans un module avancé)
+
+
+================================================================================
+6. EXÉCUTER DU CODE PHP - MÉTHODE 1 (LIGNE DE COMMANDE)
+================================================================================
+
+La ligne de commande est la méthode la PLUS SIMPLE pour apprendre PHP.
+Pas besoin de navigateur, pas besoin de serveur web.
+
+Idéale pour les Modules 1 à 6 du guide PHP.
+
+--------------------------------------------------------------------------------
+A. POURQUOI LA LIGNE DE COMMANDE?
+--------------------------------------------------------------------------------
+
+AVANTAGES:
+✓ Démarrage instantané (pas de serveur à lancer)
+✓ Résultats immédiats
+✓ Parfait pour tester des concepts
+✓ Idéal pour apprendre les bases (variables, boucles, fonctions)
+✓ Pas de HTML, juste du PHP pur
+✓ Débogage facile
+
+INCONVÉNIENTS:
+✗ Pas de formulaires HTML
+✗ Pas de $_GET, $_POST, $_SESSION
+✗ Pas d'interaction navigateur
+
+UTILISEZ CLI POUR:
+- Modules 1-6 (bases, opérateurs, structures, arrays, fonctions, boucles)
+- Tests rapides
+- Scripts utilitaires
+- Apprendre la syntaxe PHP
+
+--------------------------------------------------------------------------------
+B. OUVRIR LE TERMINAL DANS VSCODE
+--------------------------------------------------------------------------------
+
+VSCode a un terminal INTÉGRÉ - très pratique!
+
+MÉTHODE 1: Menu
+1. Dans VSCode: Terminal → New Terminal
+
+MÉTHODE 2: Raccourci clavier
+1. Appuyez sur: Ctrl + ù (ou Ctrl + `)
+
+MÉTHODE 3: Palette de commandes
+1. Ctrl + Shift + P
+2. Tapez: "Terminal: Create New Terminal"
+3. Entrée
+
+Le terminal s'ouvre en BAS de la fenêtre VSCode.
+
+TYPE DE TERMINAL:
+Par défaut, vous aurez PowerShell (Windows).
+Vous pouvez changer pour CMD ou Git Bash si préféré.
+
+CHANGER LE TERMINAL PAR DÉFAUT:
+1. Ctrl + Shift + P
+2. "Terminal: Select Default Profile"
+3. Choisissez: PowerShell, CMD, ou Git Bash
+
+VÉRIFIER OÙ VOUS ÊTES:
+Dans le terminal, tapez:
+
+PowerShell:  pwd
+CMD:         cd
+
+Résultat attendu: C:\Users\VotreNom\Documents\PHP
+(Si vous avez ouvert le dossier PHP dans VSCode)
+
+--------------------------------------------------------------------------------
+C. NAVIGUER DANS LES DOSSIERS
+--------------------------------------------------------------------------------
+
+COMMANDES DE BASE:
+┌──────────────────┬─────────────────────────────────────────┐
+│ Commande         │ Description                             │
+├──────────────────┼─────────────────────────────────────────┤
+│ pwd              │ Afficher le dossier actuel (PowerShell) │
+│ cd               │ Afficher le dossier actuel (CMD)        │
+│ ls               │ Lister les fichiers (PowerShell)        │
+│ dir              │ Lister les fichiers (CMD)               │
+│ cd nom_dossier   │ Entrer dans un dossier                  │
+│ cd ..            │ Remonter d'un niveau                    │
+│ cd \             │ Aller à la racine                       │
+│ cls              │ Effacer l'écran (CMD)                   │
+│ clear            │ Effacer l'écran (PowerShell)            │
+└──────────────────┴─────────────────────────────────────────┘
+
+EXEMPLE DE NAVIGATION:
+C:\Users\Jean\Documents\PHP> ls
+
+    Répertoire : C:\Users\Jean\Documents\PHP
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----           19/12/2025    10:30                apprentissage
+d----           19/12/2025    10:30                projet-quiz
+d----           19/12/2025    10:30                tests
+
+C:\Users\Jean\Documents\PHP> cd tests
+
+C:\Users\Jean\Documents\PHP\tests> ls
+
+    Répertoire : C:\Users\Jean\Documents\PHP\tests
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---           19/12/2025    11:00            245 hello.php
+
+C:\Users\Jean\Documents\PHP\tests> cd ..
+
+C:\Users\Jean\Documents\PHP>
+
+--------------------------------------------------------------------------------
+D. EXÉCUTER UN FICHIER PHP
+--------------------------------------------------------------------------------
+
+SYNTAXE DE BASE:
+php nom_du_fichier.php
+
+EXEMPLE COMPLET ÉTAPE PAR ÉTAPE:
+
+ÉTAPE 1: Assurez-vous d'être dans le bon dossier
+C:\Users\VotreNom\Documents\PHP\tests>
+
+ÉTAPE 2: Vérifiez que votre fichier existe
+ls
+(ou dir)
+
+Vous devriez voir: hello.php
+
+ÉTAPE 3: Exécutez le fichier
+php hello.php
+
+RÉSULTAT ATTENDU:
+Hello, World!
+Bonjour, Jean!
+J'ai 25 ans.
+10 + 5 = 15
+PHP fonctionne correctement!
+
+✓ Si vous voyez ce résultat, BRAVO! Vous venez d'exécuter votre premier
+  script PHP!
+
+--------------------------------------------------------------------------------
+E. AUTRES MÉTHODES D'EXÉCUTION
+--------------------------------------------------------------------------------
+
+MÉTHODE 2: EXÉCUTER DU CODE INLINE (sans fichier)
+--------------------------------------------------
+
+Syntaxe:
+php -r "code_php_ici"
+
+Exemples:
+php -r "echo 'Hello!';"
+→ Hello!
+
+php -r "echo 2 + 2;"
+→ 4
+
+php -r "echo date('Y-m-d');"
+→ 2025-12-19
+
+php -r "$x = 10; $y = 5; echo $x * $y;"
+→ 50
+
+UTILITÉ:
+- Tests très rapides
+- Calculatrice
+- Vérifier une fonction
+
+⚠️ ATTENTION: Utilisez des guillemets doubles " pour entourer le code
+              et des guillemets simples ' à l'intérieur du code PHP
+
+MÉTHODE 3: MODE INTERACTIF
+---------------------------
+
+Lancez PHP en mode interactif:
+php -a
+
+Vous voyez:
+Interactive shell
+
+php >
+
+Vous pouvez maintenant taper du code PHP ligne par ligne:
+
+php > $nom = "Marie";
+php > echo "Bonjour, $nom!";
+Bonjour, Marie!
+
+php > $nombres = [1, 2, 3, 4, 5];
+php > print_r($nombres);
+Array
+(
+    [0] => 1
+    [1] => 2
+    [2] => 3
+    [3] => 4
+    [4] => 5
+)
+
+php > exit
+
+POUR QUITTER:
+- Tapez: exit
+- Ou: Ctrl + C
+
+UTILITÉ:
+- Expérimenter rapidement
+- Tester des fonctions
+- Explorer PHP de manière interactive
+
+MÉTHODE 4: EXÉCUTER AVEC AFFICHAGE D'ERREURS
+---------------------------------------------
+
+Très utile pour le débogage:
+
+php -d display_errors=on -d error_reporting=E_ALL hello.php
+
+Cela force PHP à afficher TOUTES les erreurs, même les warnings.
+
+--------------------------------------------------------------------------------
+F. EXEMPLE PRATIQUE COMPLET
+--------------------------------------------------------------------------------
+
+Créons un script plus intéressant qui utilise readline() pour interagir
+avec l'utilisateur.
+
+FICHIER: tests/salutation.php
+
+<?php
+// Script de salutation interactif
+
+echo "=== Programme de Salutation ===\n\n";
+
+// Demander le nom
+echo "Quel est votre nom? ";
+$nom = trim(readline());
+
+// Demander l'âge
+echo "Quel âge avez-vous? ";
+$age = (int)trim(readline());
+
+// Demander la ville
+echo "Dans quelle ville habitez-vous? ";
+$ville = trim(readline());
+
+// Afficher un message personnalisé
+echo "\n--- Informations ---\n";
+echo "Nom: $nom\n";
+echo "Âge: $age ans\n";
+echo "Ville: $ville\n";
+
+// Logique conditionnelle
+echo "\n--- Message personnalisé ---\n";
+if ($age < 18) {
+    echo "Bonjour $nom! Vous êtes mineur(e).\n";
+} elseif ($age < 65) {
+    echo "Bonjour $nom! Vous êtes adulte.\n";
+} else {
+    echo "Bonjour $nom! Vous êtes senior.\n";
+}
+
+// Calcul
+$annee_naissance = date("Y") - $age;
+echo "Vous êtes probablement né(e) en $annee_naissance.\n";
+
+echo "\nMerci d'avoir utilisé ce programme!\n";
+?>
+
+EXÉCUTION:
+php tests/salutation.php
+
+INTERACTION:
+=== Programme de Salutation ===
+
+Quel est votre nom? Jean
+Quel âge avez-vous? 25
+Dans quelle ville habitez-vous? Paris
+
+--- Informations ---
+Nom: Jean
+Âge: 25 ans
+Ville: Paris
+
+--- Message personnalisé ---
+Bonjour Jean! Vous êtes adulte.
+Vous êtes probablement né(e) en 2000.
+
+Merci d'avoir utilisé ce programme!
+
+--------------------------------------------------------------------------------
+G. ERREURS COURANTES ET SOLUTIONS
+--------------------------------------------------------------------------------
+
+ERREUR 1: "php: command not found"
+-----------------------------------
+CAUSE: PHP n'est pas dans le PATH
+
+SOLUTION:
+1. Vérifiez que PHP est installé: C:\xampp\php\php.exe existe?
+2. Ajoutez au PATH (voir Section 2)
+3. Redémarrez le terminal
+4. Testez: php -v
+
+ERREUR 2: "Could not open input file: hello.php"
+-------------------------------------------------
+CAUSE: Le fichier n'existe pas OU vous êtes dans le mauvais dossier
+
+SOLUTION:
+1. Vérifiez où vous êtes: pwd (PowerShell) ou cd (CMD)
+2. Listez les fichiers: ls ou dir
+3. Naviguez vers le bon dossier: cd tests
+4. Ou utilisez le chemin complet: php C:\Users\VotreNom\Documents\PHP\tests\hello.php
+
+ERREUR 3: "Parse error: syntax error, unexpected..."
+-----------------------------------------------------
+CAUSE: Erreur de syntaxe dans votre code PHP
+
+EXEMPLE:
+<?php
+echo "Bonjour  // ← guillemet manquant!
+?>
+
+SOLUTION:
+1. Lisez le message d'erreur - il indique la ligne
+2. Vérifiez:
+   - Guillemets fermés? "texte"
+   - Points-virgules? echo "test";
+   - Accolades fermées? { ... }
+   - Parenthèses fermées? fonction()
+
+ERREUR 4: "Call to undefined function readline()"
+--------------------------------------------------
+CAUSE: readline() n'est pas disponible (rare sur Windows)
+
+SOLUTION:
+Utilisez fgets(STDIN) à la place:
+
+$nom = trim(fgets(STDIN));
+
+ERREUR 5: Caractères bizarres dans l'affichage (é → Ã©)
+--------------------------------------------------------
+CAUSE: Problème d'encodage
+
+SOLUTION:
+Ajoutez au début de votre script:
+
+<?php
+mb_internal_encoding("UTF-8");
+?>
+
+OU configurez le terminal pour UTF-8.
+
+--------------------------------------------------------------------------------
+H. EXERCICES PRATIQUES
+--------------------------------------------------------------------------------
+
+Pour vous entraîner, créez ces petits programmes:
+
+EXERCICE 1: Calculatrice simpleap
+Fichier: tests/calculatrice.php
+- Demander deux nombres
+- Afficher: addition, soustraction, multiplication, division
+
+EXERCICE 2: Conversion de températures
+Fichier: tests/temperature.php
+- Demander une température en Celsius
+- Afficher l'équivalent en Fahrenheit et Kelvin
+- Formules: F = C × 9/5 + 32, K = C + 273.15
+
+EXERCICE 3: Vérificateur de mot de passe
+Fichier: tests/password_check.php
+- Demander un mot de passe
+- Vérifier:
+  * Au moins 8 caractères?
+  * Contient des chiffres?
+  * Contient des majuscules?
+- Afficher si le mot de passe est fort, moyen, ou faible
+
+Ces exercices vous permettront de pratiquer:
+- readline()
+- Variables
+- Opérateurs
+- if/else
+- Fonctions de chaînes (strlen, etc.)
+
+
+================================================================================
+7. EXÉCUTER DU CODE PHP - MÉTHODE 2 (SERVEUR WEB)
+================================================================================
+
+Pour les Modules 7-10 (formulaires, sécurité, POO), vous aurez besoin d'un
+SERVEUR WEB car nous allons manipuler des formulaires HTML, des sessions,
+et interagir avec le navigateur.
+
+Deux options:
+A. Serveur intégré PHP (simple, recommandé pour débuter)
+B. XAMPP avec Apache (complet, recommandé pour projets avancés)
+
+--------------------------------------------------------------------------------
+A. OPTION A: SERVEUR INTÉGRÉ PHP
+--------------------------------------------------------------------------------
+
+PHP inclut un serveur web léger parfait pour le développement.
+
+AVANTAGES:
+✓ Aucune installation supplémentaire
+✓ Démarrage en 1 commande
+✓ Fonctionne dans n'importe quel dossier
+✓ Parfait pour l'apprentissage
+
+INCONVÉNIENTS:
+✗ Ne supporte pas .htaccess
+✗ Un seul utilisateur à la fois
+✗ Ne PAS utiliser en production
+
+QUAND L'UTILISER:
+- Modules 7-8 (Formulaires, Validation)
+- Tests rapides de pages PHP
+- Apprentissage
+
+ÉTAPE 1: PRÉPARER UN FICHIER DE TEST
+--------------------------------------
+
+Créez: tests/info.php
+
+<?php
+phpinfo();
+?>
+
+Ce fichier affiche toutes les informations sur votre installation PHP.
+
+ÉTAPE 2: DÉMARRER LE SERVEUR
+------------------------------
+
+Dans le terminal VSCode:
+
+1. Naviguez vers le dossier contenant vos fichiers PHP:
+   cd C:\Users\VotreNom\Documents\PHP\tests
+
+2. Démarrez le serveur:
+   php -S localhost:8000
+
+VOUS VERREZ:
+[Thu Dec 19 10:00:00 2025] PHP 8.2.12 Development Server (http://localhost:8000) started
+
+✓ Le serveur tourne!
+
+EXPLICATION DE LA COMMANDE:
+- php -S : Démarre le serveur intégré
+- localhost : L'adresse (votre ordinateur local)
+- 8000 : Le port (vous pouvez changer: 8080, 8888, etc.)
+
+⚠️ IMPORTANT: Le terminal est maintenant BLOQUÉ par le serveur.
+              Pour arrêter le serveur: Ctrl + C
+              Pour exécuter d'autres commandes: ouvrez un nouveau terminal
+
+ÉTAPE 3: ACCÉDER AU SERVEUR DANS LE NAVIGATEUR
+-----------------------------------------------
+
+1. Ouvrez votre navigateur web (Chrome, Firefox, Edge)
+
+2. Allez sur: http://localhost:8000
+
+   Vous verrez la liste des fichiers du dossier tests/
+
+3. Cliquez sur info.php
+
+   OU allez directement sur: http://localhost:8000/info.php
+
+VOUS DEVRIEZ VOIR:
+Une page avec toutes les informations PHP:
+- Version de PHP
+- Configuration
+- Extensions activées
+- Variables d'environnement
+- Etc.
+
+✓ Si vous voyez cette page, le serveur fonctionne!
+
+ÉTAPE 4: CRÉER UNE PAGE WEB SIMPLE
+------------------------------------
+
+Créez: tests/index.php
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma Première Page PHP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; }
+        .info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-left: 4px solid #2196F3;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bienvenue sur ma page PHP!</h1>
+
+        <?php
+        // Code PHP intégré dans le HTML
+        echo "<p>Bonjour! Cette page a été générée avec PHP.</p>";
+
+        // Informations dynamiques
+        $date = date("d/m/Y");
+        $heure = date("H:i:s");
+
+        echo "<div class='info'>";
+        echo "<strong>Date:</strong> $date<br>";
+        echo "<strong>Heure:</strong> $heure<br>";
+        echo "<strong>Serveur:</strong> " . $_SERVER['SERVER_SOFTWARE'] . "<br>";
+        echo "<strong>PHP Version:</strong> " . phpversion();
+        echo "</div>";
+
+        // Petit calcul
+        $nombres = [10, 20, 30, 40, 50];
+        $somme = array_sum($nombres);
+        $moyenne = $somme / count($nombres);
+
+        echo "<p>Nombres: " . implode(", ", $nombres) . "</p>";
+        echo "<p>Somme: $somme</p>";
+        echo "<p>Moyenne: $moyenne</p>";
+        ?>
+
+        <h2>Fonctionnalités</h2>
+        <ul>
+            <li>✓ PHP fonctionne</li>
+            <li>✓ HTML et CSS intégrés</li>
+            <li>✓ Contenu dynamique</li>
+        </ul>
+    </div>
+</body>
+</html>
+
+ACCÈS:
+http://localhost:8000/index.php
+
+OU simplement:
+http://localhost:8000
+
+(index.php est chargé automatiquement)
+
+ÉTAPE 5: EXEMPLE DE FORMULAIRE
+--------------------------------
+
+Créez: tests/formulaire.php
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulaire de Contact</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .resultat {
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Formulaire de Contact</h1>
+
+    <?php
+    // Vérifier si le formulaire a été soumis
+    if (isset($_GET['nom'])) {
+        // Récupérer et sécuriser les données
+        $nom = htmlspecialchars($_GET['nom']);
+        $email = htmlspecialchars($_GET['email']);
+        $message = htmlspecialchars($_GET['message']);
+
+        // Afficher le résultat
+        echo "<div class='resultat'>";
+        echo "<h2>Message reçu!</h2>";
+        echo "<p><strong>Nom:</strong> $nom</p>";
+        echo "<p><strong>Email:</strong> $email</p>";
+        echo "<p><strong>Message:</strong><br>$message</p>";
+        echo "</div>";
+
+        echo "<p><a href='formulaire.php'>Envoyer un autre message</a></p>";
+    } else {
+        // Afficher le formulaire
+    ?>
+        <form method="GET" action="formulaire.php">
+            <label>Votre nom:</label>
+            <input type="text" name="nom" required>
+
+            <label>Votre email:</label>
+            <input type="email" name="email" required>
+
+            <label>Votre message:</label>
+            <textarea name="message" rows="5" required></textarea>
+
+            <button type="submit">Envoyer</button>
+        </form>
+    <?php
+    }
+    ?>
+</body>
+</html>
+
+ACCÈS:
+http://localhost:8000/formulaire.php
+
+TESTEZ:
+1. Remplissez le formulaire
+2. Cliquez sur "Envoyer"
+3. Vous verrez vos données affichées
+4. Observez l'URL: http://localhost:8000/formulaire.php?nom=Jean&email=...
+
+✓ Les données du formulaire passent par l'URL (méthode GET)
+
+LOGS DU SERVEUR:
+Regardez le terminal où tourne le serveur:
+
+[Thu Dec 19 10:15:30 2025] 127.0.0.1:12345 [200]: GET /formulaire.php?nom=Jean&email=...
+[Thu Dec 19 10:15:30 2025] 127.0.0.1:12345 Accepted
+
+Vous voyez toutes les requêtes!
+
+ARRÊTER LE SERVEUR:
+Dans le terminal où tourne le serveur:
+Ctrl + C
+
+Le serveur s'arrête:
+^C
+[Thu Dec 19 10:20:00 2025] Server stopped.
+
+CHANGER LE PORT:
+Si le port 8000 est occupé:
+
+php -S localhost:8080
+php -S localhost:8888
+php -S localhost:3000
+
+(Utilisez n'importe quel port entre 1024 et 65535)
+
+--------------------------------------------------------------------------------
+B. OPTION B: XAMPP AVEC APACHE
+--------------------------------------------------------------------------------
+
+Pour les projets plus complexes (Modules 9-10), utilisez Apache.
+
+AVANTAGES:
+✓ Serveur web complet (comme en production)
+✓ Supporte .htaccess
+✓ Inclut MySQL (base de données)
+✓ phpMyAdmin (interface de gestion)
+✓ Multiple projets simultanés
+
+INCONVÉNIENTS:
+✗ Plus complexe à configurer
+✗ Dossier obligatoire (htdocs)
+✗ Peut entrer en conflit avec d'autres services
+
+QUAND L'UTILISER:
+- Modules 9-10 (POO, projets complets)
+- Projets avec base de données
+- Apprentissage de l'environnement production
+
+ÉTAPE 1: LANCER XAMPP CONTROL PANEL
+-------------------------------------
+
+1. Ouvrez le menu Démarrer Windows
+2. Cherchez: "XAMPP Control Panel"
+3. Lancez-le
+4. (Ou allez dans C:\xampp et double-cliquez sur xampp-control.exe)
+
+VOUS VERREZ:
+┌─────────────────────────────────────────────────────────────┐
+│ XAMPP Control Panel v3.3.0                                  │
+├─────────────────────────────────────────────────────────────┤
+│ Module    │ Status  │ PID(s) │ Port(s)  │ Actions          │
+├───────────┼─────────┼────────┼──────────┼──────────────────┤
+│ Apache    │ Stopped │        │ 80, 443  │ [Start] [Config] │
+│ MySQL     │ Stopped │        │ 3306     │ [Start] [Config] │
+└───────────┴─────────┴────────┴──────────┴──────────────────┘
+
+ÉTAPE 2: DÉMARRER APACHE
+--------------------------
+
+1. Cliquez sur [Start] à côté de "Apache"
+2. Attendez 2-3 secondes
+3. Le statut devient "Running" et passe au VERT
+4. Un PID s'affiche (numéro du processus)
+
+SI ERREUR "Port 80 in use":
+→ Un autre programme utilise le port 80 (Skype, IIS, etc.)
+→ Solutions:
+   1. Arrêtez l'autre programme
+   2. OU changez le port d'Apache (voir Section 8)
+
+ÉTAPE 3: TESTER APACHE
+-----------------------
+
+1. Ouvrez votre navigateur
+2. Allez sur: http://localhost
+
+VOUS DEVRIEZ VOIR:
+La page d'accueil de XAMPP avec:
+- "Welcome to XAMPP for Windows"
+- Liens vers phpMyAdmin
+- Documentation
+
+✓ Si vous voyez cette page, Apache fonctionne!
+
+ÉTAPE 4: COMPRENDRE LE DOSSIER HTDOCS
+---------------------------------------
+
+Apache sert les fichiers depuis: C:\xampp\htdocs\
+
+STRUCTURE PAR DÉFAUT:
+C:\xampp\htdocs\
+├── index.php (page d'accueil XAMPP)
+├── dashboard/ (tableau de bord XAMPP)
+├── webalizer/
+└── xampp/
+
+CRÉER VOTRE PROJET:
+Ne modifiez PAS les fichiers par défaut!
+Créez vos propres sous-dossiers:
+
+C:\xampp\htdocs\
+├── (fichiers XAMPP par défaut)
+├── mon-site/
+│   └── index.php
+├── projet-quiz/
+│   ├── index.php
+│   ├── classes/
+│   └── assets/
+└── tests/
+    └── formulaire.php
+
+ÉTAPE 5: CRÉER UN PROJET DE TEST
+----------------------------------
+
+1. Ouvrez l'Explorateur Windows
+2. Allez dans: C:\xampp\htdocs\
+3. Créez un dossier: mon-site
+4. Dans mon-site, créez: index.php
+
+Contenu de index.php:
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mon Premier Site</title>
+</head>
+<body>
+    <h1>Bienvenue sur mon site!</h1>
+
+    <?php
+    echo "<p>Cette page est servie par Apache.</p>";
+    echo "<p>Date: " . date("d/m/Y H:i:s") . "</p>";
+
+    // Informations serveur
+    echo "<h2>Informations Serveur</h2>";
+    echo "<ul>";
+    echo "<li>Serveur: " . $_SERVER['SERVER_SOFTWARE'] . "</li>";
+    echo "<li>Méthode: " . $_SERVER['REQUEST_METHOD'] . "</li>";
+    echo "<li>Script: " . $_SERVER['SCRIPT_NAME'] . "</li>";
+    echo "</ul>";
+    ?>
+</body>
+</html>
+
+ACCÈS:
+http://localhost/mon-site/
+OU
+http://localhost/mon-site/index.php
+
+ÉTAPE 6: OUVRIR VOTRE PROJET DANS VSCODE
+------------------------------------------
+
+Vous pouvez travailler directement dans htdocs:
+
+1. Ouvrez VSCode
+2. File → Open Folder
+3. Naviguez vers: C:\xampp\htdocs\mon-site
+4. Sélectionnez le dossier
+
+Maintenant vous pouvez éditer vos fichiers dans VSCode et les voir dans
+le navigateur en rafraîchissant la page!
+
+WORKFLOW:
+1. Éditer le code dans VSCode
+2. Sauvegarder (Ctrl + S)
+3. Rafraîchir le navigateur (F5)
+4. Voir les changements
+
+ÉTAPE 7: EXEMPLE AVANCÉ - FORMULAIRE POST
+-------------------------------------------
+
+Créez: C:\xampp\htdocs\mon-site\contact.php
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulaire de Contact</title>
+    <style>
+        body { font-family: Arial; max-width: 600px; margin: 50px auto; }
+        input, textarea { width: 100%; padding: 10px; margin: 10px 0; }
+        button { background: #2196F3; color: white; padding: 12px 30px; border: none; }
+    </style>
+</head>
+<body>
+    <h1>Contactez-nous</h1>
+
+    <?php
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Formulaire soumis
+        $nom = htmlspecialchars($_POST['nom'] ?? '');
+        $email = htmlspecialchars($_POST['email'] ?? '');
+        $message = htmlspecialchars($_POST['message'] ?? '');
+
+        // Validation simple
+        $errors = [];
+
+        if (empty($nom)) {
+            $errors[] = "Le nom est requis.";
+        }
+
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors[] = "Email invalide.";
+        }
+
+        if (empty($message)) {
+            $errors[] = "Le message est requis.";
+        }
+
+        if (empty($errors)) {
+            // Succès
+            echo "<div style='background: #4CAF50; color: white; padding: 15px;'>";
+            echo "<h2>Message envoyé avec succès!</h2>";
+            echo "<p>Merci <strong>$nom</strong>!</p>";
+            echo "<p>Nous vous répondrons à: <strong>$email</strong></p>";
+            echo "</div>";
+        } else {
+            // Erreurs
+            echo "<div style='background: #f44336; color: white; padding: 15px;'>";
+            echo "<h2>Erreurs:</h2><ul>";
+            foreach ($errors as $error) {
+                echo "<li>$error</li>";
+            }
+            echo "</ul></div>";
+        }
+
+        echo "<p><a href='contact.php'>Retour au formulaire</a></p>";
+    } else {
+        // Afficher le formulaire
+    ?>
+        <form method="POST" action="contact.php">
+            <label>Nom:</label>
+            <input type="text" name="nom">
+
+            <label>Email:</label>
+            <input type="email" name="email">
+
+            <label>Message:</label>
+            <textarea name="message" rows="5"></textarea>
+
+            <button type="submit">Envoyer</button>
+        </form>
+    <?php
+    }
+    ?>
+</body>
+</html>
+
+ACCÈS:
+http://localhost/mon-site/contact.php
+
+DIFFÉRENCE GET vs POST:
+- GET: Données dans l'URL (visible) → $_GET
+- POST: Données cachées (corps de la requête) → $_POST
+- POST est préféré pour les formulaires sensibles
+
+ARRÊTER APACHE:
+Dans XAMPP Control Panel:
+1. Cliquez sur [Stop] à côté d'Apache
+2. Le statut devient "Stopped"
+
+--------------------------------------------------------------------------------
+C. COMPARAISON: SERVEUR INTÉGRÉ vs APACHE
+--------------------------------------------------------------------------------
+
+┌────────────────────────┬──────────────────┬──────────────────┐
+│ Caractéristique        │ Serveur intégré  │ Apache (XAMPP)   │
+├────────────────────────┼──────────────────┼──────────────────┤
+│ DÉMARRAGE              │                  │                  │
+│ Commande               │ php -S ...       │ XAMPP Panel      │
+│ Rapidité               │ Instantané       │ 2-3 secondes     │
+│                        │                  │                  │
+│ UTILISATION            │                  │                  │
+│ Dossier                │ N'importe où     │ C:\xampp\htdocs  │
+│ URL                    │ localhost:8000   │ localhost        │
+│ Arrêt                  │ Ctrl + C         │ Bouton Stop      │
+│                        │                  │                  │
+│ FONCTIONNALITÉS        │                  │                  │
+│ PHP                    │ ✓                │ ✓                │
+│ HTML/CSS/JS            │ ✓                │ ✓                │
+│ Formulaires            │ ✓                │ ✓                │
+│ Sessions               │ ✓                │ ✓                │
+│ .htaccess              │ ✗                │ ✓                │
+│ MySQL                  │ ✗                │ ✓ (inclus)       │
+│ phpMyAdmin             │ ✗                │ ✓                │
+│                        │                  │                  │
+│ COMPLEXITÉ             │                  │                  │
+│ Installation           │ Aucune           │ Moyenne          │
+│ Configuration          │ Minimale         │ Avancée          │
+│                        │                  │                  │
+│ RECOMMANDÉ POUR        │                  │                  │
+│ Apprentissage          │ ✓✓✓              │ ✓✓               │
+│ Modules 7-8            │ ✓✓✓              │ ✓✓               │
+│ Modules 9-10           │ ✓                │ ✓✓✓              │
+│ Base de données        │ ✗                │ ✓✓✓              │
+│ Projets complexes      │ ✗                │ ✓✓✓              │
+│ Production             │ ✗ JAMAIS         │ ✗ (Nginx/Apache) │
+└────────────────────────┴──────────────────┴──────────────────┘
+
+RECOMMANDATION:
+1. Modules 1-6: Ligne de commande (pas de serveur nécessaire)
+2. Modules 7-8: Serveur intégré PHP (simple et rapide)
+3. Modules 9-10: Apache avec XAMPP (environnement complet)
+
+
+================================================================================
+8. DÉBOGAGE ET RÉSOLUTION DE PROBLÈMES
+================================================================================
+
+Le débogage est une compétence ESSENTIELLE. Vous passerez beaucoup de temps
+à chercher et corriger des erreurs - c'est normal!
+
+--------------------------------------------------------------------------------
+A. ACTIVER L'AFFICHAGE DES ERREURS
+--------------------------------------------------------------------------------
+
+PAR DÉFAUT, PHP peut cacher certaines erreurs. Pour l'apprentissage, vous
+voulez voir TOUTES les erreurs!
+
+MÉTHODE 1: Dans vos fichiers PHP (recommandé pour débuter)
+-----------------------------------------------------------
+
+Ajoutez ces lignes AU DÉBUT de chaque fichier PHP:
+
+<?php
+// Activer l'affichage de TOUTES les erreurs
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
+// Votre code ici
+?>
+
+MÉTHODE 2: Dans php.ini (configuration globale)
+------------------------------------------------
+
+Si vous voulez activer les erreurs pour TOUS vos scripts:
+
+1. Trouvez php.ini:
+   - XAMPP: C:\xampp\php\php.ini
+   - Standalone: C:\php\php.ini
+
+2. Ouvrez php.ini avec un éditeur de texte
+
+3. Trouvez ces lignes et modifiez-les:
+
+   display_errors = Off
+   →
+   display_errors = On
+
+   display_startup_errors = Off
+   →
+   display_startup_errors = On
+
+   error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
+   →
+   error_reporting = E_ALL
+
+4. Sauvegardez
+
+5. Redémarrez Apache (si XAMPP) ou relancez votre script
+
+NIVEAUX D'ERREURS:
+┌──────────────────┬──────────────────────────────────────────┐
+│ Niveau           │ Description                              │
+├──────────────────┼──────────────────────────────────────────┤
+│ E_ERROR          │ Erreur fatale (script s'arrête)          │
+│ E_WARNING        │ Avertissement (script continue)          │
+│ E_PARSE          │ Erreur de syntaxe                        │
+│ E_NOTICE         │ Notice (variable non définie, etc.)      │
+│ E_DEPRECATED     │ Fonctionnalité dépréciée                 │
+│ E_ALL            │ TOUTES les erreurs                       │
+└──────────────────┴──────────────────────────────────────────┘
+
+--------------------------------------------------------------------------------
+B. OUTILS DE DÉBOGAGE PHP
+--------------------------------------------------------------------------------
+
+OUTIL 1: echo - Affichage simple
+---------------------------------
+
+L'outil le plus basique mais très efficace:
+
+<?php
+$x = 10;
+echo "Valeur de x: $x";  // Affiche: Valeur de x: 10
+?>
+
+Utilisez echo pour:
+- Vérifier la valeur d'une variable
+- Voir si un bloc de code est exécuté
+- Tracer le flux d'exécution
+
+EXEMPLE:
+<?php
+echo "Début du script\n";
+
+$nom = "Jean";
+echo "Nom défini: $nom\n";
+
+if ($nom === "Jean") {
+    echo "Condition vraie\n";
+}
+
+echo "Fin du script\n";
+?>
+
+OUTIL 2: var_dump() - Affichage détaillé
+-----------------------------------------
+
+Affiche le TYPE ET la VALEUR d'une variable:
+
+<?php
+$nom = "Jean";
+var_dump($nom);
+// Affiche: string(4) "Jean"
+
+$age = 25;
+var_dump($age);
+// Affiche: int(25)
+
+$tableau = [1, 2, 3];
+var_dump($tableau);
+// Affiche:
+// array(3) {
+//   [0]=> int(1)
+//   [1]=> int(2)
+//   [2]=> int(3)
+// }
+?>
+
+TRÈS UTILE pour:
+- Voir le type d'une variable
+- Inspecter des tableaux complexes
+- Détecter des valeurs inattendues (null, false, etc.)
+
+OUTIL 3: print_r() - Affichage lisible
+---------------------------------------
+
+Plus lisible que var_dump() pour les tableaux:
+
+<?php
+$personne = [
+    "nom" => "Dupont",
+    "prenom" => "Marie",
+    "age" => 30
+];
+
+print_r($personne);
+// Affiche:
+// Array
+// (
+//     [nom] => Dupont
+//     [prenom] => Marie
+//     [age] => 30
+// )
+?>
+
+ASTUCE: Utilisez avec <pre> en HTML pour meilleur formatage:
+
+<?php
+echo "<pre>";
+print_r($tableau);
+echo "</pre>";
+?>
+
+OUTIL 4: die() / exit() - Arrêter l'exécution
+----------------------------------------------
+
+Arrête le script immédiatement:
+
+<?php
+echo "Début\n";
+
+$x = 10;
+die("Arrêt ici! x = $x");
+
+echo "Ceci ne s'affichera JAMAIS\n";
+?>
+
+UTILITÉ:
+- Arrêter le script à un point précis
+- Afficher une dernière valeur avant d'arrêter
+- Déboguer un problème spécifique
+
+OUTIL 5: error_log() - Logger sans afficher
+--------------------------------------------
+
+Écrit dans un fichier de log sans afficher:
+
+<?php
+$debug_info = "Utilisateur connecté: Jean";
+error_log($debug_info);
+?>
+
+Les logs vont dans:
+- XAMPP: C:\xampp\apache\logs\error.log
+- Ou le fichier configuré dans php.ini
+
+UTILE pour:
+- Déboguer sans modifier l'affichage
+- Logger des informations en production
+- Tracer des événements
+
+OUTIL 6: Affichage conditionnel
+---------------------------------
+
+Créez une variable de débogage:
+
+<?php
+$DEBUG = true;  // Mettez à false en production
+
+function debug($message) {
+    global $DEBUG;
+    if ($DEBUG) {
+        echo "[DEBUG] $message\n";
+    }
+}
+
+// Utilisation
+debug("Début du traitement");
+$resultat = calcul_complexe();
+debug("Résultat: $resultat");
+?>
+
+--------------------------------------------------------------------------------
+C. PROBLÈMES COURANTS SUR WINDOWS ET SOLUTIONS
+--------------------------------------------------------------------------------
+
+PROBLÈME 1: "php n'est pas reconnu comme commande interne..."
+--------------------------------------------------------------
+
+SYMPTÔME:
+Quand vous tapez: php -v
+Vous voyez: 'php' n'est pas reconnu en tant que commande interne...
+
+CAUSE:
+PHP n'est pas dans le PATH Windows
+
+SOLUTION:
+1. Vérifiez que PHP est installé:
+   - XAMPP: Vérifiez que C:\xampp\php\php.exe existe
+   - Standalone: Vérifiez que C:\php\php.exe existe
+
+2. Ajoutez au PATH:
+   a. Windows + Pause/Break (ou clic droit sur "Ce PC" → Propriétés)
+   b. Paramètres système avancés
+   c. Variables d'environnement
+   d. Sélectionnez "Path" dans "Variables système"
+   e. Modifier
+   f. Nouveau
+   g. Ajoutez: C:\xampp\php (ou C:\php)
+   h. OK sur toutes les fenêtres
+
+3. IMPORTANT: Fermez TOUS les terminaux et rouvrez-les
+
+4. Testez: php -v
+
+PROBLÈME 2: "Port 80 already in use" (Apache)
+----------------------------------------------
+
+SYMPTÔME:
+Apache ne démarre pas dans XAMPP Control Panel
+Message: Port 80 in use by "..." (Skype, IIS, etc.)
+
+CAUSE:
+Un autre programme utilise le port 80
+
+SOLUTION A: Arrêter l'autre programme
+1. Identifiez le programme (affiché dans l'erreur)
+2. Fermez-le
+3. Redémarrez Apache
+
+SOLUTION B: Changer le port d'Apache
+1. Dans XAMPP Control Panel, cliquez [Config] à côté d'Apache
+2. Sélectionnez "httpd.conf"
+3. Trouvez la ligne: Listen 80
+4. Changez en: Listen 8080
+5. Trouvez: ServerName localhost:80
+6. Changez en: ServerName localhost:8080
+7. Sauvegardez
+8. Redémarrez Apache
+9. Accédez via: http://localhost:8080
+
+SOLUTION C: Utiliser le serveur intégré PHP
+Si Apache pose trop de problèmes:
+php -S localhost:8000
+
+PROBLÈME 3: "Page blanche" sans erreur
+---------------------------------------
+
+SYMPTÔME:
+La page s'affiche vide, rien ne s'affiche, pas d'erreur
+
+CAUSES POSSIBLES:
+1. Erreur PHP cachée (display_errors = Off)
+2. Erreur fatale avant toute sortie
+3. Contenu invisible (espaces, commentaires uniquement)
+
+SOLUTION:
+1. Activez l'affichage des erreurs (voir Section 8.A)
+
+2. Vérifiez les logs:
+   - XAMPP: C:\xampp\apache\logs\error.log
+   - Serveur intégré: regardez le terminal
+
+3. Testez avec un fichier minimal:
+   <?php
+   echo "TEST";
+   ?>
+
+4. Si "TEST" ne s'affiche pas:
+   - Vérifiez que le fichier a bien l'extension .php
+   - Vérifiez l'encodage du fichier (UTF-8 sans BOM)
+   - Vérifiez qu'il n'y a pas d'espace AVANT <?php
+
+PROBLÈME 4: "Headers already sent"
+-----------------------------------
+
+SYMPTÔME:
+Warning: Cannot modify header information - headers already sent by...
+
+EXEMPLE D'ERREUR:
+<?php
+echo "Bonjour";
+header("Location: autre_page.php");  // ERREUR!
+?>
+
+CAUSE:
+Vous essayez d'envoyer un header HTTP APRÈS avoir déjà envoyé du contenu
+
+RÈGLES:
+- header() doit être appelé AVANT tout echo, print, HTML, etc.
+- Même un ESPACE ou une LIGNE VIDE avant <?php cause cette erreur!
+
+SOLUTION:
+1. Vérifiez qu'il n'y a RIEN avant <?php:
+
+   MAUVAIS:
+
+   <?php  // ← Espace avant!
+
+   BON:
+   <?php
+
+2. Déplacez header() en premier:
+
+   MAUVAIS:
+   <?php
+   echo "Test";
+   header("Location: page.php");
+   ?>
+
+   BON:
+   <?php
+   header("Location: page.php");
+   exit;
+   ?>
+
+3. Vérifiez l'encodage:
+   - Fichier doit être UTF-8 SANS BOM
+   - Dans VSCode: en bas à droite, cliquez sur "UTF-8"
+   - Sélectionnez "Save with Encoding" → "UTF-8"
+
+PROBLÈME 5: Caractères bizarres (é → Ã©)
+-----------------------------------------
+
+SYMPTÔME:
+Les accents s'affichent mal:
+- "été" → "Ã©tÃ©"
+- "français" → "franÃ§ais"
+
+CAUSE:
+Problème d'encodage (charset)
+
+SOLUTION:
+1. Dans vos fichiers PHP, ajoutez en haut:
+   <?php
+   header('Content-Type: text/html; charset=utf-8');
+   ?>
+
+2. Dans vos pages HTML:
+   <meta charset="UTF-8">
+
+3. Vérifiez que le fichier est enregistré en UTF-8:
+   - VSCode: en bas à droite, vérifiez "UTF-8"
+   - Si ce n'est pas le cas: cliquez dessus → "Save with Encoding" → "UTF-8"
+
+4. Pour le terminal:
+   Dans PowerShell:
+   [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
+PROBLÈME 6: "Call to undefined function..."
+--------------------------------------------
+
+SYMPTÔME:
+Fatal error: Call to undefined function ma_fonction()
+
+CAUSES:
+1. Fonction pas encore définie
+2. Faute de frappe dans le nom
+3. Extension PHP manquante (ex: mysqli_connect sans extension mysqli)
+
+SOLUTION:
+1. Vérifiez que la fonction est définie AVANT son appel:
+
+   MAUVAIS:
+   <?php
+   dire_bonjour();  // Erreur: pas encore définie!
+
+   function dire_bonjour() {
+       echo "Bonjour";
+   }
+   ?>
+
+   BON:
+   <?php
+   function dire_bonjour() {
+       echo "Bonjour";
+   }
+
+   dire_bonjour();  // OK!
+   ?>
+
+2. Vérifiez l'orthographe (PHP est sensible à la casse pour les fonctions
+   définies par l'utilisateur)
+
+3. Pour les fonctions PHP natives, vérifiez que l'extension est activée:
+   php -m  // Liste les extensions
+
+PROBLÈME 7: "Undefined variable"
+---------------------------------
+
+SYMPTÔME:
+Notice: Undefined variable: $nom
+
+CAUSE:
+Vous utilisez une variable qui n'a pas été définie
+
+EXEMPLE:
+<?php
+echo $nom;  // $nom n'a jamais été défini!
+?>
+
+SOLUTION:
+1. Définissez la variable avant:
+   <?php
+   $nom = "Jean";
+   echo $nom;
+   ?>
+
+2. Vérifiez avec isset() avant d'utiliser:
+   <?php
+   if (isset($_GET['nom'])) {
+       echo $_GET['nom'];
+   } else {
+       echo "Nom non fourni";
+   }
+   ?>
+
+3. Utilisez l'opérateur null coalesce (PHP 7+):
+   <?php
+   $nom = $_GET['nom'] ?? "Anonyme";
+   echo $nom;
+   ?>
+
+--------------------------------------------------------------------------------
+D. RESSOURCES UTILES
+--------------------------------------------------------------------------------
+
+DOCUMENTATION OFFICIELLE:
+- PHP Manual (français): https://www.php.net/manual/fr/
+- Recherche rapide: https://www.php.net/nomfonction
+  Exemple: https://www.php.net/array_push
+
+COMMUNAUTÉS:
+- Stack Overflow: https://stackoverflow.com/questions/tagged/php
+  (Cherchez votre erreur, souvent déjà résolue!)
+- Reddit: r/PHP
+- Forums: https://forums.phpfrance.com/
+
+TUTORIELS:
+- PHP The Right Way: https://phptherightway.com/
+- W3Schools: https://www.w3schools.com/php/
+- Codecademy: https://www.codecademy.com/learn/learn-php
+
+OUTILS EN LIGNE:
+- PHP Sandbox (tester du code): https://sandbox.onlinephpfunctions.com/
+- Regex101 (tester regex): https://regex101.com/
+- PHP Formatter: https://www.phpformatter.com/
+
+EXTENSIONS VSCODE RECOMMANDÉES:
+- PHP Intelephense (installée en Section 4)
+- PHP Debug
+- Better Comments
+
+
+================================================================================
+POINTS CLÉS À RETENIR - MODULE 0
+================================================================================
+
+INSTALLATION:
+✓ XAMPP installe PHP + Apache + MySQL en un seul package
+✓ Ajoutez PHP au PATH Windows pour l'utiliser en ligne de commande
+✓ Testez avec: php -v
+
+VSCODE:
+✓ Installez PHP Intelephense pour l'autocomplétion
+✓ Configurez php.validate.executablePath dans settings.json
+✓ Utilisez le terminal intégré (Ctrl + ù)
+
+FICHIERS PHP:
+✓ Extension .php obligatoire
+✓ Commencez toujours par <?php
+✓ Omettez ?> pour les fichiers 100% PHP
+✓ Nommez en minuscules avec underscores: mon_fichier.php
+
+EXÉCUTION CLI (Modules 1-6):
+✓ php fichier.php pour exécuter
+✓ php -r "code" pour code inline
+✓ php -a pour mode interactif
+✓ Parfait pour apprendre les bases
+
+SERVEUR INTÉGRÉ (Modules 7-8):
+✓ php -S localhost:8000 pour démarrer
+✓ http://localhost:8000 dans le navigateur
+✓ Ctrl + C pour arrêter
+✓ Idéal pour formulaires et sessions
+
+APACHE/XAMPP (Modules 9-10):
+✓ Fichiers dans C:\xampp\htdocs\
+✓ http://localhost dans le navigateur
+✓ Inclut MySQL pour bases de données
+✓ Environnement complet
+
+DÉBOGAGE:
+✓ Activez display_errors pour voir les erreurs
+✓ Utilisez var_dump() pour inspecter les variables
+✓ Consultez les logs en cas de problème
+✓ Lisez attentivement les messages d'erreur
+
+PROGRESSION RECOMMANDÉE:
+1. Module 00 (ce module): Installation et configuration ← VOUS ÊTES ICI
+2. Modules 01-03: Bases en CLI (variables, opérateurs, structures)
+3. Modules 04-06: Intermédiaire en CLI (arrays, fonctions, boucles)
+4. Modules 07-08: Avancé avec serveur (formulaires, sécurité)
+5. Modules 09-10: Expert avec Apache (POO, projets complets)
+
+PROCHAINES ÉTAPES:
+→ Passez au Module 01: Bases et Variables
+→ Utilisez la ligne de commande pour les exercices
+→ Pratiquez avec des petits scripts
+→ N'hésitez pas à revenir à ce module en cas de problème!
+
+AIDE:
+- Documentation: https://www.php.net/manual/fr/
+- Stack Overflow: https://stackoverflow.com/questions/tagged/php
+- En cas de blocage, cherchez votre message d'erreur sur Google
+
+
+================================================================================
+Fichier: Module 0/11 - Installation et Environnement de Développement
+Date de dernière modification: 2025-12-19
+================================================================================

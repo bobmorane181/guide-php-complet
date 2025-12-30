@@ -1,0 +1,3227 @@
+================================================================================
+           CAHIER DES CHARGES - SYSTÈME DE QUIZ INTERACTIF ÉVOLUTIF
+================================================================================
+
+PROJET D'APPRENTISSAGE PHP - 10 PHASES PROGRESSIVES
+
+Ce document décrit un projet complet pour mettre en pratique TOUS les concepts
+du Guide PHP Complet (Modules 1-10). Le projet évolue progressivement de très
+simple à très complexe.
+
+================================================================================
+VISION DU PROJET
+================================================================================
+
+Créer un système de quiz interactif qui commence comme un simple script en
+ligne de commande (Phase 1) et se transforme graduellement en une application
+web complète avec POO, validation, sécurité, et interface utilisateur (Phase 10).
+
+OBJECTIF PÉDAGOGIQUE:
+- Pratiquer TOUS les concepts du guide dans un contexte réel
+- Apprendre de manière progressive et motivante
+- Créer une application portfolio professionnelle
+
+
+================================================================================
+📋 TABLEAU RÉCAPITULATIF DES 10 PHASES
+================================================================================
+
+┌───────┬─────────────┬──────────────────────────┬────────────┬────────────┐
+│ Phase │ Module(s)   │ Concepts clés            │ Fichiers   │ Complexité │
+├───────┼─────────────┼──────────────────────────┼────────────┼────────────┤
+│ 1     │ 1-2         │ Variables, opérateurs    │ 1 PHP      │ ⭐         │
+│ 2     │ 3           │ if/else, switch          │ 1 PHP      │ ⭐⭐       │
+│ 3     │ 4           │ Arrays, foreach          │ 1 PHP      │ ⭐⭐       │
+│ 4     │ 5           │ Fonctions                │ 1-2 PHP    │ ⭐⭐⭐     │
+│ 5     │ 6           │ Boucles, break/continue  │ 1-2 PHP    │ ⭐⭐⭐     │
+│ 6     │ 7+10        │ HTML, formulaires, POST  │ 2-3 files  │ ⭐⭐⭐⭐   │
+│ 7     │ 8           │ Validation, sécurité     │ 3-4 files  │ ⭐⭐⭐⭐   │
+│ 8     │ 9           │ Classes, objets, $this   │ 4-5 files  │ ⭐⭐⭐⭐   │
+│ 9     │ 9           │ Héritage, static         │ 5-6 files  │ ⭐⭐⭐⭐⭐ │
+│ 10    │ Tous        │ Intégration complète     │ 10+ files  │ ⭐⭐⭐⭐⭐ │
+└───────┴─────────────┴──────────────────────────┴────────────┴────────────┘
+
+
+================================================================================
+PHASE 1 : PREMIERS PAS AVEC LES QUESTIONS
+================================================================================
+
+MODULES CONCERNÉS: Module 1-2 (Bases, Variables, Opérateurs)
+COMPLEXITÉ: ⭐ Très simple
+FICHIERS: 1 fichier PHP (quiz_phase1.php)
+
+CONCEPTS PRATIQUÉS:
+-------------------
+✓ Variables et interpolation avec ${}
+✓ Chaînes de caractères
+✓ Opérateur de concaténation (.=)
+✓ Opérateurs d'assignation combinés (+=)
+✓ Comparaison stricte (===)
+✓ readline() pour entrée utilisateur
+
+FONCTIONNALITÉS À IMPLÉMENTER:
+-------------------------------
+1. Créer 3 variables pour stocker des questions simples
+2. Créer 3 variables pour stocker les réponses correctes
+3. Afficher chaque question avec un numéro
+4. Utiliser readline() pour obtenir la réponse de l'utilisateur
+5. Comparer avec === pour vérifier si c'est correct
+6. Calculer le score avec l'opérateur +=
+7. Afficher le score final avec interpolation "${}
+
+SPÉCIFICATIONS TECHNIQUES:
+--------------------------
+```php
+<?php
+// Exemple de structure
+
+// Questions et réponses
+$question1 = "Quelle est la capitale de la France?";
+$reponse1 = "Paris";
+$points1 = 1;
+
+$question2 = "Combien font 5 + 3?";
+$reponse2 = "8";
+$points2 = 1;
+
+$question3 = "Quelle est la couleur du ciel?";
+$reponse3 = "bleu";
+$points3 = 1;
+
+// Variables pour le jeu
+$score = 0;
+$nom_joueur = readline("Entrez votre nom: ");
+
+// Question 1
+echo "\nQuestion 1: {$question1}\n";
+$reponse_user1 = readline("Votre réponse: ");
+
+if ($reponse_user1 === $reponse1) {
+    echo "Correct!\n";
+    $score += $points1;  // Opérateur +=
+} else {
+    echo "Faux. La bonne réponse était: {$reponse1}\n";
+}
+
+// ... Répéter pour questions 2 et 3 ...
+
+// Afficher le score final
+$message_final = "Félicitations {$nom_joueur}, vous avez obtenu {$score} points!";
+echo "\n{$message_final}\n";
+```
+
+CRITÈRES DE RÉUSSITE:
+---------------------
+✅ Les 3 questions s'affichent correctement
+✅ Le score se calcule correctement (0, 1, 2 ou 3 points)
+✅ L'interpolation fonctionne avec ${}
+✅ Le code utilise .= pour construire des messages
+✅ La comparaison utilise === (stricte)
+
+
+================================================================================
+PHASE 2 : AJOUTER DE LA LOGIQUE
+================================================================================
+
+MODULES CONCERNÉS: Module 3 (Structures de contrôle)
+COMPLEXITÉ: ⭐⭐ Simple
+FICHIERS: 1 fichier PHP (quiz_phase2.php)
+
+CONCEPTS PRATIQUÉS:
+-------------------
+✓ Instructions if/else/elseif
+✓ Opérateur ternaire (? :)
+✓ Switch pour gérer différents cas
+✓ Truthy/Falsy
+✓ Opérateur || (OR logique)
+
+FONCTIONNALITÉS À IMPLÉMENTER:
+-------------------------------
+1. Ajouter un menu principal avec switch (Démarrer/Règles/Quitter)
+2. Feedback personnalisé selon le score (if/elseif/else)
+3. Valider que les entrées ne sont pas vides (truthy/falsy)
+4. Accepter plusieurs variantes de réponses avec || (ex: "oui" || "o")
+5. Utiliser l'opérateur ternaire pour des messages courts
+6. Permettre de rejouer le quiz
+
+SPÉCIFICATIONS TECHNIQUES:
+--------------------------
+
+MENU AVEC SWITCH:
+```php
+do {
+    echo "\n=== MENU PRINCIPAL ===\n";
+    echo "1. Démarrer le quiz\n";
+    echo "2. Afficher les règles\n";
+    echo "3. Quitter\n";
+    $choix = readline("Votre choix: ");
+
+    switch ($choix) {
+        case "1":
+            // Lancer le quiz
+            break;
+        case "2":
+            // Afficher règles
+            echo "Règles: Répondez aux 3 questions...\n";
+            break;
+        case "3":
+            echo "Au revoir!\n";
+            break;
+        default:
+            echo "Choix invalide!\n";
+    }
+} while ($choix !== "3");
+```
+
+FEEDBACK SELON SCORE:
+```php
+// Après le quiz
+if ($score === 3) {
+    echo "🏆 PARFAIT! Vous êtes un expert!\n";
+} elseif ($score >= 2) {
+    echo "👍 Très bien! Presque parfait!\n";
+} elseif ($score >= 1) {
+    echo "😊 Pas mal! Continuez à vous améliorer!\n";
+} else {
+    echo "😔 Réessayez! Vous pouvez faire mieux!\n";
+}
+```
+
+VALIDATION AVEC TRUTHY/FALSY:
+```php
+$reponse = readline("Votre réponse: ");
+
+// Vérifier si vide (falsy)
+if (!$reponse) {
+    echo "Erreur: La réponse ne peut pas être vide!\n";
+    continue;
+}
+```
+
+ACCEPTER VARIANTES AVEC ||:
+```php
+$continuer = readline("Voulez-vous rejouer? (oui/non): ");
+
+if ($continuer === "oui" || $continuer === "o" || $continuer === "y") {
+    // Rejouer
+} else {
+    echo "Merci d'avoir joué!\n";
+}
+```
+
+OPÉRATEUR TERNAIRE:
+```php
+$message = ($score >= 2) ? "Excellent!" : "Continuez à pratiquer!";
+echo $message;
+```
+
+CRITÈRES DE RÉUSSITE:
+---------------------
+✅ Le menu fonctionne avec toutes les options (1, 2, 3)
+✅ Le feedback s'adapte au score obtenu
+✅ Les validations empêchent les entrées vides
+✅ Switch utilise break correctement
+✅ L'utilisateur peut rejouer sans relancer le script
+✅ Opérateur ternaire utilisé au moins une fois
+
+
+================================================================================
+PHASE 3 : STRUCTURER LES DONNÉES
+================================================================================
+
+MODULES CONCERNÉS: Module 4 (Arrays)
+COMPLEXITÉ: ⭐⭐ Moyen
+FICHIERS: 1 fichier PHP (quiz_phase3.php)
+
+CONCEPTS PRATIQUÉS:
+-------------------
+✓ Arrays indexés et associatifs
+✓ Syntaxe courte []
+✓ Accès par index et clés
+✓ count(), in_array()
+✓ Arrays multidimensionnels
+✓ foreach pour parcourir
+
+FONCTIONNALITÉS À IMPLÉMENTER:
+-------------------------------
+1. Stocker les questions dans un array multidimensionnel
+2. Chaque question = array associatif avec clés: "question", "reponse", "points"
+3. Parcourir les questions avec foreach
+4. Stocker l'historique des scores dans un array
+5. Afficher des statistiques (meilleur score, moyenne, nombre de tentatives)
+6. Permettre d'ajouter de nouvelles questions facilement
+
+SPÉCIFICATIONS TECHNIQUES:
+--------------------------
+
+STRUCTURE DE DONNÉES:
+```php
+// Array multidimensionnel de questions
+$questions = [
+    [
+        "question" => "Quelle est la capitale de la France?",
+        "reponse" => "Paris",
+        "points" => 1,
+        "categorie" => "Géographie"
+    ],
+    [
+        "question" => "Combien font 5 + 3?",
+        "reponse" => "8",
+        "points" => 1,
+        "categorie" => "Mathématiques"
+    ],
+    [
+        "question" => "En quelle année a eu lieu la Révolution française?",
+        "reponse" => "1789",
+        "points" => 2,
+        "categorie" => "Histoire"
+    ],
+    [
+        "question" => "Quelle est la formule chimique de l'eau?",
+        "reponse" => "H2O",
+        "points" => 1,
+        "categorie" => "Sciences"
+    ],
+    [
+        "question" => "Qui a peint la Joconde?",
+        "reponse" => "Léonard de Vinci",
+        "points" => 2,
+        "categorie" => "Art"
+    ]
+];
+
+// Historique des scores
+$historique_scores = [];
+```
+
+PARCOURIR AVEC FOREACH:
+```php
+$score_total = 0;
+$points_max = 0;
+
+foreach ($questions as $index => $q) {
+    $numero = $index + 1;
+    $total_questions = count($questions);
+
+    echo "\n=== Question {$numero}/{$total_questions} ===\n";
+    echo "Catégorie: {$q['categorie']}\n";
+    echo "{$q['question']}\n";
+    echo "Points: {$q['points']}\n";
+
+    $reponse_user = readline("Votre réponse: ");
+
+    if (strtolower($reponse_user) === strtolower($q['reponse'])) {
+        echo "✓ Correct! +{$q['points']} points\n";
+        $score_total += $q['points'];
+    } else {
+        echo "✗ Faux. La bonne réponse: {$q['reponse']}\n";
+    }
+
+    $points_max += $q['points'];
+}
+```
+
+GÉRER L'HISTORIQUE:
+```php
+// Après chaque partie
+$historique_scores[] = [
+    'score' => $score_total,
+    'max' => $points_max,
+    'date' => date('Y-m-d H:i:s'),
+    'pourcentage' => round(($score_total / $points_max) * 100, 2)
+];
+
+// Afficher statistiques
+function afficher_statistiques($historique) {
+    if (count($historique) === 0) {
+        echo "Aucun historique disponible.\n";
+        return;
+    }
+
+    echo "\n=== STATISTIQUES ===\n";
+    echo "Nombre de parties jouées: " . count($historique) . "\n";
+
+    // Meilleur score
+    $meilleur = 0;
+    foreach ($historique as $partie) {
+        if ($partie['score'] > $meilleur) {
+            $meilleur = $partie['score'];
+        }
+    }
+    echo "Meilleur score: {$meilleur}\n";
+
+    // Score moyen
+    $total = 0;
+    foreach ($historique as $partie) {
+        $total += $partie['score'];
+    }
+    $moyenne = round($total / count($historique), 2);
+    echo "Score moyen: {$moyenne}\n";
+}
+```
+
+UTILISER IN_ARRAY:
+```php
+$categories_disponibles = ["Géographie", "Mathématiques", "Histoire", "Sciences", "Art"];
+
+$choix_categorie = readline("Choisir une catégorie: ");
+
+if (in_array($choix_categorie, $categories_disponibles)) {
+    echo "Catégorie sélectionnée: {$choix_categorie}\n";
+} else {
+    echo "Catégorie invalide!\n";
+}
+```
+
+CRITÈRES DE RÉUSSITE:
+---------------------
+✅ Minimum 5 questions stockées dans l'array
+✅ La structure de données est claire et extensible
+✅ foreach parcourt toutes les questions
+✅ count() affiche "Question X/Y" correctement
+✅ L'historique conserve tous les scores
+✅ Les statistiques s'affichent correctement
+✅ in_array() est utilisé pour validation
+
+
+================================================================================
+PHASE 4 : MODULARISER AVEC DES FONCTIONS
+================================================================================
+
+MODULES CONCERNÉS: Module 5 (Fonctions)
+COMPLEXITÉ: ⭐⭐⭐ Moyen
+FICHIERS: 1-2 fichiers PHP (quiz_phase4.php, functions.php)
+
+CONCEPTS PRATIQUÉS:
+-------------------
+✓ Créer des fonctions personnalisées
+✓ Paramètres et arguments
+✓ return pour renvoyer des valeurs
+✓ Scope des variables
+✓ Imbrication de fonctions
+✓ Passage par référence (&)
+
+FONCTIONNALITÉS À IMPLÉMENTER:
+-------------------------------
+1. Créer une fonction afficher_question($question_data, $numero, $total)
+2. Créer une fonction verifier_reponse($reponse_utilisateur, $reponse_correcte)
+3. Créer une fonction calculer_pourcentage($score, $total)
+4. Créer une fonction afficher_menu()
+5. Créer une fonction obtenir_feedback($score, $max_score)
+6. Créer une fonction afficher_statistiques($historique)
+7. Séparer les fonctions dans un fichier functions.php
+
+SPÉCIFICATIONS TECHNIQUES:
+--------------------------
+
+FICHIER: functions.php
+```php
+<?php
+
+/**
+ * Affiche une question formatée
+ * @param array $question_data Array associatif avec les données
+ * @param int $numero Numéro de la question
+ * @param int $total Nombre total de questions
+ * @return void
+ */
+function afficher_question($question_data, $numero, $total) {
+    echo "\n=== Question {$numero}/{$total} ===\n";
+    echo "Catégorie: {$question_data['categorie']}\n";
+    echo "{$question_data['question']}\n";
+    echo "Points possibles: {$question_data['points']}\n";
+}
+
+/**
+ * Vérifie si la réponse utilisateur est correcte
+ * @param string $user_input Réponse de l'utilisateur
+ * @param string $correct_answer Réponse correcte
+ * @return bool true si correct, false sinon
+ */
+function verifier_reponse($user_input, $correct_answer) {
+    // Nettoyer et comparer (insensible à la casse)
+    $user_clean = trim(strtolower($user_input));
+    $correct_clean = trim(strtolower($correct_answer));
+
+    return $user_clean === $correct_clean;
+}
+
+/**
+ * Calcule le pourcentage de réussite
+ * @param int|float $score Score obtenu
+ * @param int|float $total Score maximum possible
+ * @return float Pourcentage arrondi à 2 décimales
+ */
+function calculer_pourcentage($score, $total) {
+    if ($total === 0) {
+        return 0.0;
+    }
+    return round(($score / $total) * 100, 2);
+}
+
+/**
+ * Affiche le menu principal et retourne le choix
+ * @return string Choix de l'utilisateur
+ */
+function afficher_menu() {
+    echo "\n╔════════════════════════════╗\n";
+    echo "║   QUIZ INTERACTIF V4.0     ║\n";
+    echo "╚════════════════════════════╝\n";
+    echo "1. Démarrer le quiz\n";
+    echo "2. Afficher les règles\n";
+    echo "3. Voir les statistiques\n";
+    echo "4. Quitter\n";
+
+    return readline("Votre choix: ");
+}
+
+/**
+ * Retourne un message de feedback selon le score
+ * Utilise calculer_pourcentage() (imbrication)
+ * @param int|float $score Score obtenu
+ * @param int|float $max_score Score maximum
+ * @return string Message de feedback
+ */
+function obtenir_feedback($score, $max_score) {
+    $pourcentage = calculer_pourcentage($score, $max_score);
+
+    if ($pourcentage === 100) {
+        return "🏆 PARFAIT! Score: {$score}/{$max_score} ({$pourcentage}%)";
+    } elseif ($pourcentage >= 80) {
+        return "🌟 EXCELLENT! Score: {$score}/{$max_score} ({$pourcentage}%)";
+    } elseif ($pourcentage >= 60) {
+        return "👍 BIEN! Score: {$score}/{$max_score} ({$pourcentage}%)";
+    } elseif ($pourcentage >= 40) {
+        return "😊 PAS MAL! Score: {$score}/{$max_score} ({$pourcentage}%)";
+    } else {
+        return "💪 CONTINUEZ! Score: {$score}/{$max_score} ({$pourcentage}%)";
+    }
+}
+
+/**
+ * Affiche les statistiques de l'historique
+ * @param array $historique Array d'historique des parties
+ * @return void
+ */
+function afficher_statistiques($historique) {
+    if (count($historique) === 0) {
+        echo "\nAucune statistique disponible. Jouez d'abord!\n";
+        return;
+    }
+
+    echo "\n╔════════════════════════════╗\n";
+    echo "║      STATISTIQUES          ║\n";
+    echo "╚════════════════════════════╝\n";
+
+    $nb_parties = count($historique);
+    echo "Parties jouées: {$nb_parties}\n";
+
+    // Calculer meilleur score
+    $meilleur_score = 0;
+    $meilleur_pourcent = 0;
+    foreach ($historique as $partie) {
+        if ($partie['score'] > $meilleur_score) {
+            $meilleur_score = $partie['score'];
+            $meilleur_pourcent = $partie['pourcentage'];
+        }
+    }
+    echo "Meilleur score: {$meilleur_score} ({$meilleur_pourcent}%)\n";
+
+    // Calculer moyenne
+    $total_score = 0;
+    foreach ($historique as $partie) {
+        $total_score += $partie['score'];
+    }
+    $moyenne = round($total_score / $nb_parties, 2);
+    echo "Score moyen: {$moyenne}\n";
+}
+
+/**
+ * Ajoute un score à l'historique (passage par référence)
+ * @param array &$historique Référence à l'array historique
+ * @param int $score Score obtenu
+ * @param int $max Score maximum
+ * @return void
+ */
+function ajouter_au_historique(&$historique, $score, $max) {
+    $historique[] = [
+        'score' => $score,
+        'max' => $max,
+        'pourcentage' => calculer_pourcentage($score, $max),
+        'date' => date('Y-m-d H:i:s')
+    ];
+}
+```
+
+FICHIER PRINCIPAL: quiz_phase4.php
+```php
+<?php
+// Inclure les fonctions
+require_once 'functions.php';
+
+// Données
+$questions = [
+    // ... array de questions ...
+];
+
+$historique = [];
+$continuer = true;
+
+// Boucle principale
+while ($continuer) {
+    $choix = afficher_menu();
+
+    switch ($choix) {
+        case "1":
+            // Démarrer quiz
+            $score = 0;
+            $points_max = 0;
+
+            foreach ($questions as $index => $q) {
+                afficher_question($q, $index + 1, count($questions));
+                $reponse_user = readline("Votre réponse: ");
+
+                if (verifier_reponse($reponse_user, $q['reponse'])) {
+                    echo "✓ Correct! +{$q['points']} points\n";
+                    $score += $q['points'];
+                } else {
+                    echo "✗ Faux. Réponse: {$q['reponse']}\n";
+                }
+
+                $points_max += $q['points'];
+            }
+
+            // Feedback
+            echo "\n" . obtenir_feedback($score, $points_max) . "\n";
+
+            // Ajouter à l'historique
+            ajouter_au_historique($historique, $score, $points_max);
+            break;
+
+        case "2":
+            echo "\n=== RÈGLES ===\n";
+            echo "Répondez aux questions. Bonne chance!\n";
+            break;
+
+        case "3":
+            afficher_statistiques($historique);
+            break;
+
+        case "4":
+            echo "Au revoir!\n";
+            $continuer = false;
+            break;
+
+        default:
+            echo "Choix invalide!\n";
+    }
+}
+```
+
+CRITÈRES DE RÉUSSITE:
+---------------------
+✅ Le code principal est court et lisible
+✅ Toutes les fonctions ont une responsabilité unique
+✅ Les fonctions utilisent return pour renvoyer des valeurs
+✅ Le scope est respecté (pas de variables globales inutiles)
+✅ obtenir_feedback() appelle calculer_pourcentage() (imbrication)
+✅ ajouter_au_historique() utilise passage par référence (&)
+✅ Les fonctions sont documentées avec commentaires
+
+
+================================================================================
+PHASE 5 : BOUCLES ET RÉPÉTITIONS
+================================================================================
+
+MODULES CONCERNÉS: Module 6 (Boucles)
+COMPLEXITÉ: ⭐⭐⭐ Moyen
+FICHIERS: 1-2 fichiers PHP
+
+CONCEPTS PRATIQUÉS:
+-------------------
+✓ Boucle while pour répéter le quiz
+✓ Boucle for avec compteur de questions
+✓ foreach pour parcourir les questions
+✓ break pour quitter
+✓ continue pour passer une question
+✓ do...while pour menu
+
+FONCTIONNALITÉS À IMPLÉMENTER:
+-------------------------------
+1. Boucle principale do...while pour le menu
+2. Permettre de passer une question (continue)
+3. Permettre d'abandonner en cours de quiz (break)
+4. Afficher un compte à rebours au démarrage (for)
+5. Boucle while pour valider les entrées
+6. Combiner toutes les boucles de manière appropriée
+
+SPÉCIFICATIONS TECHNIQUES:
+--------------------------
+
+DO...WHILE POUR MENU PERSISTANT:
+```php
+do {
+    $choix = afficher_menu();
+
+    switch ($choix) {
+        case "1":
+            demarrer_quiz($questions, $historique);
+            break;
+        case "2":
+            afficher_regles();
+            break;
+        case "3":
+            afficher_statistiques($historique);
+            break;
+        case "4":
+            echo "Merci d'avoir joué!\n";
+            break;
+        default:
+            echo "Choix invalide. Réessayez.\n";
+    }
+
+} while ($choix !== "4");
+```
+
+WHILE POUR VALIDATION D'ENTRÉE:
+```php
+function obtenir_entree_valide($message, $options_valides) {
+    while (true) {
+        $entree = readline($message);
+
+        if (in_array($entree, $options_valides)) {
+            return $entree;
+        }
+
+        echo "Entrée invalide. Options: " . implode(", ", $options_valides) . "\n";
+    }
+}
+
+// Utilisation
+$continuer = obtenir_entree_valide(
+    "Voulez-vous continuer? (oui/non): ",
+    ["oui", "non", "o", "n"]
+);
+```
+
+FOR POUR COMPTE À REBOURS:
+```php
+function compte_a_rebours($secondes = 3) {
+    echo "\nLe quiz commence dans:\n";
+
+    for ($i = $secondes; $i > 0; $i--) {
+        echo "{$i}...\n";
+        sleep(1);  // Pause 1 seconde
+    }
+
+    echo "C'est parti!\n\n";
+}
+```
+
+QUIZ AVEC BREAK ET CONTINUE:
+```php
+function demarrer_quiz($questions, &$historique) {
+    compte_a_rebours(3);
+
+    $score = 0;
+    $points_max = 0;
+    $index = 0;
+    $continuer_quiz = true;
+
+    while ($continuer_quiz && $index < count($questions)) {
+        $q = $questions[$index];
+
+        afficher_question($q, $index + 1, count($questions));
+
+        $reponse_user = readline("Réponse (ou 'skip' pour passer, 'quit' pour abandonner): ");
+
+        // Abandonner le quiz
+        if (strtolower($reponse_user) === "quit") {
+            echo "Quiz abandonné.\n";
+            break;  // Sortir de la boucle
+        }
+
+        // Passer la question
+        if (strtolower($reponse_user) === "skip") {
+            echo "Question passée (0 point).\n";
+            $points_max += $q['points'];
+            $index++;
+            continue;  // Passer à l'itération suivante
+        }
+
+        // Vérifier la réponse
+        if (verifier_reponse($reponse_user, $q['reponse'])) {
+            echo "✓ Correct! +{$q['points']} points\n";
+            $score += $q['points'];
+        } else {
+            echo "✗ Faux. Réponse: {$q['reponse']}\n";
+        }
+
+        $points_max += $q['points'];
+        $index++;
+    }
+
+    // Afficher résultat si quiz terminé
+    if ($index > 0) {
+        echo "\n" . obtenir_feedback($score, $points_max) . "\n";
+        ajouter_au_historique($historique, $score, $points_max);
+    }
+}
+```
+
+FOREACH POUR PARCOURIR:
+```php
+function afficher_categories_disponibles($questions) {
+    $categories = [];
+
+    // Extraire toutes les catégories uniques
+    foreach ($questions as $q) {
+        if (!in_array($q['categorie'], $categories)) {
+            $categories[] = $q['categorie'];
+        }
+    }
+
+    echo "\nCatégories disponibles:\n";
+    foreach ($categories as $index => $cat) {
+        echo ($index + 1) . ". {$cat}\n";
+    }
+}
+```
+
+CRITÈRES DE RÉUSSITE:
+---------------------
+✅ L'utilisateur peut rejouer sans relancer le script
+✅ On peut passer une question avec "skip" (continue)
+✅ On peut abandonner avec "quit" (break)
+✅ Le compte à rebours fonctionne avec for
+✅ Le menu persiste avec do...while
+✅ La validation utilise while
+✅ Toutes les boucles sont utilisées de manière appropriée
+
+
+================================================================================
+PHASE 6 : INTERFACE HTML
+================================================================================
+
+MODULES CONCERNÉS: Module 7 (Formulaires HTML) + Module 10 (HTML)
+COMPLEXITÉ: ⭐⭐⭐⭐ Avancé
+FICHIERS: quiz.php, resultat.php, style.css
+
+CONCEPTS PRATIQUÉS:
+-------------------
+✓ Balises HTML (form, input, button, select)
+✓ Attribut name pour $_GET/$_POST
+✓ $_POST pour soumettre les réponses
+✓ Raccourci <?= pour affichage
+✓ Syntaxe alternative pour boucles (endforeach;)
+✓ HTML sémantique (header, main, footer)
+
+FONCTIONNALITÉS À IMPLÉMENTER:
+-------------------------------
+1. Créer une page HTML pour afficher le quiz
+2. Utiliser un formulaire avec méthode POST
+3. Différents types de questions:
+   - Questions à choix multiples (radio)
+   - Questions vrai/faux (radio)
+   - Questions à réponse courte (text)
+4. Page de résultats séparée
+5. Design CSS basique
+6. Navigation entre les pages
+
+SPÉCIFICATIONS TECHNIQUES:
+--------------------------
+
+FICHIER: quiz.php
+```php
+<?php
+require_once 'functions.php';
+
+// Questions avec différents types
+$questions = [
+    [
+        "question" => "Quelle est la capitale de la France?",
+        "type" => "choix_multiple",
+        "choix" => ["A" => "Londres", "B" => "Paris", "C" => "Berlin", "D" => "Madrid"],
+        "reponse" => "B",
+        "points" => 1
+    ],
+    [
+        "question" => "PHP est un langage de programmation.",
+        "type" => "vrai_faux",
+        "reponse" => "vrai",
+        "points" => 1
+    ],
+    [
+        "question" => "En quelle année a eu lieu la Révolution française?",
+        "type" => "texte",
+        "reponse" => "1789",
+        "points" => 2
+    ]
+];
+
+// Stocker les questions en session pour resultat.php
+session_start();
+$_SESSION['questions'] = $questions;
+?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Interactif</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🎯 Quiz Interactif</h1>
+        <p>Testez vos connaissances!</p>
+    </header>
+
+    <main>
+        <form action="resultat.php" method="POST">
+            <?php foreach ($questions as $index => $q): ?>
+                <div class="question-block">
+                    <h2>Question <?= $index + 1 ?> / <?= count($questions) ?></h2>
+                    <p class="question-text"><?= htmlspecialchars($q['question']) ?></p>
+                    <p class="points">Points: <?= $q['points'] ?></p>
+
+                    <?php if ($q['type'] === 'choix_multiple'): ?>
+                        <!-- Questions à choix multiples -->
+                        <?php foreach ($q['choix'] as $lettre => $option): ?>
+                            <label class="choix">
+                                <input type="radio"
+                                       name="q<?= $index ?>"
+                                       value="<?= $lettre ?>"
+                                       required>
+                                <?= $lettre ?>) <?= htmlspecialchars($option) ?>
+                            </label>
+                        <?php endforeach; ?>
+
+                    <?php elseif ($q['type'] === 'vrai_faux'): ?>
+                        <!-- Questions Vrai/Faux -->
+                        <label class="choix">
+                            <input type="radio"
+                                   name="q<?= $index ?>"
+                                   value="vrai"
+                                   required>
+                            Vrai
+                        </label>
+                        <label class="choix">
+                            <input type="radio"
+                                   name="q<?= $index ?>"
+                                   value="faux">
+                            Faux
+                        </label>
+
+                    <?php elseif ($q['type'] === 'texte'): ?>
+                        <!-- Questions à réponse courte -->
+                        <input type="text"
+                               name="q<?= $index ?>"
+                               class="input-texte"
+                               placeholder="Votre réponse..."
+                               required>
+                    <?php endif; ?>
+                </div>
+            <?php endforeach; ?>
+
+            <div class="boutons">
+                <button type="submit" class="btn-submit">Soumettre</button>
+                <button type="reset" class="btn-reset">Réinitialiser</button>
+            </div>
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Quiz Interactif - Projet d'apprentissage PHP</p>
+    </footer>
+</body>
+</html>
+```
+
+FICHIER: resultat.php
+```php
+<?php
+session_start();
+require_once 'functions.php';
+
+// Récupérer les questions depuis la session
+if (!isset($_SESSION['questions'])) {
+    header('Location: quiz.php');
+    exit;
+}
+
+$questions = $_SESSION['questions'];
+$score = 0;
+$points_max = 0;
+$resultats = [];
+
+// Calculer le score
+foreach ($questions as $index => $q) {
+    $reponse_user = $_POST["q{$index}"] ?? '';
+    $correct = false;
+
+    if ($q['type'] === 'texte') {
+        $correct = verifier_reponse($reponse_user, $q['reponse']);
+    } else {
+        $correct = (strtolower($reponse_user) === strtolower($q['reponse']));
+    }
+
+    if ($correct) {
+        $score += $q['points'];
+    }
+
+    $points_max += $q['points'];
+
+    $resultats[] = [
+        'question' => $q['question'],
+        'reponse_user' => $reponse_user,
+        'reponse_correcte' => $q['reponse'],
+        'correct' => $correct,
+        'points' => $q['points']
+    ];
+}
+
+$pourcentage = calculer_pourcentage($score, $points_max);
+?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats - Quiz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>📊 Résultats du Quiz</h1>
+    </header>
+
+    <main>
+        <div class="score-block">
+            <h2><?= obtenir_feedback($score, $points_max) ?></h2>
+            <p class="score-principal">
+                Score: <strong><?= $score ?></strong> / <?= $points_max ?>
+            </p>
+            <p class="pourcentage">
+                Pourcentage: <strong><?= $pourcentage ?>%</strong>
+            </p>
+        </div>
+
+        <div class="details-resultats">
+            <h3>Détails des réponses</h3>
+
+            <?php foreach ($resultats as $index => $r): ?>
+                <div class="resultat-question <?= $r['correct'] ? 'correct' : 'incorrect' ?>">
+                    <h4>Question <?= $index + 1 ?>: <?= htmlspecialchars($r['question']) ?></h4>
+                    <p><strong>Votre réponse:</strong> <?= htmlspecialchars($r['reponse_user']) ?></p>
+
+                    <?php if (!$r['correct']): ?>
+                        <p class="reponse-correcte">
+                            <strong>Réponse correcte:</strong> <?= htmlspecialchars($r['reponse_correcte']) ?>
+                        </p>
+                    <?php endif; ?>
+
+                    <p class="statut">
+                        <?= $r['correct'] ? '✓ Correct (+' . $r['points'] . ' pts)' : '✗ Incorrect (0 pt)' ?>
+                    </p>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+        <div class="boutons">
+            <a href="quiz.php" class="btn-rejouer">🔄 Rejouer</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Quiz Interactif</p>
+    </footer>
+</body>
+</html>
+```
+
+FICHIER: style.css
+```css
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+header {
+    background: white;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    color: #667eea;
+    margin-bottom: 0.5rem;
+}
+
+main {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+.question-block {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+}
+
+.question-text {
+    font-size: 1.2rem;
+    margin: 1rem 0;
+    font-weight: 600;
+}
+
+.points {
+    color: #667eea;
+    font-weight: bold;
+}
+
+.choix {
+    display: block;
+    padding: 0.8rem;
+    margin: 0.5rem 0;
+    background: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.choix:hover {
+    background: #e9ecef;
+    transform: translateX(5px);
+}
+
+.choix input[type="radio"] {
+    margin-right: 0.5rem;
+}
+
+.input-texte {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.input-texte:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.boutons {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.btn-submit, .btn-reset, .btn-rejouer {
+    padding: 1rem 2rem;
+    margin: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-submit {
+    background: #667eea;
+    color: white;
+}
+
+.btn-submit:hover {
+    background: #5568d3;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-reset {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-rejouer {
+    background: #28a745;
+    color: white;
+}
+
+.score-block {
+    text-align: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+}
+
+.score-principal {
+    font-size: 2rem;
+    margin: 1rem 0;
+}
+
+.pourcentage {
+    font-size: 1.5rem;
+}
+
+.details-resultats {
+    margin-top: 2rem;
+}
+
+.resultat-question {
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+    border-left: 4px solid #ddd;
+}
+
+.resultat-question.correct {
+    background: #d4edda;
+    border-left-color: #28a745;
+}
+
+.resultat-question.incorrect {
+    background: #f8d7da;
+    border-left-color: #dc3545;
+}
+
+.reponse-correcte {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.statut {
+    font-weight: bold;
+    margin-top: 0.5rem;
+}
+
+footer {
+    text-align: center;
+    color: white;
+    padding: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    main {
+        margin: 1rem;
+        padding: 1rem;
+    }
+
+    .question-block {
+        padding: 1rem;
+    }
+}
+```
+
+CRITÈRES DE RÉUSSITE:
+---------------------
+✅ Le formulaire HTML est bien structuré et sémantique
+✅ Différents types d'inputs sont utilisés (radio, text)
+✅ Les données sont récupérées correctement avec $_POST
+✅ Syntaxe alternative (endforeach;) utilisée dans le HTML
+✅ Raccourci <?= utilisé pour tous les affichages
+✅ htmlspecialchars() protège contre XSS
+✅ Le design CSS est propre et responsive
+✅ Navigation entre quiz.php et resultat.php fonctionne
+✅ Les sessions sont utilisées pour transmettre les données
+
+
+================================================================================
+PHASE 7 : SÉCURITÉ ET VALIDATION
+================================================================================
+
+MODULES CONCERNÉS: Module 8 (Validation et sécurité)
+COMPLEXITÉ: ⭐⭐⭐⭐ Avancé
+FICHIERS: inscription.php, validation.php, login.php, connexion.php
+
+CONCEPTS PRATIQUÉS:
+-------------------
+✓ htmlspecialchars() pour protection XSS
+✓ isset() et empty() pour validation
+✓ filter_var() pour validation email
+✓ preg_match() pour expressions régulières (regex)
+✓ trim() pour sanitization
+✓ Array $errors pour messages d'erreur
+
+FONCTIONNALITÉS À IMPLÉMENTER:
+-------------------------------
+1. Formulaire d'inscription utilisateur
+2. Validation complète de tous les champs:
+   - Nom (minimum 2 caractères)
+   - Email (format valide)
+   - Pseudo (regex: 3-15 caractères alphanumériques)
+   - Âge (entre 13 et 120 ans)
+   - Mot de passe (minimum 8 caractères, complexité)
+3. Messages d'erreur clairs et spécifiques
+4. Sanitization de toutes les entrées
+5. Protection contre XSS
+6. Formulaire de connexion avec validation
+
+SPÉCIFICATIONS TECHNIQUES:
+--------------------------
+
+FICHIER: validation.php
+```php
+<?php
+
+/**
+ * Nettoie une entrée utilisateur
+ * @param string $data Données à nettoyer
+ * @return string Données nettoyées
+ */
+function sanitize_input($data) {
+    $data = trim($data);  // Enlever espaces début/fin
+    $data = stripslashes($data);  // Enlever backslashes
+    return $data;
+}
+
+/**
+ * Valide un nom
+ * @param string $nom Nom à valider
+ * @param array &$errors Array pour stocker les erreurs
+ * @return bool true si valide
+ */
+function valider_nom($nom, &$errors) {
+    if (empty($nom)) {
+        $errors[] = "Le nom est requis.";
+        return false;
+    }
+
+    if (strlen($nom) < 2) {
+        $errors[] = "Le nom doit contenir au moins 2 caractères.";
+        return false;
+    }
+
+    if (strlen($nom) > 50) {
+        $errors[] = "Le nom ne doit pas dépasser 50 caractères.";
+        return false;
+    }
+
+    // Vérifier que le nom contient uniquement lettres, espaces, tirets
+    if (!preg_match("/^[a-zA-ZÀ-ÿ\s\-']+$/u", $nom)) {
+        $errors[] = "Le nom ne peut contenir que des lettres, espaces et tirets.";
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * Valide un email
+ * @param string $email Email à valider
+ * @param array &$errors Array pour stocker les erreurs
+ * @return bool true si valide
+ */
+function valider_email($email, &$errors) {
+    if (empty($email)) {
+        $errors[] = "L'email est requis.";
+        return false;
+    }
+
+    // Utiliser filter_var pour validation
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Le format de l'email est invalide.";
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * Valide un pseudo avec regex
+ * @param string $pseudo Pseudo à valider
+ * @param array &$errors Array pour stocker les erreurs
+ * @return bool true si valide
+ */
+function valider_pseudo($pseudo, &$errors) {
+    if (empty($pseudo)) {
+        $errors[] = "Le pseudo est requis.";
+        return false;
+    }
+
+    // Regex: 3-15 caractères, lettres, chiffres, underscore uniquement
+    if (!preg_match('/^[a-zA-Z0-9_]{3,15}$/', $pseudo)) {
+        $errors[] = "Le pseudo doit contenir 3-15 caractères (lettres, chiffres, underscore uniquement).";
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * Valide un âge
+ * @param string|int $age Âge à valider
+ * @param array &$errors Array pour stocker les erreurs
+ * @return bool true si valide
+ */
+function valider_age($age, &$errors) {
+    if (empty($age)) {
+        $errors[] = "L'âge est requis.";
+        return false;
+    }
+
+    if (!is_numeric($age)) {
+        $errors[] = "L'âge doit être un nombre.";
+        return false;
+    }
+
+    $age = (int)$age;
+
+    if ($age < 13 || $age > 120) {
+        $errors[] = "L'âge doit être entre 13 et 120 ans.";
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * Valide un mot de passe
+ * @param string $password Mot de passe à valider
+ * @param array &$errors Array pour stocker les erreurs
+ * @return bool true si valide
+ */
+function valider_mot_de_passe($password, &$errors) {
+    if (empty($password)) {
+        $errors[] = "Le mot de passe est requis.";
+        return false;
+    }
+
+    if (strlen($password) < 8) {
+        $errors[] = "Le mot de passe doit contenir au moins 8 caractères.";
+        return false;
+    }
+
+    // Vérifier complexité: au moins 1 majuscule, 1 minuscule, 1 chiffre
+    if (!preg_match('/[A-Z]/', $password)) {
+        $errors[] = "Le mot de passe doit contenir au moins une lettre majuscule.";
+        return false;
+    }
+
+    if (!preg_match('/[a-z]/', $password)) {
+        $errors[] = "Le mot de passe doit contenir au moins une lettre minuscule.";
+        return false;
+    }
+
+    if (!preg_match('/[0-9]/', $password)) {
+        $errors[] = "Le mot de passe doit contenir au moins un chiffre.";
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * Valide le formulaire d'inscription complet
+ * @param array $data Données du formulaire
+ * @return array ['valid' => bool, 'errors' => array, 'data' => array]
+ */
+function valider_inscription($data) {
+    $errors = [];
+    $clean_data = [];
+
+    // Sanitization
+    $nom = sanitize_input($data['nom'] ?? '');
+    $email = sanitize_input($data['email'] ?? '');
+    $pseudo = sanitize_input($data['pseudo'] ?? '');
+    $age = sanitize_input($data['age'] ?? '');
+    $password = $data['password'] ?? '';  // Ne pas trim le password
+    $password_confirm = $data['password_confirm'] ?? '';
+
+    // Validation
+    valider_nom($nom, $errors);
+    valider_email($email, $errors);
+    valider_pseudo($pseudo, $errors);
+    valider_age($age, $errors);
+    valider_mot_de_passe($password, $errors);
+
+    // Vérifier que les mots de passe correspondent
+    if ($password !== $password_confirm) {
+        $errors[] = "Les mots de passe ne correspondent pas.";
+    }
+
+    // Données nettoyées
+    $clean_data = [
+        'nom' => $nom,
+        'email' => $email,
+        'pseudo' => $pseudo,
+        'age' => (int)$age,
+        'password' => password_hash($password, PASSWORD_DEFAULT)  // Hasher le MDP
+    ];
+
+    return [
+        'valid' => count($errors) === 0,
+        'errors' => $errors,
+        'data' => $clean_data
+    ];
+}
+```
+
+FICHIER: inscription.php
+```php
+<?php
+session_start();
+require_once 'validation.php';
+
+$errors = [];
+$success = false;
+$form_data = [
+    'nom' => '',
+    'email' => '',
+    'pseudo' => '',
+    'age' => ''
+];
+
+// Traiter le formulaire
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $resultat = valider_inscription($_POST);
+
+    if ($resultat['valid']) {
+        // Inscription réussie
+        $success = true;
+
+        // Stocker l'utilisateur en session (simulation DB)
+        $_SESSION['user'] = $resultat['data'];
+
+        // Rediriger après 2 secondes
+        header("refresh:2;url=quiz.php");
+    } else {
+        // Erreurs de validation
+        $errors = $resultat['errors'];
+
+        // Conserver les valeurs saisies (sauf passwords)
+        $form_data['nom'] = htmlspecialchars($_POST['nom'] ?? '');
+        $form_data['email'] = htmlspecialchars($_POST['email'] ?? '');
+        $form_data['pseudo'] = htmlspecialchars($_POST['pseudo'] ?? '');
+        $form_data['age'] = htmlspecialchars($_POST['age'] ?? '');
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - Quiz</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .error-message {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        .error-message ul {
+            margin: 0.5rem 0 0 1.5rem;
+        }
+
+        .success-message {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .required {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📝 Inscription</h1>
+        <p>Créez votre compte pour participer au quiz</p>
+    </header>
+
+    <main>
+        <?php if ($success): ?>
+            <div class="success-message">
+                <h2>✓ Inscription réussie!</h2>
+                <p>Vous allez être redirigé vers le quiz...</p>
+            </div>
+        <?php else: ?>
+            <?php if (count($errors) > 0): ?>
+                <div class="error-message">
+                    <h3>❌ Erreurs de validation:</h3>
+                    <ul>
+                        <?php foreach ($errors as $error): ?>
+                            <li><?= htmlspecialchars($error) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+
+            <form method="POST" action="">
+                <div class="form-group">
+                    <label for="nom">Nom complet <span class="required">*</span></label>
+                    <input type="text"
+                           id="nom"
+                           name="nom"
+                           value="<?= $form_data['nom'] ?>"
+                           placeholder="Ex: Jean Dupont"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email <span class="required">*</span></label>
+                    <input type="email"
+                           id="email"
+                           name="email"
+                           value="<?= $form_data['email'] ?>"
+                           placeholder="Ex: jean@example.com"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="pseudo">Pseudo <span class="required">*</span></label>
+                    <input type="text"
+                           id="pseudo"
+                           name="pseudo"
+                           value="<?= $form_data['pseudo'] ?>"
+                           placeholder="3-15 caractères (lettres, chiffres, _)"
+                           pattern="[a-zA-Z0-9_]{3,15}"
+                           required>
+                    <small>3-15 caractères (lettres, chiffres, underscore uniquement)</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="age">Âge <span class="required">*</span></label>
+                    <input type="number"
+                           id="age"
+                           name="age"
+                           value="<?= $form_data['age'] ?>"
+                           min="13"
+                           max="120"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Mot de passe <span class="required">*</span></label>
+                    <input type="password"
+                           id="password"
+                           name="password"
+                           placeholder="Minimum 8 caractères"
+                           required>
+                    <small>Minimum 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="password_confirm">Confirmer mot de passe <span class="required">*</span></label>
+                    <input type="password"
+                           id="password_confirm"
+                           name="password_confirm"
+                           required>
+                </div>
+
+                <div class="boutons">
+                    <button type="submit" class="btn-submit">S'inscrire</button>
+                    <a href="quiz.php" class="btn-reset">Annuler</a>
+                </div>
+            </form>
+        <?php endif; ?>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Quiz Interactif</p>
+    </footer>
+</body>
+</html>
+```
+
+CRITÈRES DE RÉUSSITE:
+---------------------
+✅ Toutes les entrées sont nettoyées avec sanitize_input()
+✅ Tous les champs sont validés avec des fonctions dédiées
+✅ Les regex sont utilisées pour pseudo et mot de passe
+✅ filter_var() valide l'email
+✅ htmlspecialchars() protège tous les affichages
+✅ Les erreurs sont stockées dans un array
+✅ Les messages d'erreur sont clairs et spécifiques
+✅ Les données du formulaire sont conservées après erreur
+✅ Le mot de passe est hashé avec password_hash()
+✅ Validation HTML5 ET serveur (défense en profondeur)
+
+
+================================================================================
+PHASE 8 : INTRODUCTION À LA POO
+================================================================================
+
+MODULES CONCERNÉS: Module 9 (POO - Partie 1: Classes de base)
+COMPLEXITÉ: ⭐⭐⭐⭐ Avancé
+FICHIERS: classes/Question.php, classes/Quiz.php, classes/User.php, quiz_poo.php
+
+CONCEPTS PRATIQUÉS:
+-------------------
+✓ Créer des classes avec class
+✓ Propriétés public/private
+✓ Méthodes (fonctions dans une classe)
+✓ Créer des objets avec new
+✓ Opérateur -> pour accès
+✓ $this pour référencer l'objet
+✓ Constructeur __construct()
+✓ Encapsulation (getters/setters)
+
+FONCTIONNALITÉS À IMPLÉMENTER:
+-------------------------------
+1. Créer une classe Question avec propriétés et méthodes
+2. Créer une classe Quiz pour gérer les questions
+3. Créer une classe User pour gérer l'utilisateur
+4. Utiliser l'encapsulation (propriétés private, méthodes public)
+5. Créer des getters et setters
+6. Transformer le quiz existant en version POO
+
+SPÉCIFICATIONS TECHNIQUES:
+--------------------------
+
+FICHIER: classes/Question.php
+```php
+<?php
+
+/**
+ * Classe Question - Représente une question de quiz
+ */
+class Question {
+    // Propriétés PRIVATE (encapsulation)
+    private $texte;
+    private $reponse_correcte;
+    private $points;
+    private $categorie;
+    private $type;  // "choix_multiple", "vrai_faux", "texte"
+    private $choix; // Pour questions à choix multiples
+
+    /**
+     * Constructeur - Initialise une nouvelle question
+     * @param string $texte Le texte de la question
+     * @param string $reponse La réponse correcte
+     * @param int $points Nombre de points (défaut: 1)
+     * @param string $categorie Catégorie (défaut: "Général")
+     * @param string $type Type de question
+     * @param array $choix Choix pour QCM
+     */
+    public function __construct(
+        $texte,
+        $reponse,
+        $points = 1,
+        $categorie = "Général",
+        $type = "texte",
+        $choix = []
+    ) {
+        $this->texte = $texte;
+        $this->reponse_correcte = $reponse;
+        $this->points = $points;
+        $this->categorie = $categorie;
+        $this->type = $type;
+        $this->choix = $choix;
+    }
+
+    /**
+     * Affiche la question formatée
+     */
+    public function afficher() {
+        echo $this->texte;
+    }
+
+    /**
+     * Vérifie si la réponse de l'utilisateur est correcte
+     * @param string $reponse_user Réponse de l'utilisateur
+     * @return bool true si correct
+     */
+    public function verifier($reponse_user) {
+        $user_clean = trim(strtolower($reponse_user));
+        $correct_clean = trim(strtolower($this->reponse_correcte));
+
+        return $user_clean === $correct_clean;
+    }
+
+    /**
+     * Affiche le HTML de la question selon son type
+     * @param int $index Index de la question
+     * @return string HTML de la question
+     */
+    public function afficherHTML($index) {
+        $html = "<div class='question-block'>\n";
+        $html .= "<p class='question-text'>" . htmlspecialchars($this->texte) . "</p>\n";
+        $html .= "<p class='points'>Points: {$this->points}</p>\n";
+
+        if ($this->type === 'choix_multiple') {
+            foreach ($this->choix as $lettre => $option) {
+                $html .= "<label class='choix'>\n";
+                $html .= "<input type='radio' name='q{$index}' value='{$lettre}' required>\n";
+                $html .= "{$lettre}) " . htmlspecialchars($option) . "\n";
+                $html .= "</label>\n";
+            }
+        } elseif ($this->type === 'vrai_faux') {
+            $html .= "<label class='choix'>\n";
+            $html .= "<input type='radio' name='q{$index}' value='vrai' required>\n";
+            $html .= "Vrai\n";
+            $html .= "</label>\n";
+            $html .= "<label class='choix'>\n";
+            $html .= "<input type='radio' name='q{$index}' value='faux'>\n";
+            $html .= "Faux\n";
+            $html .= "</label>\n";
+        } else {
+            $html .= "<input type='text' name='q{$index}' class='input-texte' required>\n";
+        }
+
+        $html .= "</div>\n";
+        return $html;
+    }
+
+    // GETTERS (accès en lecture aux propriétés privées)
+    public function getTexte() {
+        return $this->texte;
+    }
+
+    public function getReponseCorrecte() {
+        return $this->reponse_correcte;
+    }
+
+    public function getPoints() {
+        return $this->points;
+    }
+
+    public function getCategorie() {
+        return $this->categorie;
+    }
+
+    public function getType() {
+        return $this->type;
+    }
+
+    public function getChoix() {
+        return $this->choix;
+    }
+
+    // SETTERS (modification contrôlée des propriétés)
+    public function setPoints($points) {
+        if ($points > 0) {
+            $this->points = $points;
+        }
+    }
+
+    public function setCategorie($categorie) {
+        $this->categorie = $categorie;
+    }
+}
+```
+
+FICHIER: classes/Quiz.php
+```php
+<?php
+
+require_once 'Question.php';
+require_once 'User.php';
+
+/**
+ * Classe Quiz - Gère un quiz complet
+ */
+class Quiz {
+    private $nom_quiz;
+    private $questions = [];
+    private $score_actuel = 0;
+    private $user;
+
+    /**
+     * Constructeur
+     * @param string $nom Nom du quiz
+     * @param User $user Utilisateur qui joue
+     */
+    public function __construct($nom, $user = null) {
+        $this->nom_quiz = $nom;
+        $this->user = $user;
+    }
+
+    /**
+     * Ajoute une question au quiz
+     * @param Question $question Objet Question à ajouter
+     */
+    public function ajouterQuestion($question) {
+        $this->questions[] = $question;
+    }
+
+    /**
+     * Affiche toutes les questions en HTML
+     */
+    public function afficherQuestionsHTML() {
+        foreach ($this->questions as $index => $question) {
+            echo $question->afficherHTML($index);
+        }
+    }
+
+    /**
+     * Calcule le score à partir des réponses POST
+     * @param array $reponses_post Tableau $_POST avec les réponses
+     * @return array ['score' => int, 'max' => int, 'details' => array]
+     */
+    public function calculerScore($reponses_post) {
+        $this->score_actuel = 0;
+        $points_max = 0;
+        $details = [];
+
+        foreach ($this->questions as $index => $question) {
+            $reponse_user = $reponses_post["q{$index}"] ?? '';
+            $correct = $question->verifier($reponse_user);
+
+            if ($correct) {
+                $this->score_actuel += $question->getPoints();
+            }
+
+            $points_max += $question->getPoints();
+
+            $details[] = [
+                'question' => $question->getTexte(),
+                'reponse_user' => $reponse_user,
+                'reponse_correcte' => $question->getReponseCorrecte(),
+                'correct' => $correct,
+                'points' => $question->getPoints()
+            ];
+        }
+
+        // Ajouter le résultat à l'historique de l'utilisateur
+        if ($this->user !== null) {
+            $this->user->ajouterResultat($this->score_actuel, $points_max);
+        }
+
+        return [
+            'score' => $this->score_actuel,
+            'max' => $points_max,
+            'details' => $details
+        ];
+    }
+
+    /**
+     * Retourne le nombre de questions
+     * @return int Nombre de questions
+     */
+    public function getNombreQuestions() {
+        return count($this->questions);
+    }
+
+    /**
+     * Retourne le score maximum possible
+     * @return int Score maximum
+     */
+    public function getScoreMaximum() {
+        $total = 0;
+        foreach ($this->questions as $question) {
+            $total += $question->getPoints();
+        }
+        return $total;
+    }
+
+    // GETTERS
+    public function getNom() {
+        return $this->nom_quiz;
+    }
+
+    public function getQuestions() {
+        return $this->questions;
+    }
+
+    public function getScoreActuel() {
+        return $this->score_actuel;
+    }
+
+    public function getUser() {
+        return $this->user;
+    }
+
+    // SETTERS
+    public function setUser($user) {
+        $this->user = $user;
+    }
+}
+```
+
+FICHIER: classes/User.php
+```php
+<?php
+
+/**
+ * Classe User - Représente un utilisateur du quiz
+ */
+class User {
+    private $nom;
+    private $email;
+    private $pseudo;
+    private $meilleur_score = 0;
+    private $historique_quiz = [];
+
+    /**
+     * Constructeur
+     * @param string $nom Nom complet
+     * @param string $email Email
+     * @param string $pseudo Pseudo
+     */
+    public function __construct($nom, $email, $pseudo) {
+        $this->nom = $nom;
+        $this->email = $email;
+        $this->pseudo = $pseudo;
+    }
+
+    /**
+     * Ajoute un résultat de quiz à l'historique
+     * @param int $score Score obtenu
+     * @param int $max_score Score maximum possible
+     */
+    public function ajouterResultat($score, $max_score) {
+        $pourcentage = ($max_score > 0) ? round(($score / $max_score) * 100, 2) : 0;
+
+        $this->historique_quiz[] = [
+            'score' => $score,
+            'max' => $max_score,
+            'pourcentage' => $pourcentage,
+            'date' => date('Y-m-d H:i:s')
+        ];
+
+        // Mettre à jour le meilleur score
+        if ($score > $this->meilleur_score) {
+            $this->meilleur_score = $score;
+        }
+    }
+
+    /**
+     * Affiche les statistiques de l'utilisateur
+     */
+    public function afficherStats() {
+        echo "<h3>Statistiques de {$this->pseudo}</h3>\n";
+        echo "<p>Nombre de quiz: " . count($this->historique_quiz) . "</p>\n";
+        echo "<p>Meilleur score: {$this->meilleur_score}</p>\n";
+
+        if (count($this->historique_quiz) > 0) {
+            $total = 0;
+            foreach ($this->historique_quiz as $quiz) {
+                $total += $quiz['pourcentage'];
+            }
+            $moyenne = round($total / count($this->historique_quiz), 2);
+            echo "<p>Pourcentage moyen: {$moyenne}%</p>\n";
+        }
+    }
+
+    /**
+     * Retourne l'historique complet
+     * @return array Historique des quiz
+     */
+    public function getHistorique() {
+        return $this->historique_quiz;
+    }
+
+    // GETTERS
+    public function getNom() {
+        return $this->nom;
+    }
+
+    public function getEmail() {
+        return $this->email;
+    }
+
+    public function getPseudo() {
+        return $this->pseudo;
+    }
+
+    public function getMeilleurScore() {
+        return $this->meilleur_score;
+    }
+}
+```
+
+FICHIER: quiz_poo.php
+```php
+<?php
+session_start();
+require_once 'classes/Question.php';
+require_once 'classes/Quiz.php';
+require_once 'classes/User.php';
+
+// Créer un utilisateur (ou récupérer depuis session)
+if (!isset($_SESSION['user'])) {
+    $user = new User("Jean Dupont", "jean@example.com", "jean_quiz");
+    $_SESSION['user'] = $user;
+} else {
+    $user = $_SESSION['user'];
+}
+
+// Créer le quiz
+$quiz = new Quiz("Quiz de Culture Générale", $user);
+
+// Ajouter des questions (objets Question)
+$quiz->ajouterQuestion(new Question(
+    "Quelle est la capitale de la France?",
+    "B",
+    1,
+    "Géographie",
+    "choix_multiple",
+    ["A" => "Londres", "B" => "Paris", "C" => "Berlin", "D" => "Madrid"]
+));
+
+$quiz->ajouterQuestion(new Question(
+    "PHP est un langage de programmation.",
+    "vrai",
+    1,
+    "Informatique",
+    "vrai_faux"
+));
+
+$quiz->ajouterQuestion(new Question(
+    "En quelle année a eu lieu la Révolution française?",
+    "1789",
+    2,
+    "Histoire",
+    "texte"
+));
+
+// Stocker le quiz en session
+$_SESSION['quiz'] = $quiz;
+?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= $quiz->getNom() ?></title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🎯 <?= htmlspecialchars($quiz->getNom()) ?></h1>
+        <p>Joueur: <strong><?= htmlspecialchars($user->getPseudo()) ?></strong></p>
+    </header>
+
+    <main>
+        <form action="resultat_poo.php" method="POST">
+            <?php $quiz->afficherQuestionsHTML(); ?>
+
+            <div class="boutons">
+                <button type="submit" class="btn-submit">Soumettre</button>
+            </div>
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Quiz POO - Version orientée objet</p>
+    </footer>
+</body>
+</html>
+```
+
+FICHIER: resultat_poo.php
+```php
+<?php
+session_start();
+require_once 'classes/Quiz.php';
+
+// Récupérer le quiz depuis la session
+if (!isset($_SESSION['quiz'])) {
+    header('Location: quiz_poo.php');
+    exit;
+}
+
+$quiz = $_SESSION['quiz'];
+$resultat = $quiz->calculerScore($_POST);
+$user = $quiz->getUser();
+?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Résultats - <?= $quiz->getNom() ?></title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>📊 Résultats</h1>
+    </header>
+
+    <main>
+        <div class="score-block">
+            <h2>Score: <?= $resultat['score'] ?> / <?= $resultat['max'] ?></h2>
+            <p>Pourcentage: <?= round(($resultat['score']/$resultat['max'])*100, 2) ?>%</p>
+        </div>
+
+        <?php if ($user !== null): ?>
+            <div class="stats-user">
+                <?php $user->afficherStats(); ?>
+            </div>
+        <?php endif; ?>
+
+        <div class="boutons">
+            <a href="quiz_poo.php" class="btn-rejouer">🔄 Rejouer</a>
+        </div>
+    </main>
+</body>
+</html>
+```
+
+CRITÈRES DE RÉUSSITE:
+---------------------
+✅ Les classes Question, Quiz, User sont correctement définies
+✅ L'encapsulation fonctionne (propriétés private, méthodes public)
+✅ Le constructeur __construct() initialise les objets
+✅ $this est utilisé correctement dans toutes les méthodes
+✅ Les getters et setters fonctionnent
+✅ On peut créer plusieurs objets indépendants
+✅ Le code est plus organisé et réutilisable qu'en procédural
+✅ L'opérateur -> est utilisé pour accéder aux propriétés/méthodes
+
+
+================================================================================
+PHASE 9 : POO AVANCÉE (HÉRITAGE ET STATIC)
+================================================================================
+
+MODULES CONCERNÉS: Module 9 (POO - Partie 2: Héritage, Static)
+COMPLEXITÉ: ⭐⭐⭐⭐⭐ Expert
+FICHIERS: classes/QuestionBase.php, classes/QuestionChoixMultiple.php,
+          classes/QuestionVraiFaux.php, classes/QuestionTexte.php,
+          classes/QuizUtils.php
+
+CONCEPTS PRATIQUÉS:
+-------------------
+✓ Héritage avec extends
+✓ Propriétés protected (partagées avec enfants)
+✓ Méthodes protected
+✓ parent:: pour appeler la méthode parente
+✓ Surcharge de méthodes (override)
+✓ Méthodes et propriétés static
+✓ self:: pour accéder aux membres static
+✓ Opérateur :: (scope resolution)
+
+FONCTIONNALITÉS À IMPLÉMENTER:
+-------------------------------
+1. Créer une classe de base QuestionBase
+2. Créer des classes spécialisées héritant de QuestionBase:
+   - QuestionChoixMultiple
+   - QuestionVraiFaux
+   - QuestionTexte
+3. Utiliser protected pour partager avec les enfants
+4. Surcharger les méthodes dans les classes enfants
+5. Créer une classe utilitaire QuizUtils avec membres static
+6. Utiliser static pour compteur global de quiz
+
+SPÉCIFICATIONS TECHNIQUES:
+--------------------------
+
+FICHIER: classes/QuestionBase.php
+```php
+<?php
+
+/**
+ * Classe abstraite de base pour toutes les questions
+ */
+class QuestionBase {
+    // Propriétés PROTECTED - accessibles dans les classes enfants
+    protected $texte;
+    protected $reponse_correcte;
+    protected $points;
+    protected $categorie;
+    protected $difficulte;  // "facile", "moyen", "difficile"
+
+    /**
+     * Constructeur
+     */
+    public function __construct($texte, $reponse, $points = 1, $categorie = "Général", $difficulte = "moyen") {
+        $this->texte = $texte;
+        $this->reponse_correcte = $reponse;
+        $this->points = $points;
+        $this->categorie = $categorie;
+        $this->difficulte = $difficulte;
+    }
+
+    /**
+     * Affiche le texte de la question
+     * Peut être surchargée par les enfants
+     */
+    public function afficher() {
+        echo $this->texte;
+    }
+
+    /**
+     * Vérifie la réponse - À SURCHARGER dans les classes enfants
+     * @param string $reponse Réponse de l'utilisateur
+     * @return bool
+     */
+    public function verifier($reponse) {
+        // Méthode de base - sera surchargée
+        $user_clean = trim(strtolower($reponse));
+        $correct_clean = trim(strtolower($this->reponse_correcte));
+        return $user_clean === $correct_clean;
+    }
+
+    /**
+     * Retourne le badge de difficulté
+     * @return string HTML du badge
+     */
+    protected function getBadgeDifficulte() {
+        $couleurs = [
+            'facile' => 'green',
+            'moyen' => 'orange',
+            'difficile' => 'red'
+        ];
+
+        $couleur = $couleurs[$this->difficulte] ?? 'gray';
+        return "<span class='badge' style='color: {$couleur}'>{$this->difficulte}</span>";
+    }
+
+    // GETTERS publics
+    public function getTexte() {
+        return $this->texte;
+    }
+
+    public function getReponseCorrecte() {
+        return $this->reponse_correcte;
+    }
+
+    public function getPoints() {
+        return $this->points;
+    }
+
+    public function getCategorie() {
+        return $this->categorie;
+    }
+
+    public function getDifficulte() {
+        return $this->difficulte;
+    }
+}
+```
+
+FICHIER: classes/QuestionChoixMultiple.php
+```php
+<?php
+
+require_once 'QuestionBase.php';
+
+/**
+ * Question à choix multiples - HÉRITE de QuestionBase
+ */
+class QuestionChoixMultiple extends QuestionBase {
+    private $choix = [];  // Array des choix possibles
+
+    /**
+     * Constructeur - appelle le constructeur parent
+     */
+    public function __construct($texte, $choix, $reponse_correcte, $points = 1, $categorie = "Général", $difficulte = "moyen") {
+        // Appeler le constructeur du parent avec parent::
+        parent::__construct($texte, $reponse_correcte, $points, $categorie, $difficulte);
+
+        $this->choix = $choix;
+    }
+
+    /**
+     * SURCHARGE de la méthode afficher()
+     * Affiche la question ET les choix
+     */
+    public function afficher() {
+        // Appeler la méthode du parent
+        parent::afficher();
+
+        // Ajouter l'affichage des choix
+        echo "\n";
+        foreach ($this->choix as $lettre => $texte_choix) {
+            echo "{$lettre}) {$texte_choix}\n";
+        }
+    }
+
+    /**
+     * SURCHARGE de verifier()
+     * Vérifie la lettre choisie
+     */
+    public function verifier($reponse) {
+        return strtoupper(trim($reponse)) === strtoupper($this->reponse_correcte);
+    }
+
+    /**
+     * Affiche en HTML (nouveau)
+     */
+    public function afficherHTML($index) {
+        $html = "<div class='question-block qcm'>\n";
+        $html .= "<p class='question-text'>" . htmlspecialchars($this->texte) . "</p>\n";
+        $html .= "<p class='meta'>Catégorie: {$this->categorie} | ";
+        $html .= $this->getBadgeDifficulte();  // Utilise méthode protected du parent
+        $html .= " | Points: {$this->points}</p>\n";
+
+        foreach ($this->choix as $lettre => $texte_choix) {
+            $html .= "<label class='choix'>\n";
+            $html .= "<input type='radio' name='q{$index}' value='{$lettre}' required>\n";
+            $html .= "{$lettre}) " . htmlspecialchars($texte_choix) . "\n";
+            $html .= "</label>\n";
+        }
+
+        $html .= "</div>\n";
+        return $html;
+    }
+
+    // Getter spécifique à cette classe
+    public function getChoix() {
+        return $this->choix;
+    }
+}
+```
+
+FICHIER: classes/QuestionVraiFaux.php
+```php
+<?php
+
+require_once 'QuestionBase.php';
+
+/**
+ * Question Vrai/Faux - HÉRITE de QuestionBase
+ */
+class QuestionVraiFaux extends QuestionBase {
+
+    /**
+     * Constructeur
+     * La réponse correcte doit être "vrai" ou "faux"
+     */
+    public function __construct($texte, $reponse_correcte, $points = 1, $categorie = "Général", $difficulte = "facile") {
+        // Validation: la réponse doit être vrai ou faux
+        $reponse_lower = strtolower($reponse_correcte);
+        if ($reponse_lower !== 'vrai' && $reponse_lower !== 'faux') {
+            $reponse_correcte = 'vrai';  // Valeur par défaut
+        }
+
+        parent::__construct($texte, $reponse_lower, $points, $categorie, $difficulte);
+    }
+
+    /**
+     * SURCHARGE de afficher()
+     */
+    public function afficher() {
+        parent::afficher();
+        echo "\nVrai ou Faux?\n";
+    }
+
+    /**
+     * SURCHARGE de verifier()
+     */
+    public function verifier($reponse) {
+        $reponse_lower = strtolower(trim($reponse));
+
+        // Accepter différentes variantes
+        $vrai_variantes = ['vrai', 'v', 'true', 't', '1'];
+        $faux_variantes = ['faux', 'f', 'false', '0'];
+
+        if (in_array($reponse_lower, $vrai_variantes)) {
+            $reponse_lower = 'vrai';
+        } elseif (in_array($reponse_lower, $faux_variantes)) {
+            $reponse_lower = 'faux';
+        }
+
+        return $reponse_lower === $this->reponse_correcte;
+    }
+
+    /**
+     * Affichage HTML
+     */
+    public function afficherHTML($index) {
+        $html = "<div class='question-block vrai-faux'>\n";
+        $html .= "<p class='question-text'>" . htmlspecialchars($this->texte) . "</p>\n";
+        $html .= "<p class='meta'>Catégorie: {$this->categorie} | ";
+        $html .= $this->getBadgeDifficulte();
+        $html .= " | Points: {$this->points}</p>\n";
+
+        $html .= "<div class='vf-choix'>\n";
+        $html .= "<label class='choix vrai'>\n";
+        $html .= "<input type='radio' name='q{$index}' value='vrai' required>\n";
+        $html .= "✓ VRAI\n";
+        $html .= "</label>\n";
+        $html .= "<label class='choix faux'>\n";
+        $html .= "<input type='radio' name='q{$index}' value='faux'>\n";
+        $html .= "✗ FAUX\n";
+        $html .= "</label>\n";
+        $html .= "</div>\n";
+
+        $html .= "</div>\n";
+        return $html;
+    }
+}
+```
+
+FICHIER: classes/QuestionTexte.php
+```php
+<?php
+
+require_once 'QuestionBase.php';
+
+/**
+ * Question à réponse texte - HÉRITE de QuestionBase
+ */
+class QuestionTexte extends QuestionBase {
+    private $sensible_casse;  // true si la casse est importante
+    private $reponses_acceptees = [];  // Variantes acceptées
+
+    /**
+     * Constructeur
+     */
+    public function __construct(
+        $texte,
+        $reponse,
+        $points = 1,
+        $categorie = "Général",
+        $difficulte = "moyen",
+        $sensible_casse = false,
+        $reponses_acceptees = []
+    ) {
+        parent::__construct($texte, $reponse, $points, $categorie, $difficulte);
+
+        $this->sensible_casse = $sensible_casse;
+        $this->reponses_acceptees = $reponses_acceptees;
+    }
+
+    /**
+     * SURCHARGE de verifier()
+     * Gère les variantes et la casse
+     */
+    public function verifier($reponse) {
+        $reponse = trim($reponse);
+
+        // Vérifier la réponse principale
+        if ($this->sensible_casse) {
+            $correct = ($reponse === $this->reponse_correcte);
+        } else {
+            $correct = (strtolower($reponse) === strtolower($this->reponse_correcte));
+        }
+
+        // Si pas correct, vérifier les variantes acceptées
+        if (!$correct && count($this->reponses_acceptees) > 0) {
+            foreach ($this->reponses_acceptees as $variante) {
+                if ($this->sensible_casse) {
+                    if ($reponse === $variante) {
+                        $correct = true;
+                        break;
+                    }
+                } else {
+                    if (strtolower($reponse) === strtolower($variante)) {
+                        $correct = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return $correct;
+    }
+
+    /**
+     * Affichage HTML
+     */
+    public function afficherHTML($index) {
+        $html = "<div class='question-block texte'>\n";
+        $html .= "<p class='question-text'>" . htmlspecialchars($this->texte) . "</p>\n";
+        $html .= "<p class='meta'>Catégorie: {$this->categorie} | ";
+        $html .= $this->getBadgeDifficulte();
+        $html .= " | Points: {$this->points}</p>\n";
+
+        $html .= "<input type='text' name='q{$index}' class='input-texte' ";
+        $html .= "placeholder='Votre réponse...' required>\n";
+
+        if ($this->sensible_casse) {
+            $html .= "<small class='info'>⚠️ Attention à la casse (majuscules/minuscules)</small>\n";
+        }
+
+        $html .= "</div>\n";
+        return $html;
+    }
+
+    // Getters spécifiques
+    public function isSensibleCasse() {
+        return $this->sensible_casse;
+    }
+
+    public function getReponsesAcceptees() {
+        return $this->reponses_acceptees;
+    }
+}
+```
+
+FICHIER: classes/QuizUtils.php
+```php
+<?php
+
+/**
+ * Classe utilitaire avec méthodes et propriétés STATIC
+ * Utilisée pour des fonctions globales et compteurs
+ */
+class QuizUtils {
+    // Propriété STATIC - partagée entre toutes les instances
+    public static $total_quiz_joues = 0;
+    private static $total_questions_posees = 0;
+
+    /**
+     * Mélange un array de questions
+     * Méthode STATIC - peut être appelée sans instancier la classe
+     * @param array &$questions Array de questions (par référence)
+     */
+    public static function melangerQuestions(&$questions) {
+        shuffle($questions);
+        echo "Questions mélangées!\n";
+    }
+
+    /**
+     * Incrémente le compteur de quiz joués
+     */
+    public static function incrementerTotalQuiz() {
+        self::$total_quiz_joues++;  // Utiliser self:: pour accéder aux membres static
+    }
+
+    /**
+     * Incrémente le compteur de questions posées
+     * @param int $nombre Nombre de questions à ajouter
+     */
+    public static function incrementerQuestions($nombre) {
+        self::$total_questions_posees += $nombre;
+    }
+
+    /**
+     * Retourne le nombre total de quiz joués
+     * @return int
+     */
+    public static function getTotalQuizJoues() {
+        return self::$total_quiz_joues;
+    }
+
+    /**
+     * Retourne le nombre total de questions posées
+     * @return int
+     */
+    public static function getTotalQuestionsP osees() {
+        return self::$total_questions_posees;
+    }
+
+    /**
+     * Calcule un pourcentage
+     * @param float $score Score obtenu
+     * @param float $total Total possible
+     * @return float Pourcentage
+     */
+    public static function calculerPourcentage($score, $total) {
+        if ($total === 0) {
+            return 0.0;
+        }
+        return round(($score / $total) * 100, 2);
+    }
+
+    /**
+     * Retourne un feedback selon le pourcentage
+     * @param float $pourcentage Pourcentage de réussite
+     * @return string Message
+     */
+    public static function getFeedback($pourcentage) {
+        if ($pourcentage === 100) {
+            return "🏆 PARFAIT!";
+        } elseif ($pourcentage >= 80) {
+            return "🌟 EXCELLENT!";
+        } elseif ($pourcentage >= 60) {
+            return "👍 BIEN!";
+        } elseif ($pourcentage >= 40) {
+            return "😊 PAS MAL!";
+        } else {
+            return "💪 CONTINUEZ!";
+        }
+    }
+
+    /**
+     * Affiche les statistiques globales
+     */
+    public static function afficherStatistiquesGlobales() {
+        echo "\n=== STATISTIQUES GLOBALES ===\n";
+        echo "Quiz joués au total: " . self::$total_quiz_joues . "\n";
+        echo "Questions posées au total: " . self::$total_questions_posees . "\n";
+
+        if (self::$total_quiz_joues > 0) {
+            $moyenne_questions = round(self::$total_questions_posees / self::$total_quiz_joues, 2);
+            echo "Moyenne de questions par quiz: {$moyenne_questions}\n";
+        }
+    }
+}
+```
+
+EXEMPLE D'UTILISATION:
+```php
+<?php
+require_once 'classes/QuestionChoixMultiple.php';
+require_once 'classes/QuestionVraiFaux.php';
+require_once 'classes/QuestionTexte.php';
+require_once 'classes/QuizUtils.php';
+
+// Créer différents types de questions (polymorphisme)
+$q1 = new QuestionChoixMultiple(
+    "Quelle est la capitale de la France?",
+    ["A" => "Londres", "B" => "Paris", "C" => "Berlin"],
+    "B",
+    1,
+    "Géographie",
+    "facile"
+);
+
+$q2 = new QuestionVraiFaux(
+    "PHP signifie 'Personal Home Page'.",
+    "faux",
+    1,
+    "Informatique",
+    "moyen"
+);
+
+$q3 = new QuestionTexte(
+    "Qui a peint la Joconde?",
+    "Léonard de Vinci",
+    2,
+    "Art",
+    "moyen",
+    false,  // Pas sensible à la casse
+    ["Léonard", "Da Vinci", "Leonardo da Vinci"]  // Variantes acceptées
+);
+
+$questions = [$q1, $q2, $q3];
+
+// Utiliser les méthodes STATIC (sans instancier QuizUtils)
+QuizUtils::melangerQuestions($questions);
+QuizUtils::incrementerTotalQuiz();
+QuizUtils::incrementerQuestions(count($questions));
+
+// Afficher chaque question (polymorphisme - même méthode, comportements différents)
+foreach ($questions as $index => $question) {
+    echo "\nQuestion " . ($index + 1) . ":\n";
+    $question->afficher();  // Appelle la version surchargée selon le type
+
+    $reponse_user = readline("Votre réponse: ");
+
+    if ($question->verifier($reponse_user)) {
+        echo "✓ Correct! +{$question->getPoints()} points\n";
+    } else {
+        echo "✗ Faux.\n";
+    }
+}
+
+// Afficher statistiques globales avec méthode static
+QuizUtils::afficherStatistiquesGlobales();
+
+// Accéder directement à la propriété static publique
+echo "\nTotal quiz: " . QuizUtils::$total_quiz_joues . "\n";
+```
+
+CRITÈRES DE RÉUSSITE:
+---------------------
+✅ QuestionBase sert de classe parente
+✅ QuestionChoixMultiple, QuestionVraiFaux, QuestionTexte héritent correctement
+✅ protected permet le partage avec les classes enfants
+✅ parent:: est utilisé pour appeler les méthodes parentes
+✅ Les méthodes sont surchargées (afficher, verifier)
+✅ QuizUtils utilise static correctement
+✅ self:: accède aux membres static
+✅ Les méthodes static peuvent être appelées sans instancier (::)
+✅ Le polymorphisme fonctionne (même interface, comportements différents)
+✅ Le code est réutilisable et extensible
+
+
+================================================================================
+PHASE 10 : APPLICATION COMPLÈTE INTÉGRÉE
+================================================================================
+
+MODULES CONCERNÉS: TOUS les modules (1-10)
+COMPLEXITÉ: ⭐⭐⭐⭐⭐ Expert
+FICHIERS: 10+ fichiers organisés en architecture MVC simplifiée
+
+CONCEPTS PRATIQUÉS:
+-------------------
+✓ TOUS les concepts des phases précédentes
+✓ Architecture organisée en dossiers
+✓ Séparation des responsabilités
+✓ Sessions PHP
+✓ Système complet et professionnel
+
+ARCHITECTURE DU PROJET:
+-----------------------
+```
+quiz-app/
+├── classes/
+│   ├── QuestionBase.php
+│   ├── QuestionChoixMultiple.php
+│   ├── QuestionVraiFaux.php
+│   ├── QuestionTexte.php
+│   ├── Quiz.php
+│   ├── QuizManager.php
+│   ├── User.php
+│   ├── Database.php (simulation avec arrays static)
+│   └── QuizUtils.php
+│
+├── includes/
+│   ├── config.php (configuration globale)
+│   ├── functions.php (fonctions utilitaires)
+│   ├── validation.php (fonctions de validation)
+│   └── session.php (gestion des sessions)
+│
+├── pages/
+│   ├── index.php (page d'accueil)
+│   ├── inscription.php
+│   ├── connexion.php
+│   ├── categories.php (choix de catégorie)
+│   ├── quiz.php (quiz en cours)
+│   ├── resultat.php
+│   ├── profil.php (profil utilisateur)
+│   ├── classement.php (leaderboard)
+│   └── deconnexion.php
+│
+├── assets/
+│   ├── css/
+│   │   ├── style.css
+│   │   └── responsive.css
+│   ├── js/
+│   │   ├── timer.js
+│   │   └── quiz.js
+│   └── images/
+│       └── logo.png
+│
+├── data/
+│   └── questions.json (banque de questions)
+│
+└── README.md
+```
+
+FONCTIONNALITÉS COMPLÈTES:
+--------------------------
+
+1. **SYSTÈME D'AUTHENTIFICATION**
+   - Inscription avec validation complète
+   - Connexion/Déconnexion
+   - Sessions PHP sécurisées
+   - Mots de passe hashés
+
+2. **GESTION DES QUIZ**
+   - Choix de catégorie (Géographie, Histoire, Sciences, etc.)
+   - Choix de difficulté (Facile, Moyen, Difficile)
+   - Choix du nombre de questions (5, 10, 15, 20)
+   - Timer optionnel par question
+   - Différents types de questions (QCM, V/F, Texte)
+
+3. **SYSTÈME DE SCORE**
+   - Calcul du score en temps réel
+   - Bonus pour rapidité (si timer activé)
+   - Historique personnel
+   - Classement global (leaderboard)
+
+4. **PROFIL UTILISATEUR**
+   - Statistiques détaillées
+   - Historique des quiz
+   - Meilleur score
+   - Pourcentage moyen
+   - Badges/Récompenses (Bronze, Argent, Or)
+
+5. **FEATURES AVANCÉES**
+   - Mode Défi (10 questions chronométrées)
+   - Export des résultats en CSV
+   - Questions aléatoires
+   - Mode sombre/clair
+   - Design responsive (mobile-friendly)
+
+SPÉCIFICATIONS TECHNIQUES PRINCIPALES:
+--------------------------------------
+
+FICHIER: classes/Database.php
+```php
+<?php
+
+/**
+ * Simulation de base de données avec arrays static
+ * En production, utiliser une vraie DB (MySQL, PostgreSQL)
+ */
+class Database {
+    private static $users = [];
+    private static $questions = [];
+    private static $scores = [];
+
+    /**
+     * Initialise la base avec des questions par défaut
+     */
+    public static function init() {
+        self::loadQuestionsFromJSON();
+    }
+
+    /**
+     * Charge les questions depuis un fichier JSON
+     */
+    private static function loadQuestionsFromJSON() {
+        $json_file = __DIR__ . '/../data/questions.json';
+        if (file_exists($json_file)) {
+            $json_data = file_get_contents($json_file);
+            $data = json_decode($json_data, true);
+
+            foreach ($data['questions'] as $q) {
+                if ($q['type'] === 'choix_multiple') {
+                    self::$questions[] = new QuestionChoixMultiple(
+                        $q['texte'],
+                        $q['choix'],
+                        $q['reponse'],
+                        $q['points'],
+                        $q['categorie'],
+                        $q['difficulte']
+                    );
+                } elseif ($q['type'] === 'vrai_faux') {
+                    self::$questions[] = new QuestionVraiFaux(
+                        $q['texte'],
+                        $q['reponse'],
+                        $q['points'],
+                        $q['categorie'],
+                        $q['difficulte']
+                    );
+                } else {
+                    self::$questions[] = new QuestionTexte(
+                        $q['texte'],
+                        $q['reponse'],
+                        $q['points'],
+                        $q['categorie'],
+                        $q['difficulte']
+                    );
+                }
+            }
+        }
+    }
+
+    /**
+     * Ajoute un utilisateur
+     */
+    public static function ajouterUser($user) {
+        self::$users[$user->getEmail()] = $user;
+    }
+
+    /**
+     * Récupère un utilisateur par email
+     */
+    public static function getUser($email) {
+        return self::$users[$email] ?? null;
+    }
+
+    /**
+     * Récupère des questions selon critères
+     */
+    public static function getQuestions($categorie = null, $difficulte = null, $limite = 10) {
+        $questions_filtrees = self::$questions;
+
+        // Filtrer par catégorie
+        if ($categorie !== null) {
+            $questions_filtrees = array_filter($questions_filtrees, function($q) use ($categorie) {
+                return $q->getCategorie() === $categorie;
+            });
+        }
+
+        // Filtrer par difficulté
+        if ($difficulte !== null) {
+            $questions_filtrees = array_filter($questions_filtrees, function($q) use ($difficulte) {
+                return $q->getDifficulte() === $difficulte;
+            });
+        }
+
+        // Mélanger et limiter
+        $questions_filtrees = array_values($questions_filtrees);
+        QuizUtils::melangerQuestions($questions_filtrees);
+
+        return array_slice($questions_filtrees, 0, $limite);
+    }
+
+    /**
+     * Sauvegarde un score
+     */
+    public static function ajouterScore($user_email, $quiz_nom, $score, $max_score) {
+        self::$scores[] = [
+            'user_email' => $user_email,
+            'quiz_nom' => $quiz_nom,
+            'score' => $score,
+            'max_score' => $max_score,
+            'pourcentage' => QuizUtils::calculerPourcentage($score, $max_score),
+            'date' => date('Y-m-d H:i:s')
+        ];
+    }
+
+    /**
+     * Retourne le classement global
+     */
+    public static function getClassement($limite = 10) {
+        $scores_tries = self::$scores;
+
+        // Trier par pourcentage descendant
+        usort($scores_tries, function($a, $b) {
+            return $b['pourcentage'] <=> $a['pourcentage'];
+        });
+
+        return array_slice($scores_tries, 0, $limite);
+    }
+}
+
+// Initialiser au chargement
+Database::init();
+```
+
+FICHIER: includes/session.php
+```php
+<?php
+
+/**
+ * Démarre la session de manière sécurisée
+ */
+function demarrer_session() {
+    if (session_status() === PHP_SESSION_NONE) {
+        ini_set('session.cookie_httponly', 1);
+        ini_set('session.use_only_cookies', 1);
+        session_start();
+    }
+}
+
+/**
+ * Vérifie si l'utilisateur est connecté
+ */
+function est_connecte() {
+    return isset($_SESSION['user_email']);
+}
+
+/**
+ * Protège une page (redirige si non connecté)
+ */
+function proteger_page() {
+    if (!est_connecte()) {
+        header('Location: connexion.php');
+        exit;
+    }
+}
+
+/**
+ * Récupère l'utilisateur connecté
+ */
+function get_user_connecte() {
+    if (!est_connecte()) {
+        return null;
+    }
+
+    require_once __DIR__ . '/../classes/Database.php';
+    return Database::getUser($_SESSION['user_email']);
+}
+
+/**
+ * Déconnecte l'utilisateur
+ */
+function deconnecter() {
+    session_destroy();
+    header('Location: index.php');
+    exit;
+}
+```
+
+FICHIER EXEMPLE: pages/index.php
+```php
+<?php
+require_once '../includes/session.php';
+require_once '../classes/QuizUtils.php';
+
+demarrer_session();
+?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Interactif - Accueil</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">🎯 Quiz Interactif</div>
+            <ul class="menu">
+                <li><a href="index.php" class="active">Accueil</a></li>
+                <?php if (est_connecte()): ?>
+                    <li><a href="categories.php">Jouer</a></li>
+                    <li><a href="profil.php">Profil</a></li>
+                    <li><a href="classement.php">Classement</a></li>
+                    <li><a href="deconnexion.php">Déconnexion</a></li>
+                <?php else: ?>
+                    <li><a href="inscription.php">Inscription</a></li>
+                    <li><a href="connexion.php">Connexion</a></li>
+                <?php endif; ?>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="hero">
+        <h1>Bienvenue sur Quiz Interactif!</h1>
+        <p>Testez vos connaissances dans différentes catégories</p>
+
+        <div class="stats-globales">
+            <div class="stat">
+                <h3><?= QuizUtils::getTotalQuizJoues() ?></h3>
+                <p>Quiz joués</p>
+            </div>
+            <div class="stat">
+                <h3><?= QuizUtils::getTotalQuestionsPosees() ?></h3>
+                <p>Questions posées</p>
+            </div>
+        </div>
+
+        <div class="cta-buttons">
+            <?php if (est_connecte()): ?>
+                <a href="categories.php" class="btn btn-primary">Commencer un Quiz</a>
+            <?php else: ?>
+                <a href="inscription.php" class="btn btn-primary">S'inscrire</a>
+                <a href="connexion.php" class="btn btn-secondary">Se connecter</a>
+            <?php endif; ?>
+        </div>
+
+        <div class="categories-preview">
+            <h2>Catégories disponibles</h2>
+            <div class="categories-grid">
+                <div class="categorie">🌍 Géographie</div>
+                <div class="categorie">📚 Histoire</div>
+                <div class="categorie">🔬 Sciences</div>
+                <div class="categorie">🎨 Art</div>
+                <div class="categorie">💻 Informatique</div>
+                <div class="categorie">⚽ Sports</div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Quiz Interactif - Projet d'apprentissage PHP POO</p>
+    </footer>
+</body>
+</html>
+```
+
+CRITÈRES DE RÉUSSITE FINAUX:
+----------------------------
+✅ Application complète et fonctionnelle
+✅ Code organisé en architecture claire
+✅ TOUS les concepts du guide sont utilisés
+✅ Validation et sécurité partout (htmlspecialchars, sessions sécurisées)
+✅ Design professionnel et responsive
+✅ Pas de bugs majeurs
+✅ Documentation claire (README.md)
+✅ L'utilisateur peut:
+   - S'inscrire et se connecter
+   - Choisir catégorie/difficulté/nombre de questions
+   - Faire un quiz complet avec timer
+   - Voir ses résultats détaillés
+   - Consulter ses statistiques personnelles
+   - Voir le classement global
+   - Rejouer autant qu'il veut
+   - Exporter ses résultats
+
+EXTENSIONS POSSIBLES:
+---------------------
+Une fois le projet terminé:
+- ✨ Vraie base de données MySQL
+- ✨ API REST pour application mobile
+- ✨ Mode multijoueur en temps réel (WebSockets)
+- ✨ Questions avec images/médias
+- ✨ Génération automatique de questions (IA)
+- ✨ Système de badges gamifié
+- ✨ Partage sur réseaux sociaux
+- ✨ Mode hors-ligne (Progressive Web App)
+
+
+================================================================================
+CONSEILS GÉNÉRAUX POUR TOUTES LES PHASES
+================================================================================
+
+PROGRESSION RECOMMANDÉE:
+------------------------
+1. NE PAS sauter de phases - Chaque phase construit sur la précédente
+2. TESTER après chaque phase - S'assurer que tout fonctionne avant de continuer
+3. CRÉER des dossiers séparés - phase1/, phase2/, etc. pour comparer
+4. DOCUMENTER - Créer un README.md par phase expliquant les ajouts
+
+BONNES PRATIQUES:
+-----------------
+✓ Noms de variables descriptifs (camelCase ou snake_case)
+✓ Commentaires explicatifs pour les parties complexes
+✓ Indentation correcte (4 espaces ou 1 tab)
+✓ Validation TOUJOURS côté serveur (Phase 7+)
+✓ htmlspecialchars() pour TOUS les affichages (Phase 7+)
+✓ Messages d'erreur clairs et utiles
+
+PIÈGES À ÉVITER:
+----------------
+❌ Mélanger HTML et PHP de manière désorganisée
+❌ Oublier la validation côté serveur
+❌ Créer des classes trop complexes au début
+❌ Dupliquer du code (utiliser fonctions/méthodes)
+❌ Afficher des données utilisateur sans htmlspecialchars()
+
+TESTS À FAIRE:
+--------------
+☑ Cas normaux (bonnes réponses)
+☑ Cas limites (entrées vides, valeurs extrêmes)
+☑ Cas d'erreur (mauvaises réponses, formats invalides)
+
+
+================================================================================
+RESSOURCES ET RÉFÉRENCES
+================================================================================
+
+MODULES DU GUIDE À CONSULTER:
+------------------------------
+- PHP_01_Bases_et_Variables.txt
+- PHP_02_Operateurs.txt
+- PHP_03_Structures_Controle.txt
+- PHP_04_Tableaux_Arrays.txt
+- PHP_05_Fonctions.txt
+- PHP_06_Boucles.txt
+- PHP_07_Formulaires_HTML.txt
+- PHP_08_Validation_Securite.txt
+- PHP_09_Classes_et_POO.txt
+- HTML_10_Guide_Complet.txt
+
+
+================================================================================
+                        BON APPRENTISSAGE ET BON CODAGE!
+================================================================================
+
+Ce projet couvre TOUS les concepts du guide PHP de manière progressive.
+Tu auras une vraie application portfolio professionnelle à la fin!
+
+Pour des questions ou clarifications, consulte les modules correspondants
+du guide PHP Complet.

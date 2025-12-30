@@ -1287,7 +1287,714 @@ K. EXEMPLE DE FORMULAIRE COMPLET
 
 
 ================================================================================
-11. HTML SÉMANTIQUE
+POINTS CLÉS SUR LES FORMULAIRES HTML
+================================================================================
+
+1. OBJECTIF DU FORMULAIRE (<form>)
+-----------------------------------
+
+L'élément <form> permet aux utilisateurs de SAISIR DES INFORMATIONS et de les
+ENVOYER au serveur pour traitement.
+
+UTILISATIONS COURANTES:
+✓ Formulaires de contact
+✓ Inscription/connexion d'utilisateurs
+✓ Recherche sur le site
+✓ Commandes et paiements
+✓ Sondages et questionnaires
+✓ Upload de fichiers
+
+STRUCTURE MINIMALE:
+
+<form action="/traitement.php" method="POST">
+    <input type="text" name="nom">
+    <button type="submit">Envoyer</button>
+</form>
+
+
+2. ATTRIBUTS ESSENTIELS DE <form>
+----------------------------------
+
+A. ATTRIBUT 'action'
+   - Détermine OÙ les données du formulaire sont envoyées
+   - URL de destination (page PHP, API, script serveur)
+
+   EXEMPLES:
+   <form action="/contact.php">          <!-- Page du même site -->
+   <form action="https://api.example.com/submit">  <!-- API externe -->
+   <form action="">                      <!-- Page actuelle -->
+
+B. ATTRIBUT 'method'
+   - Détermine COMMENT les informations sont envoyées et traitées
+   - Deux valeurs principales: GET ou POST
+
+   MÉTHODE GET:
+   - Données visibles dans l'URL (?nom=Jean&email=test@mail.com)
+   - Limitée en taille (~2000 caractères)
+   - Peut être mise en favoris
+   - USAGE: Recherche, filtres, pages publiques
+
+   EXEMPLE GET:
+   <form action="/search.php" method="GET">
+       <input type="text" name="q" placeholder="Rechercher...">
+       <button type="submit">Rechercher</button>
+   </form>
+   → URL résultante: /search.php?q=mot-clé
+
+   MÉTHODE POST:
+   - Données cachées dans le corps de la requête (invisibles dans l'URL)
+   - Taille illimitée
+   - Plus sécurisé pour données sensibles
+   - USAGE: Inscription, connexion, formulaires avec mots de passe
+
+   EXEMPLE POST:
+   <form action="/login.php" method="POST">
+       <input type="email" name="email">
+       <input type="password" name="password">
+       <button type="submit">Se connecter</button>
+   </form>
+
+C. ATTRIBUT 'enctype' (optionnel)
+   - Type d'encodage des données
+   - OBLIGATOIRE pour l'upload de fichiers: multipart/form-data
+
+   <form action="/upload.php" method="POST" enctype="multipart/form-data">
+       <input type="file" name="document">
+       <button type="submit">Envoyer</button>
+   </form>
+
+
+3. TYPES D'INPUT POUR LA SAISIE
+--------------------------------
+
+L'élément <input> avec différents attributs 'type' permet de créer des
+champs variés pour la saisie d'informations:
+
+A. type="text"
+   - Crée un champ de texte SIMPLE sur une ligne
+   - Usage: Nom, prénom, ville, etc.
+
+   <input type="text" name="prenom" placeholder="Votre prénom">
+
+B. type="password"
+   - Crée un champ de mot de passe (texte MASQUÉ avec des points/étoiles)
+   - Les caractères saisis sont cachés pour la confidentialité
+
+   <input type="password" name="mdp" placeholder="Mot de passe">
+
+C. type="number"
+   - Crée un champ numérique sur une ligne
+   - Affiche des flèches haut/bas pour incrémenter/décrémenter
+   - Attributs: min, max, step
+
+   <input type="number" name="age" min="0" max="120" step="1">
+
+D. type="range"
+   - Crée un CURSEUR (slider) pour sélectionner dans une plage de nombres
+   - Valeur visuelle avec interaction par glissement
+
+   <input type="range" name="volume" min="0" max="100" value="50">
+   <!-- Affiche un curseur de 0 à 100, position initiale à 50 -->
+
+E. type="checkbox"
+   - Crée une CASE À COCHER unique
+   - Peut être associée avec d'autres checkboxes (sélections multiples)
+   - Permet de cocher/décocher indépendamment
+
+   <label>
+       <input type="checkbox" name="newsletter" value="oui">
+       S'abonner à la newsletter
+   </label>
+
+   <label>
+       <input type="checkbox" name="conditions" value="accepte" required>
+       J'accepte les conditions
+   </label>
+
+F. type="radio"
+   - Crée un BOUTON RADIO
+   - Se couple avec d'autres boutons radio du MÊME 'name'
+   - Un seul choix possible dans un groupe (exclusion mutuelle)
+
+   <fieldset>
+       <legend>Civilité:</legend>
+       <label>
+           <input type="radio" name="civilite" value="mr" checked>
+           Monsieur
+       </label>
+       <label>
+           <input type="radio" name="civilite" value="mme">
+           Madame
+       </label>
+   </fieldset>
+   <!-- Un seul bouton peut être sélectionné car même 'name' -->
+
+G. type="text" avec DATALIST (auto-complétion)
+   - L'attribut 'list' associe un <input> à un élément <datalist>
+   - Le 'list' de <input> doit correspondre à l'id du <datalist>
+   - Affiche des suggestions pendant la saisie
+
+   <label for="navigateur">Navigateur:</label>
+   <input type="text" id="navigateur" name="navigateur" list="nav-list">
+
+   <datalist id="nav-list">
+       <option value="Chrome">
+       <option value="Firefox">
+       <option value="Safari">
+       <option value="Edge">
+   </datalist>
+
+H. type="submit"
+   - Crée un BOUTON DE SOUMISSION du formulaire
+   - Déclenche l'envoi des données vers l'URL définie dans 'action'
+
+   <input type="submit" value="Envoyer">
+   <!-- OU mieux: -->
+   <button type="submit">Envoyer</button>
+
+
+4. ÉLÉMENT <select> - LISTE DÉROULANTE
+---------------------------------------
+
+L'élément <select> est peuplé d'éléments <option> et affiche un menu
+DÉROULANT pour sélectionner une valeur.
+
+STRUCTURE:
+
+<label for="pays">Pays:</label>
+<select id="pays" name="pays">
+    <option value="">-- Sélectionner --</option>
+    <option value="fr">France</option>
+    <option value="be">Belgique</option>
+    <option value="ch" selected>Suisse</option>
+</select>
+
+CARACTÉRISTIQUES:
+- Chaque <option> a une 'value' (valeur envoyée au serveur)
+- Le texte entre <option></option> est ce que l'utilisateur voit
+- 'selected' pré-sélectionne une option
+- 'multiple' permet la sélection multiple
+
+AVEC GROUPES (optgroup):
+
+<select name="voiture">
+    <optgroup label="Françaises">
+        <option value="peugeot">Peugeot</option>
+        <option value="renault">Renault</option>
+    </optgroup>
+    <optgroup label="Allemandes">
+        <option value="bmw">BMW</option>
+        <option value="audi">Audi</option>
+    </optgroup>
+</select>
+
+
+5. ÉLÉMENT <datalist> - AUTO-COMPLÉTION
+----------------------------------------
+
+L'élément <datalist> est peuplé d'éléments <option> et fonctionne avec un
+<input> pour RECHERCHER parmi les choix proposés.
+
+DIFFÉRENCES avec <select>:
+- L'utilisateur peut TAPER pour filtrer
+- Affiche des SUGGESTIONS, pas une liste fermée
+- Permet de saisir une valeur qui n'est pas dans la liste
+
+EXEMPLE:
+
+<label for="ville">Ville:</label>
+<input type="text" id="ville" name="ville" list="villes">
+
+<datalist id="villes">
+    <option value="Paris">
+    <option value="Lyon">
+    <option value="Marseille">
+    <option value="Toulouse">
+    <option value="Nice">
+</datalist>
+
+
+6. ÉLÉMENT <textarea> - ZONE DE TEXTE MULTI-LIGNES
+---------------------------------------------------
+
+L'élément <textarea> est un champ de saisie de texte avec une zone
+PERSONNALISABLE (hauteur et largeur ajustables).
+
+CARACTÉRISTIQUES:
+- Permet la saisie sur PLUSIEURS LIGNES
+- Attributs 'rows' et 'cols' définissent les dimensions
+- Idéal pour: messages, commentaires, descriptions
+
+EXEMPLE:
+
+<label for="message">Message:</label>
+<textarea
+    id="message"
+    name="message"
+    rows="5"
+    cols="40"
+    placeholder="Votre message ici..."
+    maxlength="500">
+</textarea>
+
+DIFFÉRENCES avec <input type="text">:
+┌─────────────────┬──────────────┬──────────────────┐
+│ Critère         │ <input>      │ <textarea>       │
+├─────────────────┼──────────────┼──────────────────┤
+│ Lignes          │ 1 seule      │ Plusieurs        │
+│ Taille          │ Fixe         │ Redimensionnable │
+│ Usage           │ Texte court  │ Texte long       │
+│ Valeur initiale │ value=""     │ Entre balises    │
+└─────────────────┴──────────────┴──────────────────┘
+
+
+7. TRANSMISSION DES DONNÉES: PAIRES name=value
+-----------------------------------------------
+
+⚠️ CONCEPT ESSENTIEL:
+
+Quand un <form> est soumis, les NOMS des champs qui acceptent une saisie et
+les VALEURS de ces champs sont envoyés sous forme de paires name=value.
+
+RÈGLE:
+- L'attribut 'name' définit la CLÉ
+- La valeur saisie/sélectionnée est la VALEUR
+- Format: name=value
+
+EXEMPLES:
+
+A. Input texte:
+   <input type="text" name="prenom" value="Jean">
+   → Envoyé comme: prenom=Jean
+
+B. Input email:
+   <input type="email" name="email" value="test@mail.com">
+   → Envoyé comme: email=test@mail.com
+
+C. Checkbox cochée:
+   <input type="checkbox" name="newsletter" value="oui" checked>
+   → Envoyé comme: newsletter=oui
+   (Si NON cochée: rien n'est envoyé)
+
+D. Radio sélectionné:
+   <input type="radio" name="civilite" value="mme" checked>
+   → Envoyé comme: civilite=mme
+
+E. Select:
+   <select name="pays">
+       <option value="fr" selected>France</option>
+   </select>
+   → Envoyé comme: pays=fr
+
+F. Textarea:
+   <textarea name="commentaire">Ceci est mon avis</textarea>
+   → Envoyé comme: commentaire=Ceci est mon avis
+
+RÉSULTAT COMPLET D'UN FORMULAIRE:
+
+<form action="/traitement.php" method="GET">
+    <input type="text" name="nom" value="Dupont">
+    <input type="text" name="prenom" value="Marie">
+    <input type="number" name="age" value="30">
+    <button type="submit">Envoyer</button>
+</form>
+
+→ URL générée (GET):
+   /traitement.php?nom=Dupont&prenom=Marie&age=30
+
+→ Données POST (invisibles dans l'URL):
+   nom=Dupont
+   prenom=Marie
+   age=30
+
+⚠️ IMPORTANT:
+- SANS attribut 'name', le champ n'est PAS envoyé!
+- Champs désactivés (disabled) ne sont PAS envoyés
+- Checkbox/radio non cochés ne sont PAS envoyés
+
+
+8. UTILISATION CONJOINTE DES ÉLÉMENTS
+--------------------------------------
+
+L'utilisation de l'élément <form> en conjonction avec les autres éléments
+listés ci-dessus permet de créer des sites qui prennent en considération
+les BESOINS et les SOUHAITS des utilisateurs.
+
+CYCLE DE VIE D'UN FORMULAIRE:
+
+1. AFFICHAGE
+   - Le navigateur affiche le formulaire HTML
+   - L'utilisateur voit les champs vides ou pré-remplis
+
+2. SAISIE
+   - L'utilisateur remplit les champs
+   - Validation HTML5 en temps réel (si attributs présents)
+
+3. SOUMISSION
+   - L'utilisateur clique sur le bouton submit
+   - Le navigateur collecte toutes les paires name=value
+
+4. ENVOI
+   - Méthode GET: Données dans l'URL
+   - Méthode POST: Données dans le corps de la requête
+   - Le navigateur envoie vers l'URL définie dans 'action'
+
+5. TRAITEMENT SERVEUR
+   - Le serveur (PHP, Node.js, etc.) reçoit les données
+   - Traitement: validation, enregistrement en base, envoi d'email, etc.
+   - Génération d'une réponse
+
+6. RÉPONSE
+   - Le serveur renvoie une page de confirmation
+   - Ou redirige vers une autre page
+   - Ou affiche des erreurs si validation échouée
+
+
+EXEMPLE DE FORMULAIRE COMPLET AVEC TOUS LES CONCEPTS:
+
+<form action="/inscription.php" method="POST" enctype="multipart/form-data">
+    <!-- Input texte -->
+    <label for="nom">Nom*:</label>
+    <input type="text" id="nom" name="nom" required>
+
+    <!-- Input email avec validation -->
+    <label for="email">Email*:</label>
+    <input type="email" id="email" name="email" required>
+
+    <!-- Input password -->
+    <label for="mdp">Mot de passe*:</label>
+    <input type="password" id="mdp" name="mdp" minlength="8" required>
+
+    <!-- Input number avec min/max -->
+    <label for="age">Âge:</label>
+    <input type="number" id="age" name="age" min="18" max="99">
+
+    <!-- Input range -->
+    <label for="experience">Années d'expérience:</label>
+    <input type="range" id="experience" name="experience" min="0" max="20" value="5">
+
+    <!-- Checkbox -->
+    <label>
+        <input type="checkbox" name="newsletter" value="oui">
+        Recevoir la newsletter
+    </label>
+
+    <!-- Radio buttons -->
+    <fieldset>
+        <legend>Civilité*:</legend>
+        <label>
+            <input type="radio" name="civilite" value="mr" required>
+            Monsieur
+        </label>
+        <label>
+            <input type="radio" name="civilite" value="mme">
+            Madame
+        </label>
+    </fieldset>
+
+    <!-- Select -->
+    <label for="pays">Pays*:</label>
+    <select id="pays" name="pays" required>
+        <option value="">-- Sélectionner --</option>
+        <option value="fr">France</option>
+        <option value="be">Belgique</option>
+        <option value="ch">Suisse</option>
+    </select>
+
+    <!-- Datalist -->
+    <label for="ville">Ville:</label>
+    <input type="text" id="ville" name="ville" list="villes">
+    <datalist id="villes">
+        <option value="Paris">
+        <option value="Lyon">
+        <option value="Marseille">
+    </datalist>
+
+    <!-- Textarea -->
+    <label for="bio">Biographie:</label>
+    <textarea id="bio" name="bio" rows="4" cols="50" maxlength="500"></textarea>
+
+    <!-- File upload -->
+    <label for="cv">CV (PDF):</label>
+    <input type="file" id="cv" name="cv" accept=".pdf">
+
+    <!-- Checkbox obligatoire -->
+    <label>
+        <input type="checkbox" name="conditions" value="accepte" required>
+        J'accepte les conditions*
+    </label>
+
+    <!-- Boutons -->
+    <button type="submit">S'inscrire</button>
+    <button type="reset">Réinitialiser</button>
+</form>
+
+DONNÉES ENVOYÉES (exemple si tous les champs remplis):
+nom=Dupont
+email=jean@mail.com
+mdp=motdepasse123
+age=25
+experience=5
+newsletter=oui
+civilite=mr
+pays=fr
+ville=Paris
+bio=Développeur passionné
+cv=(fichier PDF)
+conditions=accepte
+
+
+9. BONNES PRATIQUES AVEC LES FORMULAIRES
+-----------------------------------------
+
+✅ FAIRE:
+
+1. Toujours utiliser <label> pour chaque champ
+   - Améliore l'accessibilité
+   - Permet de cliquer sur le label pour activer le champ
+
+2. Utiliser l'attribut 'name' sur TOUS les champs à envoyer
+   - Sans 'name', les données ne sont pas transmises!
+
+3. Valider côté CLIENT (HTML5) ET côté SERVEUR
+   - HTML5: required, pattern, min, max, type
+   - Serveur: TOUJOURS valider (sécurité)
+
+4. Indiquer les champs obligatoires
+   - Visuellement avec astérisque (*)
+   - Techniquement avec 'required'
+
+5. Fournir des messages d'aide
+   - placeholder: exemple de valeur
+   - title: infobulle d'aide
+   - Texte explicatif sous le champ
+
+6. Grouper logiquement avec <fieldset>
+   - Meilleure organisation
+   - Améliore l'accessibilité
+
+7. Utiliser le bon type d'input
+   - type="email" pour emails (validation automatique)
+   - type="tel" pour téléphones
+   - type="url" pour URLs
+   - etc.
+
+8. Préférer POST pour données sensibles
+   - Mots de passe
+   - Informations personnelles
+   - Données de paiement
+
+9. Prévoir messages de succès/erreur clairs
+   - Indiquer ce qui a fonctionné
+   - Expliquer comment corriger les erreurs
+
+❌ ÉVITER:
+
+1. Formulaires sans <label>
+   - Mauvaise accessibilité
+   - Difficile à utiliser
+
+2. Champs sans 'name'
+   - Les données ne seront pas envoyées!
+
+3. Validation uniquement côté client
+   - Peut être contournée facilement
+   - Toujours valider côté serveur
+
+4. Trop de champs obligatoires
+   - Décourage l'utilisateur
+   - Demander seulement l'essentiel
+
+5. Messages d'erreur vagues
+   - "Erreur" sans précision
+   - Expliquer exactement le problème
+
+6. Bouton submit peu visible
+   - Doit être évident et accessible
+
+7. Pas de feedback après soumission
+   - L'utilisateur ne sait pas si ça a fonctionné
+
+
+================================================================================
+11. VALIDATION CLIENT-SIDE (CÔTÉ NAVIGATEUR)
+================================================================================
+
+DÉFINITION:
+-----------
+
+La validation client-side se produit dans le NAVIGATEUR, AVANT que les
+informations ne soient envoyées au serveur.
+
+AVANTAGES:
+✓ Feedback IMMÉDIAT à l'utilisateur
+✓ Vérifie que les données sont CORRECTES et SÛRES
+✓ Évite d'attendre la réponse du serveur
+✓ Améliore l'expérience utilisateur
+
+⚠️ IMPORTANT: La validation client-side NE REMPLACE PAS la validation serveur!
+              Elle est facilement contournable. TOUJOURS valider côté serveur.
+
+
+ATTRIBUTS DE VALIDATION HTML5:
+-------------------------------
+
+A. required - CHAMP OBLIGATOIRE
+   - Valide que le champ contient des informations
+   - Si vide, empêche la soumission
+
+   <input type="text" name="nom" required>
+   <input type="email" name="email" required>
+   <textarea name="message" required></textarea>
+
+B. min - VALEUR MINIMALE (pour numbers)
+   - Valide une valeur minimale acceptable
+
+   <input type="number" name="age" min="18">
+   <!-- L'utilisateur ne peut pas entrer moins de 18 -->
+
+C. max - VALEUR MAXIMALE (pour numbers)
+   - Valide une valeur maximale acceptable
+
+   <input type="number" name="age" max="99">
+   <!-- L'utilisateur ne peut pas entrer plus de 99 -->
+
+D. minlength - LONGUEUR MINIMALE (pour text)
+   - Valide un nombre minimum de caractères
+
+   <input type="text" name="username" minlength="3">
+   <!-- L'utilisateur doit entrer au moins 3 caractères -->
+
+E. maxlength - LONGUEUR MAXIMALE (pour text)
+   - Valide un nombre maximum de caractères
+
+   <input type="text" name="username" maxlength="20">
+   <!-- L'utilisateur ne peut pas dépasser 20 caractères -->
+
+F. pattern - EXPRESSION RÉGULIÈRE
+   - Assigne une regex pour valider le format
+   - L'input doit correspondre au pattern
+
+   <input type="text" name="code_postal" pattern="[0-9]{5}"
+          title="5 chiffres requis">
+   <!-- Accepte uniquement 5 chiffres -->
+
+   <input type="text" name="telephone" pattern="[0-9]{10}"
+          title="10 chiffres sans espaces">
+
+
+COMPORTEMENT EN CAS D'ÉCHEC:
+-----------------------------
+
+Si les validations sur un <form> NE PASSENT PAS:
+1. L'utilisateur reçoit un MESSAGE expliquant pourquoi
+2. Le formulaire NE PEUT PAS être soumis
+3. Le champ problématique est mis en évidence
+
+MESSAGES PAR DÉFAUT DU NAVIGATEUR:
+- "Veuillez remplir ce champ." (required)
+- "Veuillez respecter le format demandé." (pattern)
+- "Veuillez entrer au moins X caractères." (minlength)
+- "Veuillez entrer une valeur supérieure ou égale à X." (min)
+
+
+EXEMPLE COMPLET DE VALIDATION:
+-------------------------------
+
+<form action="/inscription.php" method="POST">
+    <!-- Champ obligatoire -->
+    <label for="nom">Nom*:</label>
+    <input type="text" id="nom" name="nom" required>
+
+    <!-- Email avec validation de format -->
+    <label for="email">Email*:</label>
+    <input type="email" id="email" name="email" required>
+
+    <!-- Mot de passe avec longueur minimale -->
+    <label for="mdp">Mot de passe* (min 8 caractères):</label>
+    <input type="password" id="mdp" name="mdp" minlength="8" required>
+
+    <!-- Âge avec min/max -->
+    <label for="age">Âge (18-99)*:</label>
+    <input type="number" id="age" name="age" min="18" max="99" required>
+
+    <!-- Code postal avec pattern -->
+    <label for="cp">Code postal*:</label>
+    <input type="text" id="cp" name="cp" pattern="[0-9]{5}"
+           title="5 chiffres requis" required>
+
+    <!-- Téléphone avec pattern -->
+    <label for="tel">Téléphone*:</label>
+    <input type="tel" id="tel" name="tel" pattern="[0-9]{10}"
+           title="10 chiffres sans espaces" required>
+
+    <!-- Username avec min/maxlength -->
+    <label for="username">Nom d'utilisateur* (3-20 caractères):</label>
+    <input type="text" id="username" name="username"
+           minlength="3" maxlength="20" required>
+
+    <button type="submit">S'inscrire</button>
+</form>
+
+
+RÉCAPITULATIF - VALIDATION CLIENT-SIDE:
+----------------------------------------
+
+✓ Les validations client-side se produisent dans le NAVIGATEUR avant l'envoi
+  au serveur
+
+✓ L'attribut 'required' valide que le champ a des informations
+
+✓ L'attribut 'min' (input number) valide une valeur minimale acceptable
+
+✓ L'attribut 'max' (input number) valide une valeur maximale acceptable
+
+✓ L'attribut 'minlength' (input text) valide un nombre minimum de caractères
+
+✓ L'attribut 'maxlength' (input text) valide un nombre maximum de caractères
+
+✓ L'attribut 'pattern' valide le format avec une regex
+
+✓ Si les validations échouent, l'utilisateur reçoit un message et le
+  formulaire ne peut pas être soumis
+
+✓ Ces vérifications rapides aident à s'assurer que les données sont
+  CORRECTES et SÛRES pour nos serveurs
+
+✓ Elles donnent aussi un feedback IMMÉDIAT aux utilisateurs sur ce qu'ils
+  doivent corriger au lieu d'attendre qu'un serveur renvoie cette information
+
+⚠️ RAPPEL CRITIQUE:
+   La validation client-side est FACILEMENT CONTOURNABLE!
+   → TOUJOURS valider côté SERVEUR (PHP, etc.)
+   → La validation client-side est pour l'EXPÉRIENCE UTILISATEUR
+   → La validation serveur est pour la SÉCURITÉ
+
+
+12. RÉCAPITULATIF FINAL
+-----------------------
+
+En utilisant l'élément <form> en conjonction avec les éléments listés dans
+cette section, vous pouvez créer des sites web qui:
+
+✓ COLLECTENT des informations utilisateur de manière structurée
+✓ OFFRENT une expérience utilisateur de qualité
+✓ RESPECTENT les standards web et l'accessibilité
+✓ TRANSMETTENT les données de manière sécurisée au serveur
+✓ RÉPONDENT aux besoins et attentes de vos utilisateurs
+
+Prenez l'opportunité d'appliquer ce que vous avez appris et de créer des
+formulaires fonctionnels, accessibles et esthétiques!
+
+⚠️ RAPPEL IMPORTANT:
+- Toujours valider côté SERVEUR (PHP, etc.)
+- Toujours utiliser HTTPS pour données sensibles
+- Toujours sécuriser contre les injections (XSS, SQL)
+- Toujours tester l'accessibilité (navigation clavier, lecteurs d'écran)
+
+
+================================================================================
+13. HTML SÉMANTIQUE
 ================================================================================
 
 DÉFINITION:
@@ -1296,11 +2003,61 @@ DÉFINITION:
 Le HTML sémantique utilise des balises qui DÉCRIVENT LA SIGNIFICATION
 du contenu plutôt que sa présentation visuelle.
 
-AVANTAGES:
-✅ Meilleur SEO (Google comprend mieux la structure)
-✅ Accessibilité améliorée (lecteurs d'écran)
-✅ Code plus maintenable et lisible
-✅ Meilleure structure de document
+AVANTAGES DU HTML SÉMANTIQUE:
+------------------------------
+
+A. ACCESSIBILITÉ (Accessibility)
+   ✅ Les lecteurs d'écran peuvent identifier automatiquement la structure
+      de la page
+   ✅ Les utilisateurs malvoyants peuvent naviguer rapidement entre sections
+      (header → main → footer)
+   ✅ Navigation plus intuitive pour personnes avec handicaps
+
+   EXEMPLE:
+   Quand un lecteur d'écran rencontre <nav>, il annonce "navigation landmark"
+   permettant à l'utilisateur de sauter directement au menu ou de l'éviter.
+
+B. SEO (Search Engine Optimization)
+   ✅ Les moteurs de recherche comprennent la hiérarchie et l'importance
+      du contenu
+   ✅ <article> signale à Google qu'il s'agit du contenu principal
+   ✅ <header> et <h1> indiquent l'information primaire
+   ✅ Meilleure structure = meilleur classement dans les résultats
+
+   EXEMPLE:
+   Google donne plus de poids au contenu dans <main> qu'au contenu dans
+   <aside>, car il comprend que <main> contient l'information essentielle.
+
+C. MAINTENABILITÉ (Maintenance)
+   ✅ Le code est auto-documenté et explicite
+   ✅ Les nouveaux développeurs comprennent la structure plus rapidement
+   ✅ Plus facile à modifier et à mettre à jour
+   ✅ Réduction des erreurs lors des modifications
+
+   EXEMPLE:
+   <nav> est plus clair que <div class="navigation menu-principal top-menu">
+
+
+COMMENT LE HTML SÉMANTIQUE AJOUTE DE LA SIGNIFICATION:
+-------------------------------------------------------
+
+Les balises sémantiques fournissent du CONTEXTE au-delà de la présentation
+visuelle. Elles décrivent CE QU'EST le contenu, pas COMMENT il apparaît.
+
+COMPARAISON:
+
+❌ <div class="navigation">
+   → Le navigateur voit: "un conteneur générique avec une classe CSS"
+   → Le lecteur d'écran lit: le contenu sans contexte particulier
+
+✅ <nav>
+   → Le navigateur sait: "ceci est une navigation"
+   → Le lecteur d'écran annonce: "navigation landmark"
+   → Google comprend: "ce sont les liens principaux du site"
+
+PRINCIPE CLÉ:
+Les balises sémantiques décrivent la SIGNIFICATION (semantics),
+pas le STYLE (appearance). Le style est géré par CSS.
 
 
 BALISES SÉMANTIQUES HTML5:
@@ -1382,6 +2139,100 @@ AUTRES BALISES SÉMANTIQUES:
 </meter>
 
 
+MÉDIAS SÉMANTIQUES:
+-------------------
+
+Les balises <figure>, <figcaption>, <video> et <audio> sont des éléments
+SÉMANTIQUES car ils indiquent au navigateur et aux lecteurs d'écran le TYPE
+de contenu qu'ils contiennent.
+
+A. <figure> ET <figcaption>
+
+   La balise <figure> encapsule TOUS LES TYPES DE MÉDIAS qui ont besoin
+   d'une légende: images, vidéos, diagrammes, code, citations, etc.
+
+   POURQUOI C'EST SÉMANTIQUE:
+   - Associe un média avec sa légende de manière significative
+   - Les lecteurs d'écran annoncent "figure" puis lisent la légende
+   - Indique que l'image/média fait partie intégrante du contenu
+
+   <figure>
+       <img src="graphique-ventes.png" alt="Graphique des ventes 2025">
+       <figcaption>Figure 1: Évolution des ventes en 2025</figcaption>
+   </figure>
+
+   BÉNÉFICE ACCESSIBILITÉ:
+   Le lecteur d'écran annonce: "Figure, Évolution des ventes en 2025"
+   L'utilisateur comprend immédiatement qu'il s'agit d'un élément visuel
+   avec une description.
+
+   📖 Voir Section 8.C pour plus de détails techniques sur <figure>
+
+
+B. <video>
+
+   Élément HTML5 SÉMANTIQUE pour intégrer des vidéos.
+
+   POURQUOI C'EST SÉMANTIQUE:
+   - Le navigateur SAIT que c'est une vidéo (pas juste un plugin)
+   - Peut fournir des contrôles accessibles automatiquement
+   - Permet d'associer sous-titres et transcriptions
+   - Les lecteurs d'écran peuvent offrir options de lecture
+
+   <figure>
+       <video controls width="640">
+           <source src="tutoriel.mp4" type="video/mp4">
+           <source src="tutoriel.webm" type="video/webm">
+           Votre navigateur ne supporte pas la vidéo HTML5.
+       </video>
+       <figcaption>Tutoriel: Comment utiliser HTML sémantique</figcaption>
+   </figure>
+
+   ⚠️ ACCESSIBILITÉ: Toujours fournir des sous-titres avec <track>
+
+   📖 Voir Section 8.E pour attributs et exemples détaillés
+
+
+C. <audio>
+
+   Élément HTML5 SÉMANTIQUE pour intégrer de l'audio.
+
+   POURQUOI C'EST SÉMANTIQUE:
+   - Le navigateur SAIT que c'est du contenu audio uniquement
+   - Les lecteurs d'écran peuvent ignorer la description visuelle
+   - Fournit des contrôles adaptés au contenu audio
+
+   <figure>
+       <audio controls>
+           <source src="podcast.mp3" type="audio/mpeg">
+           <source src="podcast.ogg" type="audio/ogg">
+           Votre navigateur ne supporte pas l'audio HTML5.
+       </audio>
+       <figcaption>Podcast #42: Les bases du HTML sémantique</figcaption>
+   </figure>
+
+   📖 Voir Section 8.D pour attributs et exemples détaillés
+
+
+D. <embed> - MOINS SÉMANTIQUE
+
+   <embed> est un conteneur GÉNÉRIQUE pour plugins (PDFs, Flash, etc.)
+
+   ❌ PROBLÈME:
+   - NE dit PAS au navigateur quel TYPE de contenu il contient
+   - Moins accessible pour les lecteurs d'écran
+   - Moins de contrôle sur l'affichage
+
+   ✅ RECOMMANDATION:
+   Toujours préférer les éléments sémantiques spécifiques:
+   - <video> pour vidéos
+   - <audio> pour audio
+   - <img> pour images
+   - <iframe> pour contenus externes
+
+   Utiliser <embed> uniquement quand aucune alternative sémantique n'existe.
+
+
 COMPARAISON: SÉMANTIQUE vs NON-SÉMANTIQUE:
 -------------------------------------------
 
@@ -1411,8 +2262,8 @@ COMPARAISON: SÉMANTIQUE vs NON-SÉMANTIQUE:
 <footer>Copyright 2025</footer>
 
 
-STRUCTURE DE PAGE COMPLÈTE:
-----------------------------
+STRUCTURE DE PAGE COMPLÈTE AVEC MÉDIAS:
+----------------------------------------
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -1422,8 +2273,11 @@ STRUCTURE DE PAGE COMPLÈTE:
     <title>Mon Site Web</title>
 </head>
 <body>
+    <!-- HEADER: En-tête de la page (logo, navigation) -->
     <header>
         <h1>Mon Site</h1>
+
+        <!-- NAV: Bloc de navigation principale -->
         <nav>
             <ul>
                 <li><a href="/">Accueil</a></li>
@@ -1433,36 +2287,218 @@ STRUCTURE DE PAGE COMPLÈTE:
         </nav>
     </header>
 
+    <!-- MAIN: Contenu principal UNIQUE de la page -->
     <main>
+        <!-- ARTICLE: Contenu autonome et réutilisable -->
         <article>
+            <!-- HEADER d'article: Métadonnées de l'article -->
             <header>
-                <h2>Titre de l'article</h2>
+                <h2>Le HTML Sémantique en 2025</h2>
                 <time datetime="2025-11-15">15 novembre 2025</time>
             </header>
-            <p>Contenu de l'article...</p>
+
+            <!-- Contenu de l'article -->
+            <p>Le HTML sémantique améliore l'accessibilité et le SEO...</p>
+
+            <!-- FIGURE: Média avec légende -->
+            <figure>
+                <img src="semantic-html-diagram.png"
+                     alt="Diagramme montrant la structure HTML sémantique">
+                <figcaption>
+                    Figure 1: Structure d'une page avec balises sémantiques
+                </figcaption>
+            </figure>
+
+            <p>Comme illustré dans la figure ci-dessus...</p>
+
+            <!-- SECTION: Partie thématique de l'article -->
+            <section>
+                <h3>Tutoriel Vidéo</h3>
+
+                <!-- FIGURE avec VIDEO: Média vidéo avec légende -->
+                <figure>
+                    <video controls width="640">
+                        <source src="tutoriel-html.mp4" type="video/mp4">
+                        <source src="tutoriel-html.webm" type="video/webm">
+                        Votre navigateur ne supporte pas la vidéo HTML5.
+                    </video>
+                    <figcaption>
+                        Tutoriel: Introduction au HTML sémantique (5 min)
+                    </figcaption>
+                </figure>
+            </section>
+
+            <!-- FOOTER d'article: Métadonnées de fin -->
             <footer>
                 <p>Par <a href="/auteur">Jean Dupont</a></p>
+                <p>Catégorie: <a href="/cat/html">HTML</a></p>
             </footer>
         </article>
 
+        <!-- ASIDE: Contenu complémentaire (non essentiel) -->
         <aside>
             <h3>Articles similaires</h3>
             <ul>
-                <li><a href="/article-1">Article 1</a></li>
-                <li><a href="/article-2">Article 2</a></li>
+                <li><a href="/article-1">Introduction au CSS</a></li>
+                <li><a href="/article-2">JavaScript pour débutants</a></li>
             </ul>
         </aside>
     </main>
 
+    <!-- FOOTER: Pied de page du site -->
     <footer>
         <p>&copy; 2025 Mon Site. Tous droits réservés.</p>
+        <nav>
+            <a href="/mentions-legales">Mentions légales</a> |
+            <a href="/confidentialite">Confidentialité</a>
+        </nav>
     </footer>
 </body>
 </html>
 
+EXPLICATION DES CHOIX SÉMANTIQUES:
+
+✓ <header> (page): Contient le titre du site et la navigation principale
+✓ <nav>: Indique aux lecteurs d'écran que c'est la navigation
+✓ <main>: Un seul par page, contient le contenu principal unique
+✓ <article>: Contenu autonome qui pourrait être publié ailleurs
+✓ <header> (article): Métadonnées spécifiques à l'article
+✓ <figure> + <figcaption>: Associe les médias à leurs légendes
+✓ <section>: Partie thématique distincte de l'article
+✓ <aside>: Contenu lié mais non essentiel (peut être retiré sans impact)
+✓ <footer> (article): Informations sur l'auteur et catégories
+✓ <footer> (page): Copyright et liens légaux
+
+Cette structure permet:
+→ Aux lecteurs d'écran de naviguer efficacement
+→ À Google de comprendre la hiérarchie du contenu
+→ Aux développeurs de comprendre le code rapidement
+
 
 ================================================================================
-12. BALISES DE MISE EN PAGE (LAYOUT)
+RÉCAPITULATIF - HTML SÉMANTIQUE
+================================================================================
+
+Félicitations! En complétant cette section sur le HTML Sémantique, vous avez
+appris comment créer des pages web plus ACCESSIBLES, mieux RÉFÉRENCÉES et plus
+PROFESSIONNELLES.
+
+Vous pouvez maintenant incorporer des éléments sémantiques dans vos sites web
+pour les rendre plus accessibles et rendre le code plus facile à lire.
+
+
+POINTS CLÉS À RETENIR:
+----------------------
+
+✓ Le HTML sémantique INTRODUIT DE LA SIGNIFICATION à la page à travers des
+  éléments spécifiques qui fournissent du CONTEXTE sur ce qui se trouve
+  entre les balises
+
+✓ Le HTML sémantique est un STANDARD MODERNE qui rend un site web ACCESSIBLE
+  pour les personnes utilisant des lecteurs d'écran et AMÉLIORE LE SEO
+
+✓ <header>, <nav>, <main> et <footer> créent la STRUCTURE DE BASE de la page
+  web
+
+✓ <section> définit des éléments dans un document, tels que des chapitres,
+  des titres ou toute autre zone du document avec le MÊME THÈME
+
+✓ <article> contient du contenu qui a du sens en tant qu'élément AUTONOME,
+  comme des articles de blog, des commentaires, des actualités, etc.
+
+✓ <aside> contient des informations LIÉES au contenu principal, mais NON
+  REQUISES pour comprendre l'information dominante
+
+✓ <figure> ENCAPSULE TOUS LES TYPES DE MÉDIAS (images, vidéos, diagrammes,
+  extraits de code, etc.)
+
+✓ <figcaption> est utilisé pour DÉCRIRE le média dans <figure>
+
+✓ <video>, <embed> et <audio> sont des éléments utilisés pour les FICHIERS
+  MÉDIAS
+
+
+RAPPELS IMPORTANTS:
+-------------------
+
+⚠️ RÈGLES ESSENTIELLES:
+- Une seule balise <main> par page
+- Toujours utiliser des éléments sémantiques appropriés plutôt que des <div>
+- Les éléments sémantiques n'affectent PAS le style visuel (utiliser CSS)
+- Tester l'accessibilité avec des lecteurs d'écran
+- Valider le HTML avec des outils comme validator.w3.org
+
+⚠️ ACCESSIBILITÉ:
+- Toujours fournir des attributs alt pour les images
+- Utiliser <figcaption> avec <figure>
+- Fournir des sous-titres (<track>) pour <video>
+- Tester la navigation au clavier (Tab, Enter)
+
+⚠️ SEO:
+- Les balises sémantiques aident Google à comprendre votre contenu
+- <article> et <main> signalent le contenu important
+- Une structure claire améliore le classement
+
+
+BONNES PRATIQUES:
+-----------------
+
+✅ À FAIRE:
+   ✅ Utiliser <article> pour du contenu autonome et réutilisable
+   ✅ Utiliser <section> pour regrouper du contenu par thème
+   ✅ Toujours inclure <figcaption> avec <figure> quand possible
+   ✅ Fournir des alternatives textuelles pour tous les médias
+   ✅ Tester avec plusieurs lecteurs d'écran (NVDA, JAWS, VoiceOver)
+   ✅ Inclure des commentaires HTML pour expliquer les choix sémantiques
+   ✅ Utiliser des éléments imbriqués correctement (header dans article OK)
+
+❌ À ÉVITER:
+   ❌ Utiliser <div> quand un élément sémantique existe
+   ❌ Multiples <main> sur une seule page
+   ❌ <section> ou <article> sans heading (<h2>-<h6>)
+   ❌ Médias sans alternative textuelle (alt, figcaption, transcription)
+   ❌ Utiliser des balises sémantiques uniquement pour le style CSS
+   ❌ Imbriquer <main> dans <article> ou d'autres éléments
+   ❌ Oublier l'attribut lang sur <html>
+
+
+EXEMPLE DE WORKFLOW:
+--------------------
+
+1. PLANIFIER la structure sémantique AVANT d'écrire le HTML
+   → Identifier: Quel est le contenu principal? (main)
+   → Identifier: Y a-t-il du contenu autonome? (article)
+   → Identifier: Y a-t-il du contenu complémentaire? (aside)
+
+2. ÉCRIRE le HTML avec les balises sémantiques appropriées
+
+3. TESTER l'accessibilité
+   → Naviguer au clavier uniquement
+   → Tester avec un lecteur d'écran
+   → Valider le HTML
+
+4. AJOUTER le CSS pour le style visuel
+   → Les balises sémantiques ne changent PAS l'apparence par défaut
+
+
+ALLEZ PLUS LOIN:
+----------------
+
+Maintenant que vous connaissez les avantages du HTML Sémantique et comment
+l'utiliser, vous pouvez:
+
+→ Appliquer ces connaissances pour devenir un meilleur développeur web
+→ Créer des sites web plus accessibles pour tous les utilisateurs
+→ Améliorer le référencement de vos sites
+→ Écrire du code plus maintenable et professionnel
+→ Contribuer à un web plus inclusif et accessible
+
+Prenez l'opportunité d'appliquer ce que vous avez appris et de créer des
+pages web sémantiques, accessibles et optimisées pour le référencement!
+
+
+================================================================================
+14. BALISES DE MISE EN PAGE (LAYOUT)
 ================================================================================
 
 A. <div> - CONTENEUR GÉNÉRIQUE (BLOC)
@@ -1515,7 +2551,7 @@ C. DIFFÉRENCE BLOCK vs INLINE:
 
 
 ================================================================================
-13. MÉTADONNÉES ET SEO
+15. MÉTADONNÉES ET SEO
 ================================================================================
 
 A. BALISES <meta> IMPORTANTES
@@ -1595,7 +2631,7 @@ E. FEUILLES DE STYLE ET SCRIPTS
 
 
 ================================================================================
-14. BONNES PRATIQUES
+16. BONNES PRATIQUES
 ================================================================================
 
 A. STRUCTURE ET ORGANISATION

@@ -3,15 +3,16 @@ $question1 = "Quelle est la capitale de la France?";
 $reponse1 = "Paris";
 $point1 = 1;
 
-$question2 = "";
-$reponse2 = "";
-$point2 = 0;
+$question2 = "ok2?";
+$reponse2 = "ok2";
+$point2 = 1;
 
-$question3 = "";
-$reponse3 = "";
-$point3 = 0;
+$question3 = "ok3?";
+$reponse3 = "ok3";
+$point3 = 1;
 
 $score = 0;
+echo "Entrez votre nom: ";
 $nom_joueur = readline("Entrez votre nom: ");
 
 // Question 1
@@ -30,7 +31,7 @@ if ($reponse_user1 === $reponse1) {
 echo "\nQuestion 2: {$question2}\n";
 $reponse_user2 = readline("Votre réponse: ");
 
-if ($reponse_user2 === $reponse1) {
+if ($reponse_user2 === $reponse2) {
     echo "Correct!\n";
     $score += $point2;  // Opérateur +=
 } else {

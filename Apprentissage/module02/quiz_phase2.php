@@ -222,8 +222,8 @@ do {
 
 // TODO 19 (BONUS): Utiliser l'opérateur ternaire quelque part
 // Exemple:
-$message = ($score >= 2) ? "Excellent!" : "Continuez à pratiquer!";
-echo $message;
+// $message = ($score >= 2) ? "Excellent!" : "Continuez à pratiquer!";
+// echo $message;
 
 
 /*

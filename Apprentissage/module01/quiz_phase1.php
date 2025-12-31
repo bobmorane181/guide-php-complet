@@ -39,7 +39,7 @@ if ($reponse_user2 === $reponse1) {
 
 // Question 1
 echo "\nQuestion 3: {$question3}\n";
-$reponse_user2 = readline("Votre réponse: ");
+$reponse_user3 = readline("Votre réponse: ");
 
 if ($reponse_user3 === $reponse3) {
     echo "Correct!\n";

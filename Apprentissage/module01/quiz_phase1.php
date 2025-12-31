@@ -12,8 +12,31 @@ $reponse3 = "ok3";
 $point3 = 1;
 
 $score = 0;
-echo "Entrez votre nom: ";
 $nom_joueur = readline("Entrez votre nom: ");
+
+do {
+    echo "\n=== MENU PRINCIPAL ===\n";
+    echo "1. Démarrer le quiz\n";
+    echo "2. Afficher les règles\n";
+    echo "3. Quitter\n";
+    $choix = readline("Votre choix: ");
+
+    switch ($choix) {
+        case "1":
+            // Lancer le quiz
+            break;
+        case "2":
+            // Afficher règles
+            echo "Règles: Répondez aux 3 questions...\n";
+            break;
+        case "3":
+            echo "Au revoir!\n";
+            break;
+        default:
+            echo "Choix invalide!\n";
+    }
+} while ($choix !== "3");
+
 
 // Question 1
 echo "\nQuestion 1: {$question1}\n";
@@ -51,5 +74,13 @@ if ($reponse_user3 === $reponse3) {
 
 
 // Afficher le score final
-$message_final = "Félicitations {$nom_joueur}, vous avez obtenu {$score} points!";
-echo "\n{$message_final}\n";
+
+if ($score === 3) {
+    echo "🏆 PARFAIT! Vous êtes un expert!\n";
+} elseif ($score >= 2) {
+    echo "👍 Très bien! Presque parfait!\n";
+} elseif ($score >= 1) {
+    echo "😊 Pas mal! Continuez à vous améliorer!\n";
+} else {
+    echo "😔 Réessayez! Vous pouvez faire mieux!\n";
+}

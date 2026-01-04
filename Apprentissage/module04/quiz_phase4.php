@@ -121,25 +121,25 @@ do {
                 $reponse_user = readline("Votre réponse: ");
 
                 // TODO 10: Utiliser verifier_reponse() au lieu de comparer manuellement
-                // if (verifier_reponse($reponse_user, $question_data['reponse'])) {
-                //     echo "✓ Correct!\n";
-                //     $score += $question_data['points'];
-                // } else {
-                //     echo "✗ Faux. La bonne réponse était: {$question_data['reponse']}\n";
-                // }
+                if (verifier_reponse($reponse_user, $question_data['reponse'])) {
+                    echo "✓ Correct!\n";
+                    $score += $question_data['points'];
+                } else {
+                    echo "✗ Faux. La bonne réponse était: {$question_data['reponse']}\n";
+                }
 
 
                 $total_points += $question_data['points'];
             }
 
             // TODO 11: Utiliser obtenir_feedback() pour le message final
-            // $message_feedback = obtenir_feedback($score, $total_points);
-            // echo "\n$message_feedback\n";
-            // echo "Score: {$score}/{$total_points}\n";
+            $message_feedback = obtenir_feedback($score, $total_points);
+            echo "\n$message_feedback\n";
+            echo "Score: {$score}/{$total_points}\n";
 
 
             // TODO 12: Utiliser ajouter_au_historique() avec passage par référence
-            // ajouter_au_historique($historique_scores, $score, $total_points);
+            ajouter_au_historique($historique_scores, $score, $total_points);
             // Note: $historique_scores sera modifié directement (passage par référence)
 
 
@@ -149,6 +149,7 @@ do {
             // AFFICHER STATISTIQUES
 
             // TODO 13: Appeler afficher_statistiques()
+            afficher_statistiques($historique_scores);
 
 
             break;

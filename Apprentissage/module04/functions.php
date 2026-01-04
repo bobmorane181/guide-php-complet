@@ -48,13 +48,14 @@ function afficher_question($question_data, $numero, $total)
 function verifier_reponse($reponse_utilisateur, $reponse_correcte)
 {
     // TODO: Nettoyer les réponses (trim + strtolower)
-    if (trim(strtolower($reponse_utilisateur)) === $reponse_correcte) {
-    }
-
+    if (trim(strtolower($reponse_utilisateur)) === $reponse_correcte)
 
     // TODO: Comparer et retourner le résultat
-
-
+    {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 
@@ -67,11 +68,13 @@ function verifier_reponse($reponse_utilisateur, $reponse_correcte)
 function calculer_pourcentage($score, $total)
 {
     // TODO: Vérifier que total > 0 pour éviter division par zéro
+    if ($total >= 0)
 
 
     // TODO: Calculer et retourner le pourcentage avec round()
-
-
+    {
+        return round(($score / $total) * 100, 2);
+    }
 }
 
 
@@ -97,6 +100,9 @@ function afficher_menu()
 function obtenir_feedback($score, $max_score)
 {
     // TODO: Utiliser calculer_pourcentage() pour obtenir le %
+    $pourcentage = calculer_pourcentage($score, $max_score);
+
+
 
 
     // TODO: Retourner un message selon le pourcentage
@@ -106,7 +112,17 @@ function obtenir_feedback($score, $max_score)
     // >= 40% : "😊 PAS MAL!"
     // < 40% : "💪 CONTINUEZ!"
 
-
+    if ($pourcentage === 100) {  // ✅ Utiliser === au lieu de =
+        echo " 🏆 PARFAIT! Vous êtes un expert!!\n";
+    } else if ($pourcentage >= 80 && $pourcentage <= 99) {  // ✅ Utiliser && au lieu de and
+        echo "🌟 EXCELLENT!\n";
+    } else if ($pourcentage >= 60 && $pourcentage <= 79) {
+        echo "👍 BIEN!\n";
+    } else if ($pourcentage >= 40 && $pourcentage <= 59) {
+        echo "😊 PAS MAL!\n";
+    } else if ($pourcentage >= 0 && $pourcentage <= 39) {
+        echo "💪 CONTINUEZ!\n";
+    }
 }
 
 
@@ -118,22 +134,39 @@ function obtenir_feedback($score, $max_score)
 function afficher_statistiques($historique)
 {
     // TODO: Vérifier si l'historique est vide
+    if (count($historique) >= 0)
 
 
     // TODO: Afficher le nombre de quiz joués
+    {
+        echo "Nombre de quiz joués: " . count($historique) . "\n";
 
 
-    // TODO: Calculer et afficher le meilleur score
-    // Astuce: parcourir l'historique avec foreach et garder le max
+        // TODO: Calculer et afficher le meilleur score
+        // Astuce: parcourir l'historique avec foreach et garder le max
+        $tous_les_scores = [];
+        foreach ($historique as $resultat) {
+            $tous_les_scores[] = $resultat['score'];
+        }
+        $meilleur_score = max($tous_les_scores);  //
+        $total = array_sum($tous_les_scores);  // Somme de tous les scores
+        echo "Meilleur score: " . $meilleur_score . "\n";
 
 
-    // TODO: Calculer et afficher la moyenne
-    // Astuce: sommer tous les pourcentages et diviser par count()
+
+        // TODO: Calculer et afficher la moyenne
+        // Astuce: sommer tous les pourcentages et diviser par count()
+        $moyenne = $total / count($tous_les_scores);
+        echo "Moyenne score: " . $moyenne . "\n";
 
 
-    // TODO: Afficher l'historique complet
-
-
+        // TODO: Afficher l'historique complet
+        foreach ($historique as $index => $resultat) {
+            echo "Quiz " . ($index + 1) . ": ";
+            echo "{$resultat['score']}/{$resultat['max']} ";
+            echo "({$resultat['pourcentage']}%) - {$resultat['date']}\n";
+        }
+    }
 }
 
 
@@ -148,17 +181,16 @@ function afficher_statistiques($historique)
 function ajouter_au_historique(&$historique, $score, $max)
 {
     // TODO: Calculer le pourcentage avec la fonction calculer_pourcentage()
+    $pourcentage = calculer_pourcentage($score, $max);
 
 
     // TODO: Ajouter une nouvelle entrée dans l'array
-    // $historique[] = [
-    //     'score' => $score,
-    //     'max' => $max,
-    //     'pourcentage' => $pourcentage,
-    //     'date' => date('Y-m-d H:i:s')
-    // ];
-
-
+    $historique[] = [
+        'score' => $score,
+        'max' => $max,
+        'pourcentage' => $pourcentage,
+        'date' => date('Y-m-d H:i:s')
+    ];
 }
 
 

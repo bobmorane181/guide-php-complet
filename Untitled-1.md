@@ -59,6 +59,21 @@ TERMINAL:
 │ Ctrl + C │ Arrêter processus dans terminal │
 └───────────────────────┴─────────────────────────────────────┘
 
+COMMANDES DE BASE:
+┌──────────────────┬─────────────────────────────────────────┐
+│ Commande         │ Description                             │
+├──────────────────┼─────────────────────────────────────────┤
+│ pwd              │ Afficher le dossier actuel (PowerShell) │
+│ cd               │ Afficher le dossier actuel (CMD)        │
+│ ls               │ Lister les fichiers (PowerShell)        │
+│ dir              │ Lister les fichiers (CMD)               │
+│ cd nom_dossier   │ Entrer dans un dossier                  │
+│ cd ..            │ Remonter d'un niveau                    │
+│ cd \             │ Aller à la racine                       │
+│ cls              │ Effacer l'écran (CMD)                   │
+│ clear            │ Effacer l'écran (PowerShell)            │
+└──────────────────┴─────────────────────────────────────────┘
+
 PALETTE DE COMMANDES:
 ┌───────────────────────┬─────────────────────────────────────┐
 │ Raccourci │ Action │
